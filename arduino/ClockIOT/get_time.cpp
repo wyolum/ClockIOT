@@ -1,4 +1,4 @@
-#include "clock.h"
+#include "get_time.h"
 
 uint32_t current_time = 0;
 Clock::Clock(){

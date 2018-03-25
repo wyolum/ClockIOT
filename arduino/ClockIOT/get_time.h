@@ -1,5 +1,5 @@
-#ifndef CLOCK_H
-#define CLOCK_H
+#ifndef GET_TIME_H
+#define GET_TIME_H
 #include <stdint.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
