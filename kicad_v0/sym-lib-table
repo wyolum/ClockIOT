@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name ClockIOT)(type Legacy)(uri ${KIPRJMOD}/ClockIOT_libs/ClockIOT.lib)(options "")(descr ""))
+)
