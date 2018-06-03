@@ -1,5 +1,7 @@
 #include "Faceplate.h"
 
+Faceplate::Faceplate(){
+}
 Faceplate::Faceplate(uint8_t *_words,
 		     uint8_t *_displays,
 		     uint32_t *_minute_leds,

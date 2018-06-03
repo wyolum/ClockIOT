@@ -1,14 +1,18 @@
+//#include <Time.h>
+#include <Wire.h>
 #include <FastLED.h>
 #include <WiFiManager.h>
 #include <EEPROMAnything.h>
+#include <NTPClient.h>
 #define ULTIM8x16
 #include <MatrixMaps.h>
 //#include <credentials.h>
 
+#include "klok.h"
 #include "textures.h"
 #include "logic.h"
 #include "Faceplate.h"
-#include "clock.h"
+#include "get_time.h"
 
 #include "dutch_v1.h"
 #include "french_v1.h"
@@ -21,7 +25,6 @@
 #include "spanish_v1.h"
 
 #include "config.h"
-
 
 //const bool ON = true;
 //const bool OFF = !ON;
@@ -39,17 +42,147 @@ CRGB leds[NUM_LEDS];
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 
+//********************************************************************************
+// Displays
+typedef void (*Init)();
+typedef void (*Background)();
+typedef void (*Transition)(uint16_t last_time_inc, uint16_t time_inc);
+
+NTPClock ntp_clock;
+DS3231Clock ds3231_clock;
+
+WiFiManager wifiManager;
+WiFiUDP ntpUDP;
+Faceplate faceplates[] = {
+  english_v3,
+  spanish_v1
+};
+uint8_t num_faceplates = 2;
+
+NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
+Klok klok(faceplates[0], timeClient);
+
+typedef struct{
+  Init       init;
+  Background background;
+  Transition transition;
+  String     name;
+  int        id;
+} Display;
+
+typedef Display Displays[];
+
+void TheMatrix(uint16_t last_time_inc, uint16_t time_inc);
+void wipe_around(bool val){
+}
+void wipe_around_transition(uint16_t last_time_inc, uint16_t time_inc);
+void word_drop(uint16_t last_time_inc, uint16_t time_inc);
+
+void next_time(uint16_t last_time_inc, uint16_t time_inc){
+}
+
+Display PlainDisplay = {blend_to_rainbow, rainbow, next_time, String("Plain"), 0};
+/*
+Display WordDropDisplay = {blend_to_rainbow, rainbow, word_drop, String("Word Drop"), 1};
+Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 2};
+Display TheMatrixDisplay = {blend_to_blue, fill_blue, TheMatrix, String("The Matrix"), 3};
+*/
+
+//--------------------------------------------------------------------------------
+//uint32_t current_time;
+void blend_to_rainbow(){
+  int i;
+  CHSV newcolor;
+  uint32_t current_time = Now();
+  //current_time = Now();
+  int count = ((current_time % 300) * 255) / 300;
+  
+  newcolor.val = 255;
+  newcolor.sat = 255;
+  for(int ii=0; ii<NUM_LEDS; ii++){
+    for( int row = 0; row < MatrixHeight; row++) {
+      for( int col = 0; col < MatrixWidth; col++) {
+	i = XY(col, row);
+	if(mask[i]){
+	  newcolor.hue =  (count + (MatrixWidth * row + col) * 2) % 256;
+	  nblend(leds[XY(col, row)], newcolor, 1);
+	}
+      }
+    }
+    FastLED.show();
+    delay(1);
+  }
+}
+
+void blend_to_color(CRGB color){
+  for(int kk=0; kk<128; kk++){
+    for(int ii=0; ii<NUM_LEDS; ii++){
+      if(mask[ii]){
+	nblend(leds[ii], color, 1);
+      }
+    }
+    FastLED.show();
+    delay(1);
+  }
+}
+
+void blend_to_red(){
+  blend_to_color(CRGB::Red);
+}
+
+void blend_to_green(){
+  blend_to_color(CRGB::Green);
+}
+
+void blend_to_blue(){
+  blend_to_color(CRGB::Blue);
+}
+
+void fill_red(){
+  fill_solid(leds, NUM_LEDS, CRGB::Red);
+}
+void fill_green(){
+  fill_solid(leds, NUM_LEDS, CRGB::Green);
+}
+void fill_blue(){
+  fill_solid(leds, NUM_LEDS, CRGB::Blue);
+}
+void noop(){
+}
+
+void rainbow() {
+  int i, dx, dy;
+  CHSV hsv;
+  float dist;
+  
+  hsv.hue = 0;
+  hsv.val = 255;
+  hsv.sat = 240;
+  uint32_t current_time = Now();
+  int count = ((current_time % 300) * 255) / 300;
+  for( int row = 0; row < MatrixHeight; row++) {
+    for( int col = 0; col < MatrixWidth; col++) {
+      dy = (row - 4) * 2;
+      dx = col - 8;
+      dist = sqrt(dx * dx + dy * dy);
+      i = XY(col, row);
+      //hsv.hue =  ((int)(dist * 16) - count) % 256;
+      hsv.hue =  (count + (MatrixWidth * row + col) * 2) % 256;
+      leds[i] = hsv;
+    }
+  }
+  // Show the leds (only one of which is set to white, from above)
+  //delay(100);
+}
+// end Displays
+//********************************************************************************
+
 uint8_t logo_rgb[] = {
   0x11,0x00,0x29,0x00,0x25,0x00,0x23,0x00,0x25,0x00,0x29,0x00,0x31,0x00,0xe0,0x01,
   0x00,0x03,0x80,0x04,0x80,0x04,0x80,0x04,0x80,0x04,0x00,0x03,0x00,0x00,0x00,0x00,
   0x11,0x00,0x09,0x88,0x05,0x48,0x03,0x28,0x05,0x18,0x09,0x28,0x11,0x48,0x00,0x88
 };
 
-Faceplate faceplates[] = {
-  english_v3,
-  spanish_v1
-};
-uint8_t num_faceplates = 2;
 
 struct config_t{
   int timezone;
@@ -108,34 +241,6 @@ void apply_mask(bool* mask){
   }
 }
 
-void wipe_around(bool val){
-  float dtheta = 31.4 / 180;
-  float theta = -3.14 - dtheta;
-  int row, col;
-  bool tmp[NUM_LEDS];
-
-  int cx = random(0, MatrixWidth-1);
-  int cy = random(0, MatrixHeight-1);
-  cx = 8;
-  cy = 4;
-  
-  fillMask(wipe, !val);
-  while (theta < 3.14 + dtheta){
-    for(row=0; row < MatrixHeight; row++){
-      for(col=0; col < MatrixWidth; col++){
-	if(atan2(row - cy, col - cx) < theta){
-	  setPixelMask(wipe, row, col, val);
-	}
-      }
-    }
-    logical_or(NUM_LEDS, wipe, mask, tmp);    
-    rainbow(leds, 0, XY);
-    apply_mask(tmp);
-    FastLED.show();
-    theta += dtheta;
-  }
-}
-
 void fillMask(bool* mask, bool b){
   fillMask(mask, b, 0, NUM_LEDS);
 }
@@ -143,19 +248,6 @@ void fillMask(bool* mask, bool b){
 void fillMask(bool* mask, bool b, int start, int stop){
   for(int i = start; i < stop && i < NUM_LEDS; i++){
     mask[i] = b;
-  }
-}
-
-void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b){
-  if(row >= MatrixHeight){
-  }
-  else if(col >= MatrixWidth){
-  }
-  else{
-    uint16_t pos = XY(col, row);
-    if(pos < NUM_LEDS){
-      mask[pos] = b;
-    }
   }
 }
 
@@ -197,18 +289,12 @@ void led_setup(){
   FastLED.show();
 }
 
-NTPClock ntp_clock;
-DS3231Clock ds3231_clock();
-
-WiFiManager wifiManager;
-WiFiUDP ntpUDP;
-
-NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
-
 void setup(){
+  Wire.begin();
   Serial.begin(115200);
   delay(200);
   Serial.println("setup() starting");
+  //Serial.println(year(0));
   loadSettings();
   led_setup();
 
@@ -216,6 +302,7 @@ void setup(){
     faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
   }
 
+  
 #ifdef USE_CREDENTIALS
   WiFi.begin(ssid, password);
 
@@ -230,20 +317,20 @@ void setup(){
   ntp_clock.setup(&timeClient);
   //timeClient.begin();
   //timeClient.setTimeOffset(-240 * 60);
-  
+  ds3231_clock.setup();
+  ds3231_clock.now();
   Serial.println("setup() complete");
 }
 
 uint32_t count;
-uint32_t now(){
+uint32_t Now(){
   timeClient.update();
-  return timeClient.getEpochTime();
+  return ntp_clock.now();
 }
 
 void loop(){
   uint8_t word[3];
-  //uint32_t current_time = now();
-  uint32_t current_time = ntp_clock.now();
+  uint32_t current_time = Now();
 
   fillMask(mask, OFF);
   faceplates[0].maskTime(current_time, mask);
@@ -256,5 +343,18 @@ void loop(){
   Serial.print(":");
   Serial.print(timeClient.getSeconds());
   Serial.println("");
-  delay(1000);
+  
+  Serial.print(ds3231_clock.year());
+  Serial.print("/");
+  Serial.print(ds3231_clock.month());
+  Serial.print("/");
+  Serial.println(ds3231_clock.day());
+
+    
+  Serial.print(ds3231_clock.hours());
+  Serial.print(":");
+  Serial.print(ds3231_clock.minutes());
+  Serial.print(":");
+  Serial.println(ds3231_clock.seconds());
+delay(1000);
 }

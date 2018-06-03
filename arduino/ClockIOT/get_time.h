@@ -1,5 +1,6 @@
 #ifndef GET_TIME_H
 #define GET_TIME_H
+#include "TimeLib.h"
 #include <stdint.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
@@ -9,6 +10,12 @@ class Clock{
  public:
   Clock();
   virtual uint32_t now();
+  int year();
+  int month();
+  int day();
+  int hours();
+  int minutes();
+  int seconds();
 };
 
 class DummyClock : public Clock{
