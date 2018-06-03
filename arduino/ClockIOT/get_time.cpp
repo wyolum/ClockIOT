@@ -1,4 +1,24 @@
 #include "get_time.h"
+#include <Time.h>
+
+int Clock::years(){
+  return ::year(now());
+}
+int Clock::month(){
+  return month(now());
+}
+int Clock::day(){
+  return (now() % 86400) / 3600;
+}
+int Clock::hours(){
+  return (now() % 86400) / 3600;
+}
+int Clock::minutes(){
+  return (now() % 3600) / 60;
+}
+int Clock::seconds(){
+  return (now() % 60);
+}
 
 uint32_t current_time = 0;
 Clock::Clock(){
