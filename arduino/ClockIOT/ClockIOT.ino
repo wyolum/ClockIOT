@@ -343,8 +343,18 @@ void loop(){
   Serial.print(":");
   Serial.print(timeClient.getSeconds());
   Serial.println("");
-  Serial.println(ds3231_clock.hours());
-  Serial.println(ds3231_clock.minutes());
+  
+  Serial.print(ds3231_clock.year());
+  Serial.print("/");
+  Serial.print(ds3231_clock.month());
+  Serial.print("/");
+  Serial.println(ds3231_clock.day());
+
+    
+  Serial.print(ds3231_clock.hours());
+  Serial.print(":");
+  Serial.print(ds3231_clock.minutes());
+  Serial.print(":");
   Serial.println(ds3231_clock.seconds());
-  delay(1000);
+delay(1000);
 }

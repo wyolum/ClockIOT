@@ -10,7 +10,7 @@ class Clock{
  public:
   Clock();
   virtual uint32_t now();
-  int years();
+  int year();
   int month();
   int day();
   int hours();

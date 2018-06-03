@@ -1,7 +1,7 @@
 #include "TimeLib.h"
 #include "get_time.h"
 
-int Clock::years(){
+int Clock::year(){
   return ::year(now());
 }
 int Clock::month(){
