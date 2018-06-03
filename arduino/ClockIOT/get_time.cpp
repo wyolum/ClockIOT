@@ -5,7 +5,7 @@ int Clock::years(){
   return ::year(now());
 }
 int Clock::month(){
-  return month(now());
+  return ::month(now());
 }
 int Clock::day(){
   return (now() % 86400) / 3600;

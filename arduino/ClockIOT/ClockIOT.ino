@@ -93,8 +93,8 @@ Display TheMatrixDisplay = {blend_to_blue, fill_blue, TheMatrix, String("The Mat
 void blend_to_rainbow(){
   int i;
   CHSV newcolor;
-  uint32_t current_time = now();
-  //current_time = now();
+  uint32_t current_time = Now();
+  //current_time = Now();
   int count = ((current_time % 300) * 255) / 300;
   
   newcolor.val = 255;
@@ -158,7 +158,7 @@ void rainbow() {
   hsv.hue = 0;
   hsv.val = 255;
   hsv.sat = 240;
-  uint32_t current_time = now();
+  uint32_t current_time = Now();
   int count = ((current_time % 300) * 255) / 300;
   for( int row = 0; row < MatrixHeight; row++) {
     for( int col = 0; col < MatrixWidth; col++) {
@@ -323,14 +323,14 @@ void setup(){
 }
 
 uint32_t count;
-uint32_t now(){
+uint32_t Now(){
   timeClient.update();
   return ntp_clock.now();
 }
 
 void loop(){
   uint8_t word[3];
-  uint32_t current_time = now();
+  uint32_t current_time = Now();
 
   fillMask(mask, OFF);
   faceplates[0].maskTime(current_time, mask);
