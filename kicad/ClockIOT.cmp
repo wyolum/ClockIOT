@@ -1,4 +1,44 @@
-Cmp-Mod V01 Created by PcbNew   date = Sun Jun  3 23:50:47 2018
+Cmp-Mod V01 Created by PcbNew   date = Mon Jun  4 20:35:27 2018
+
+BeginCmp
+TimeStamp = 5A99764A
+Path = /54254DF9/5A47016C
+Reference = U123;
+ValeurCmp = APA102;
+IdModule  = ClockIOT_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A5222ED
+Path = /5A47432D/5A736F40
+Reference = HB54;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A5222E7
+Path = /5A47432D/5A736F39
+Reference = HB53;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A491B1B
+Path = /5A47432D/5A736F32
+Reference = HB52;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A491B00
+Path = /5A47432D/5A736F2B
+Reference = HB51;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
 
 BeginCmp
 TimeStamp = 5AA3FAC3
@@ -28,38 +68,6 @@ BeginCmp
 TimeStamp = 5A6BD5F2
 Path = /5A47432D/5A4A894A
 Reference = HB50;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A491B00
-Path = /5A47432D/5A736F2B
-Reference = HB51;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A491B1B
-Path = /5A47432D/5A736F32
-Reference = HB52;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A5222E7
-Path = /5A47432D/5A736F39
-Reference = HB53;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A5222ED
-Path = /5A47432D/5A736F40
-Reference = HB54;
 ValeurCmp = mtg_hole_3mm;
 IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
 EndCmp
@@ -777,7 +785,7 @@ IdModule  = ClockIOT_libs:CR2032_SMD2;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3F172
+TimeStamp = 5B214AD0
 Path = /5A447BD8/5A448948
 Reference = U130;
 ValeurCmp = DS3231N;
@@ -2196,14 +2204,6 @@ BeginCmp
 TimeStamp = 5A9A02C0
 Path = /54254DF9/5A470165
 Reference = U122;
-ValeurCmp = APA102;
-IdModule  = ClockIOT_libs:APA102;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A99764A
-Path = /54254DF9/5A47016C
-Reference = U123;
 ValeurCmp = APA102;
 IdModule  = ClockIOT_libs:APA102;
 EndCmp

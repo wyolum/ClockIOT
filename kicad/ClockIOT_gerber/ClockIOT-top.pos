@@ -1,5 +1,5 @@
-### Module positions - created on Sun Jun  3 23:51:05 2018 ###
-### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-d03e92a~65~ubuntu16.04.1
+### Module positions - created on Mon Jun  4 20:35:49 2018 ###
+### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-0a91f0b~65~ubuntu16.04.1
 ## Unit = inches, Angle = deg.
 ## Side : top
 # Ref     Val                 Package                             PosX       PosY       Rot  Side
@@ -31,25 +31,25 @@ C24       100nF               c_0805                            0.9778    -1.204
 C25       10uF/25V            c_2917                            1.3321    -1.3321   90.0000  top
 C26       100nF               c_0805                            1.4896    -1.2041    0.0000  top
 C27       100uF/6V3           c_2917                            3.5073    -0.1707    0.0000  top
-C28       1uF/10V             c_0805                            3.6254    -0.3183  270.0000  top
+C28       1uF/10V             c_0805                            3.6254    -0.3478  270.0000  top
 C29       100nF               c_0805                            5.3500    -1.4250    0.0000  top
 C30       100nF               c_0805                            5.8000    -1.3750   90.0000  top
-C31       100nF               c_0805                            0.6030    -1.3624  270.0000  top
-D1        RClamp0854P.TCT     SOT-143                           0.6333    -0.9581  270.0000  top
+C31       100nF               c_0805                            0.5545    -1.2041  180.0000  top
+D1        RClamp0854P.TCT     SOT-143                           0.7120    -0.9581  270.0000  top
 D2        LED_PWR             LED-0805                          1.9423    -0.9482   90.0000  top
-G1        LOGO_WL             Logo-WL3                          0.2789    -0.3872    0.0000  top
-G3        OSHW                OSHW_6mm                          2.8774    -0.1608    0.0000  top
+G1        LOGO_WL             Logo-WL3                          2.7002    -1.2041    0.0000  top
+G3        OSHW                OSHW_6mm                          1.0663    -0.1707    0.0000  top
 J24       I2C_ext1            Header_4x1                        5.7000    -1.4750    0.0000  top
 J25       I2C_ext2            Header_4x1                        0.7000    -1.4750  180.0000  top
 JP1       LED_PWR_EN          R_0402                            1.9423    -0.8104  270.0000  top
-L1        330E                r_0805                            0.4266    -0.8695  270.0000  top
-L2        330E                r_0805                            0.4266    -1.2140  270.0000  top
+L1        330E                r_0805                            0.4266    -0.9581  270.0000  top
+L2        330E                r_0805                            0.4266    -1.2041  270.0000  top
 LDR1      LDR                 r_0805_ldr_2                      1.4000    -0.1500  180.0000  top
 LDR2      LDR                 r_0805_ldr_2                      5.0000    -0.1500    0.0000  top
 P1        USB_micro           USB_Micro-B_Molex-105017-0001     0.0998    -1.0762  270.0000  top
 Q1        DDC114TU            SOT-363_SC-70-6                   3.3203    -0.8006  180.0000  top
-R1        470R                r_0805                            0.2000    -1.7750    0.0000  top
-R2        470R                r_0805                            0.2000    -1.8734    0.0000  top
+R1        470R                r_0805                            0.6037    -1.8045    0.0000  top
+R2        470R                r_0805                            0.9974    -1.8045    0.0000  top
 R3        10k                 r_0805                            3.2000    -0.7250   90.0000  top
 R4        1k                  r_0805                            1.9423    -1.1156  270.0000  top
 R6        10k                 r_0805                            5.2494    -0.5545   90.0000  top
@@ -199,5 +199,5 @@ U127      APA102              APA102                            0.6000    -6.925
 U128      APA102              APA102                            0.2000    -6.9250   90.0000  top
 U130      DS3231N             DS3231                            5.1750    -0.8750   90.0000  top
 U131      1117-33             SOT-223-3_TabPin2                 2.5000    -0.9250  270.0000  top
-U132      CP2102N-A01-GQFN28  QFN-28-1EP_5x5mm_Pitch0.5mm       1.6274    -0.9910  270.0000  top
+U132      CP2102N-A01-GQFN28  QFN-28-1EP_5x5mm_Pitch0.5mm       1.6274    -0.9910  315.0000  top
 ## End
