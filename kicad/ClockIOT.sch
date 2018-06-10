@@ -1,12 +1,13 @@
 EESchema Schematic File Version 4
+LIBS:ClockIOT-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 12
 Title "ClockIOT"
-Date "2018-04-08"
-Rev "rev 1"
+Date "2018-06-10"
+Rev "rev 2"
 Comp "www.wyolum.com"
 Comment1 "https://github.com/wyolum/ClockIOT"
 Comment2 ""
