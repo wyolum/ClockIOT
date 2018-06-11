@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:ClockIOT-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -17,12 +18,12 @@ $Comp
 L ClockIOT:R R4
 U 1 1 5A4511A4
 P 1375 1550
-F 0 "R4" H 1400 1400 40  0000 L CNN
+F 0 "R4" H 1250 1700 40  0000 L CNN
 F 1 "1k" V 1375 1475 40  0000 L CNN
 F 2 "ClockIOT_libs:r_0805" V 1305 1550 30  0001 C CNN
 F 3 "" H 1375 1550 30  0000 C CNN
 	1    1375 1550
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:AP1117-15 U131
@@ -312,13 +313,13 @@ $Comp
 L ClockIOT:R R22
 U 1 1 5A453081
 P 6225 4350
-F 0 "R22" V 6175 4175 40  0000 C CNN
+F 0 "R22" V 6275 4525 40  0000 C CNN
 F 1 "470R" V 6225 4350 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" V 6155 4350 30  0001 C CNN
 F 3 "" H 6225 4350 30  0000 C CNN
 F 4 "Value" H 6225 4350 50  0001 C CNN "manf#"
 	1    6225 4350
-	0    1    1    0   
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	6375 4350 6725 4350
@@ -477,7 +478,7 @@ F 2 "ClockIOT_libs:r_0805" V 9180 1350 30  0001 C CNN
 F 3 "" H 9250 1350 30  0000 C CNN
 F 4 "Value" H 9250 1350 50  0001 C CNN "manf#"
 	1    9250 1350
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:C_NP C20
@@ -501,7 +502,7 @@ F 2 "ClockIOT_libs:SW_SMD" H 9575 1750 60  0001 C CNN
 F 3 "" H 9575 1750 60  0000 C CNN
 F 4 "Value" H 9575 1750 50  0001 C CNN "manf#"
 	1    9575 1750
-	0    1    1    0   
+	0    1    -1   0   
 $EndComp
 Wire Wire Line
 	9250 1100 9250 1200
@@ -542,7 +543,7 @@ F 2 "ClockIOT_libs:r_0805" V 9180 2750 30  0001 C CNN
 F 3 "" H 9250 2750 30  0000 C CNN
 F 4 "Value" H 9250 2750 50  0001 C CNN "manf#"
 	1    9250 2750
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:C_NP C21
@@ -554,7 +555,7 @@ F 2 "ClockIOT_libs:c_0805" H 9250 3150 60  0001 C CNN
 F 3 "" H 9250 3150 60  0000 C CNN
 F 4 "Value" H 9250 3150 50  0001 C CNN "manf#"
 	1    9250 3150
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:SW-SPST-M S4
@@ -566,7 +567,7 @@ F 2 "ClockIOT_libs:SW_SMD" H 9575 3150 60  0001 C CNN
 F 3 "" H 9575 3150 60  0000 C CNN
 F 4 "Value" H 9575 3150 50  0001 C CNN "manf#"
 	1    9575 3150
-	0    1    1    0   
+	0    1    -1   0   
 $EndComp
 Wire Wire Line
 	9250 2500 9250 2600

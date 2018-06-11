@@ -1,5 +1,5 @@
-### Module positions - created on Sun Jun 10 21:48:35 2018 ###
-### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-6d77e59~65~ubuntu16.04.1
+### Module positions - created on Mon Jun 11 16:56:57 2018 ###
+### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-0e3be57~65~ubuntu18.04.1
 ## Unit = inches, Angle = deg.
 ## Side : bottom
 # Ref     Val       Package                PosX       PosY       Rot  Side
@@ -8,8 +8,8 @@ G9        OSHW      OSHW_6mm            -0.8000    -4.4000  180.0000  bottom
 J20       SPI       Header_ISP          -5.0500    -1.4250   90.0000  bottom
 S1        SW-ENTER  SW_SMD              -2.9000    -0.3750  270.0000  bottom
 S2        SW-INC    SW_SMD              -2.3000    -0.3750  270.0000  bottom
-S3        SW-EN     SW_SMD              -0.5000    -0.3750   90.0000  bottom
-S4        SW-BOOT   SW_SMD              -3.5000    -0.3750   90.0000  bottom
+S3        SW-EN     SW_SMD              -0.5000    -0.3750  270.0000  bottom
+S4        SW-BOOT   SW_SMD              -3.5000    -0.3750  270.0000  bottom
 S5        SW-DEC    SW_SMD              -1.7000    -0.3750  270.0000  bottom
 S6        SW-MODE   SW_SMD              -1.1000    -0.3750  270.0000  bottom
 ## End

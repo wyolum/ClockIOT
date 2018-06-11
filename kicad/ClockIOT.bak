@@ -1,12 +1,13 @@
 EESchema Schematic File Version 4
+LIBS:ClockIOT-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 12
 Title "ClockIOT"
-Date "2018-04-08"
-Rev "rev 1"
+Date "2018-06-10"
+Rev "rev 2"
 Comp "www.wyolum.com"
 Comment1 "https://github.com/wyolum/ClockIOT"
 Comment2 ""
@@ -833,12 +834,12 @@ $Comp
 L ClockIOT:R R12
 U 1 1 54C265D8
 P 5575 6000
-F 0 "R12" H 5650 5850 40  0000 C CNN
+F 0 "R12" H 5500 6150 40  0000 C CNN
 F 1 "10k" V 5582 6001 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" V 5505 6000 30  0001 C CNN
 F 3 "" H 5575 6000 30  0000 C CNN
 	1    5575 6000
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 Text Label 5825 5725 2    40   ~ 0
 LDR1
@@ -1693,28 +1694,28 @@ Wire Notes Line
 $Comp
 L ClockIOT:Conn_01x04 J24
 U 1 1 5A79A9A1
-P 2925 5900
-F 0 "J24" H 2875 6100 50  0000 L CNN
-F 1 "I2C_ext1" V 3025 5650 50  0000 L CNN
-F 2 "ClockIOT_libs:Header_4x1" H 2925 5900 50  0001 C CNN
-F 3 "~" H 2925 5900 50  0001 C CNN
-	1    2925 5900
+P 2975 5900
+F 0 "J24" H 2925 6100 50  0000 L CNN
+F 1 "I2C_ext1" V 3075 5650 50  0000 L CNN
+F 2 "ClockIOT_libs:Header_4x1" H 2975 5900 50  0001 C CNN
+F 3 "~" H 2975 5900 50  0001 C CNN
+	1    2975 5900
 	1    0    0    -1  
 $EndComp
-Text Label 2425 5900 0    40   ~ 0
+Text Label 2475 5900 0    40   ~ 0
 SDA
-Text Label 2425 5800 0    40   ~ 0
+Text Label 2475 5800 0    40   ~ 0
 SCL
-Text Label 2425 6000 0    40   ~ 0
+Text Label 2475 6000 0    40   ~ 0
 3V3
-Text Label 2425 6100 0    40   ~ 0
+Text Label 2475 6100 0    40   ~ 0
 GND
 Wire Wire Line
-	2725 5800 2425 5800
+	2775 5800 2475 5800
 Wire Wire Line
-	2425 5900 2725 5900
+	2475 5900 2775 5900
 Wire Wire Line
-	2425 6100 2725 6100
+	2475 6100 2775 6100
 $Comp
 L ClockIOT:Conn_01x04 J25
 U 1 1 5A7E9B9A
@@ -1777,39 +1778,39 @@ $Comp
 L ClockIOT:C_NP C31
 U 1 1 5A8D7B2E
 P 3325 6200
-F 0 "C31" H 3350 6350 40  0000 L CNN
-F 1 "100nF" V 3375 5875 40  0000 L CNN
+F 0 "C31" H 3350 6100 40  0000 L CNN
+F 1 "100nF" V 3250 6300 40  0000 L CNN
 F 2 "ClockIOT_libs:c_0805" H 3325 6200 60  0001 C CNN
 F 3 "" H 3325 6200 60  0000 C CNN
 	1    3325 6200
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:C_NP C30
 U 1 1 5A8D9740
-P 2300 6200
-F 0 "C30" H 2325 6350 40  0000 L CNN
-F 1 "100nF" V 2350 5875 40  0000 L CNN
-F 2 "ClockIOT_libs:c_0805" H 2300 6200 60  0001 C CNN
-F 3 "" H 2300 6200 60  0000 C CNN
-	1    2300 6200
-	1    0    0    -1  
+P 2350 6200
+F 0 "C30" H 2400 6100 40  0000 L CNN
+F 1 "100nF" V 2300 6300 40  0000 L CNN
+F 2 "ClockIOT_libs:c_0805" H 2350 6200 60  0001 C CNN
+F 3 "" H 2350 6200 60  0000 C CNN
+	1    2350 6200
+	-1   0    0    1   
 $EndComp
 Wire Wire Line
 	3325 6000 3325 6050
 Wire Wire Line
 	3325 6000 3775 6000
 Wire Wire Line
-	2300 6000 2300 6050
+	2350 6000 2350 6050
 Wire Wire Line
-	2300 6000 2725 6000
+	2350 6000 2775 6000
 Wire Wire Line
-	2300 6350 2300 6600
+	2350 6350 2350 6600
 Wire Wire Line
 	3325 6600 3325 6350
 Text Label 3325 6600 0    40   ~ 0
 GND
-Text Label 2300 6600 0    40   ~ 0
+Text Label 2350 6600 0    40   ~ 0
 GND
 Wire Wire Line
 	4025 4100 4025 4000
