@@ -1,5 +1,5 @@
-### Module positions - created on Mon Jun 11 16:56:57 2018 ###
-### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-0e3be57~65~ubuntu18.04.1
+### Module positions - created on Wed Jun 13 00:10:24 2018 ###
+### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-6d77e59~65~ubuntu16.04.1
 ## Unit = inches, Angle = deg.
 ## Side : top
 # Ref     Val                 Package                             PosX       PosY       Rot  Side
@@ -42,8 +42,8 @@ G3        OSHW                OSHW_6mm                          1.0663    -0.170
 J24       I2C_ext1            Header_4x1                        5.7000    -1.4750    0.0000  top
 J25       I2C_ext2            Header_4x1                        0.7000    -1.4750  180.0000  top
 JP1       LED_PWR_EN          R_0402                            1.9423    -0.8104  270.0000  top
-L1        330E                r_0805                            0.4266    -0.9581  270.0000  top
-L2        330E                r_0805                            0.4266    -1.2041  270.0000  top
+L1        330E                r_0805                            0.4266    -0.9581   90.0000  top
+L2        330E                r_0805                            0.4266    -1.2041   90.0000  top
 LDR1      LDR                 r_0805_ldr_2                      1.4000    -0.1500  180.0000  top
 LDR2      LDR                 r_0805_ldr_2                      5.0000    -0.1500    0.0000  top
 P1        USB_micro           USB_Micro-B_Molex-105017-0001     0.0998    -1.0762  270.0000  top
@@ -55,7 +55,7 @@ R4        1k                  r_0805                            1.9423    -1.115
 R6        10k                 r_0805                            5.2494    -0.5545   90.0000  top
 R7        10k                 r_0805                            5.0919    -0.5545   90.0000  top
 R8        4K7                 r_0805                            0.8596    -1.2041   90.0000  top
-R9        4K7                 r_0805                            0.7514    -1.2041   90.0000  top
+R9        4K7                 r_0805                            0.7415    -1.2041   90.0000  top
 R10       10k                 r_0805                            2.6000    -0.5000   90.0000  top
 R11       10k                 r_0805                            2.0000    -0.5000   90.0000  top
 R12       10k                 r_0805                            2.0000    -0.1500    0.0000  top
