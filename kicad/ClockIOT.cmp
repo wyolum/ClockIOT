@@ -1,4 +1,68 @@
-Cmp-Mod V01 Created by PcbNew   date = Wed Jun 13 00:10:04 2018
+Cmp-Mod V01 Created by PcbNew   date = Mon Jun 25 19:25:45 2018
+
+BeginCmp
+TimeStamp = 5AA3A018
+Path = /5A452227/5A73BE05
+Reference = P1;
+ValeurCmp = USB_micro;
+IdModule  = ClockIOT_libs:USB_Micro-B_seeed-320010561;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CD87
+Path = /5A6C34AE
+Reference = S5;
+ValeurCmp = SW-DEC;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3FAB3
+Path = /5A6C3C89
+Reference = S6;
+ValeurCmp = SW-MODE;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3FA1E
+Path = /5A452227/5A4599D8
+Reference = S4;
+ValeurCmp = SW-BOOT;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCF6
+Path = /5A47F385
+Reference = S2;
+ValeurCmp = SW-INC;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCA4
+Path = /5A452227/5A45898C
+Reference = S3;
+ValeurCmp = SW-EN;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA39F67
+Path = /5A47F37F
+Reference = S1;
+ValeurCmp = SW-ENTER;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCD0
+Path = /5A447BD8/5A448957
+Reference = BT1;
+ValeurCmp = Batt_RTC;
+IdModule  = ClockIOT_libs:CR2032_SMD_SKST-2007D;
+EndCmp
 
 BeginCmp
 TimeStamp = 5AE6A3EC
@@ -422,14 +486,6 @@ Path = /5A452227/5A6340FA
 Reference = D2;
 ValeurCmp = LED_PWR;
 IdModule  = ClockIOT_libs:LED-0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A018
-Path = /5A452227/5A73BE05
-Reference = P1;
-ValeurCmp = USB_micro;
-IdModule  = ClockIOT_libs:USB_Micro-B_Molex-105017-0001;
 EndCmp
 
 BeginCmp
@@ -1158,62 +1214,6 @@ Path = /5A63595F
 Reference = LDR2;
 ValeurCmp = LDR;
 IdModule  = ClockIOT_libs:r_0805_ldr_2;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD87
-Path = /5A6C34AE
-Reference = S5;
-ValeurCmp = SW-DEC;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3FAB3
-Path = /5A6C3C89
-Reference = S6;
-ValeurCmp = SW-MODE;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3FA1E
-Path = /5A452227/5A4599D8
-Reference = S4;
-ValeurCmp = SW-BOOT;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CCF6
-Path = /5A47F385
-Reference = S2;
-ValeurCmp = SW-INC;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CCA4
-Path = /5A452227/5A45898C
-Reference = S3;
-ValeurCmp = SW-EN;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA39F67
-Path = /5A47F37F
-Reference = S1;
-ValeurCmp = SW-ENTER;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CCD0
-Path = /5A447BD8/5A448957
-Reference = BT1;
-ValeurCmp = Batt_RTC;
-IdModule  = ClockIOT_libs:CR2032_SMD2;
 EndCmp
 
 BeginCmp

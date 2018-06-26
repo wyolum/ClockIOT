@@ -808,7 +808,7 @@ F 1 "330E" H 2450 4100 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" H 2450 4000 60  0001 C CNN
 F 3 "" H 2415 4090 60  0000 C CNN
 	1    2450 4000
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	2175 4000 2250 4000
@@ -823,7 +823,7 @@ F 1 "330E" V 1275 5250 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" H 1325 5100 60  0001 C CNN
 F 3 "" H 1290 5190 60  0000 C CNN
 	1    1325 5100
-	0    1    1    0   
+	0    1    -1   0   
 $EndComp
 Wire Wire Line
 	1325 4700 1325 4900

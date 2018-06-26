@@ -2,14 +2,14 @@
 <export version="D">
   <design>
     <source>/home/samata/projects-git/ClockIOT/kicad/ClockIOT.sch</source>
-    <date>Sat Jun  2 19:31:53 2018</date>
-    <tool>Eeschema 5.0.0-rc2-unknown-d03e92a~65~ubuntu16.04.1</tool>
+    <date>Mon Jun 25 19:24:44 2018</date>
+    <tool>Eeschema 5.0.0-rc2-unknown-6d77e59~65~ubuntu16.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
         <title>ClockIOT</title>
         <company>www.wyolum.com</company>
-        <rev>rev 1</rev>
-        <date>2018-04-08</date>
+        <rev>rev 2</rev>
+        <date>2018-06-10</date>
         <source>ClockIOT.sch</source>
         <comment number="1" value="https://github.com/wyolum/ClockIOT"/>
         <comment number="2" value=""/>
@@ -165,35 +165,35 @@
     <comp ref="R1">
       <value>470R</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>542DD0E5</tstamp>
     </comp>
     <comp ref="R24">
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5438FC61</tstamp>
     </comp>
     <comp ref="R25">
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>543901BD</tstamp>
     </comp>
     <comp ref="R12">
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>54C265D8</tstamp>
     </comp>
     <comp ref="R13">
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>54C28558</tstamp>
     </comp>
@@ -203,42 +203,42 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="ESP-wroom-32"/>
+      <libsource lib="ClockIOT" part="ESP-wroom-32" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A41BC22</tstamp>
     </comp>
     <comp ref="R2">
       <value>470R</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A71F25C</tstamp>
     </comp>
     <comp ref="LDR1">
       <value>LDR</value>
       <footprint>ClockIOT_libs:r_0805_ldr_2</footprint>
-      <libsource lib="ClockIOT" part="LDR03"/>
+      <libsource lib="ClockIOT" part="LDR03" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A6352DB</tstamp>
     </comp>
     <comp ref="LDR2">
       <value>LDR</value>
       <footprint>ClockIOT_libs:r_0805_ldr_2</footprint>
-      <libsource lib="ClockIOT" part="LDR03"/>
+      <libsource lib="ClockIOT" part="LDR03" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A63595F</tstamp>
     </comp>
     <comp ref="S5">
       <value>SW-DEC</value>
-      <footprint>ClockIOT_libs:SW_SMD</footprint>
-      <libsource lib="ClockIOT" part="SW-SPST-M"/>
+      <footprint>ClockIOT_libs:SW_SMD_311020004</footprint>
+      <libsource lib="ClockIOT" part="SW-SPST-M" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A6C34AE</tstamp>
     </comp>
     <comp ref="S6">
       <value>SW-MODE</value>
-      <footprint>ClockIOT_libs:SW_SMD</footprint>
-      <libsource lib="ClockIOT" part="SW-SPST-M"/>
+      <footprint>ClockIOT_libs:SW_SMD_311020004</footprint>
+      <libsource lib="ClockIOT" part="SW-SPST-M" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A6C3C89</tstamp>
     </comp>
@@ -248,49 +248,49 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="Conn_01x02"/>
+      <libsource lib="ClockIOT" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A479D4B</tstamp>
     </comp>
     <comp ref="R10">
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A47F363</tstamp>
     </comp>
     <comp ref="R11">
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A47F369</tstamp>
     </comp>
     <comp ref="S1">
       <value>SW-ENTER</value>
-      <footprint>ClockIOT_libs:SW_SMD</footprint>
-      <libsource lib="ClockIOT" part="SW-SPST-M"/>
+      <footprint>ClockIOT_libs:SW_SMD_311020004</footprint>
+      <libsource lib="ClockIOT" part="SW-SPST-M" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A47F37F</tstamp>
     </comp>
     <comp ref="S2">
       <value>SW-INC</value>
-      <footprint>ClockIOT_libs:SW_SMD</footprint>
-      <libsource lib="ClockIOT" part="SW-SPST-M"/>
+      <footprint>ClockIOT_libs:SW_SMD_311020004</footprint>
+      <libsource lib="ClockIOT" part="SW-SPST-M" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A47F385</tstamp>
     </comp>
     <comp ref="C27">
       <value>100uF/6V3</value>
       <footprint>ClockIOT_libs:c_2917</footprint>
-      <libsource lib="ClockIOT" part="C_POL"/>
+      <libsource lib="ClockIOT" part="C_POL" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7E92E4</tstamp>
     </comp>
     <comp ref="C28">
       <value>1uF/10V</value>
       <footprint>ClockIOT_libs:c_0805</footprint>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7E9733</tstamp>
     </comp>
@@ -300,7 +300,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="LOGO_WL"/>
+      <libsource lib="ClockIOT" part="LOGO_WL" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A4DA853</tstamp>
     </comp>
@@ -310,7 +310,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="OSHW"/>
+      <libsource lib="ClockIOT" part="OSHW" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A4DB491</tstamp>
     </comp>
@@ -320,7 +320,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="KiCad"/>
+      <libsource lib="ClockIOT" part="KiCad" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A5061ED</tstamp>
     </comp>
@@ -328,7 +328,7 @@
       <value>SPI</value>
       <footprint>ClockIOT_libs:Header_ISP</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_02x03_Odd_Even"/>
+      <libsource lib="ClockIOT" part="Conn_02x03_Odd_Even" description="Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A590BB3</tstamp>
     </comp>
@@ -336,7 +336,7 @@
       <value>MISO</value>
       <footprint>ClockIOT_libs:BreakOutPad</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A6285C8</tstamp>
     </comp>
@@ -347,7 +347,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A63BBF7</tstamp>
     </comp>
@@ -358,7 +358,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A63BDD4</tstamp>
     </comp>
@@ -369,7 +369,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A63C3B0</tstamp>
     </comp>
@@ -380,7 +380,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A63C933</tstamp>
     </comp>
@@ -391,7 +391,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A63CDCD</tstamp>
     </comp>
@@ -399,7 +399,7 @@
       <value>I2C_ext1</value>
       <footprint>ClockIOT_libs:Header_4x1</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x04"/>
+      <libsource lib="ClockIOT" part="Conn_01x04" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A79A9A1</tstamp>
     </comp>
@@ -407,28 +407,28 @@
       <value>I2C_ext2</value>
       <footprint>ClockIOT_libs:Header_4x1</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x04"/>
+      <libsource lib="ClockIOT" part="Conn_01x04" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7E9B9A</tstamp>
     </comp>
     <comp ref="C29">
       <value>100nF</value>
       <footprint>ClockIOT_libs:c_0805</footprint>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A8D713D</tstamp>
     </comp>
     <comp ref="C31">
       <value>100nF</value>
       <footprint>ClockIOT_libs:c_0805</footprint>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A8D7B2E</tstamp>
     </comp>
     <comp ref="C30">
       <value>100nF</value>
       <footprint>ClockIOT_libs:c_0805</footprint>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A8D9740</tstamp>
     </comp>
@@ -438,7 +438,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5118AB57</tstamp>
     </comp>
@@ -448,7 +448,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E1C1</tstamp>
     </comp>
@@ -458,7 +458,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E1EC</tstamp>
     </comp>
@@ -468,7 +468,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E1F4</tstamp>
     </comp>
@@ -478,7 +478,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E1FC</tstamp>
     </comp>
@@ -488,7 +488,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E204</tstamp>
     </comp>
@@ -498,7 +498,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E20C</tstamp>
     </comp>
@@ -508,7 +508,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E214</tstamp>
     </comp>
@@ -518,7 +518,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>56C2E21C</tstamp>
     </comp>
@@ -528,7 +528,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F6EA</tstamp>
     </comp>
@@ -538,7 +538,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F6F4</tstamp>
     </comp>
@@ -548,7 +548,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F710</tstamp>
     </comp>
@@ -558,7 +558,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F717</tstamp>
     </comp>
@@ -568,7 +568,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F71E</tstamp>
     </comp>
@@ -578,7 +578,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F725</tstamp>
     </comp>
@@ -588,7 +588,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F72C</tstamp>
     </comp>
@@ -598,7 +598,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F733</tstamp>
     </comp>
@@ -608,7 +608,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_A/" tstamps="/511688A7/"/>
       <tstamp>5A48F73A</tstamp>
     </comp>
@@ -618,7 +618,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B784</tstamp>
     </comp>
@@ -628,7 +628,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7AF</tstamp>
     </comp>
@@ -638,7 +638,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7B7</tstamp>
     </comp>
@@ -648,7 +648,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7BF</tstamp>
     </comp>
@@ -658,7 +658,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7C7</tstamp>
     </comp>
@@ -668,7 +668,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7CF</tstamp>
     </comp>
@@ -678,7 +678,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7D7</tstamp>
     </comp>
@@ -688,7 +688,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>56C2B7DF</tstamp>
     </comp>
@@ -698,7 +698,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C8085</tstamp>
     </comp>
@@ -708,7 +708,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C809D</tstamp>
     </comp>
@@ -718,7 +718,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C80A4</tstamp>
     </comp>
@@ -728,7 +728,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C80AB</tstamp>
     </comp>
@@ -738,7 +738,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C80B2</tstamp>
     </comp>
@@ -748,7 +748,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C80B9</tstamp>
     </comp>
@@ -758,7 +758,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C80C0</tstamp>
     </comp>
@@ -768,7 +768,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A4C80C7</tstamp>
     </comp>
@@ -778,7 +778,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A8AB436</tstamp>
     </comp>
@@ -788,7 +788,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_B/" tstamps="/54253F7B/"/>
       <tstamp>5A8B903C</tstamp>
     </comp>
@@ -798,7 +798,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296A0</tstamp>
     </comp>
@@ -808,7 +808,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296CB</tstamp>
     </comp>
@@ -818,7 +818,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296D3</tstamp>
     </comp>
@@ -828,7 +828,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296DB</tstamp>
     </comp>
@@ -838,7 +838,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296E3</tstamp>
     </comp>
@@ -848,7 +848,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296EB</tstamp>
     </comp>
@@ -858,7 +858,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296F3</tstamp>
     </comp>
@@ -868,7 +868,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>56C296FB</tstamp>
     </comp>
@@ -878,7 +878,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEB9E</tstamp>
     </comp>
@@ -888,7 +888,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBB6</tstamp>
     </comp>
@@ -898,7 +898,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBBD</tstamp>
     </comp>
@@ -908,7 +908,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBC4</tstamp>
     </comp>
@@ -918,7 +918,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBCB</tstamp>
     </comp>
@@ -928,7 +928,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBD2</tstamp>
     </comp>
@@ -938,7 +938,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBD9</tstamp>
     </comp>
@@ -948,7 +948,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A4DEBE0</tstamp>
     </comp>
@@ -958,7 +958,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A8CE0F0</tstamp>
     </comp>
@@ -968,7 +968,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_C/" tstamps="/542543F1/"/>
       <tstamp>5A8CE18F</tstamp>
     </comp>
@@ -978,7 +978,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C2744C</tstamp>
     </comp>
@@ -988,7 +988,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C27477</tstamp>
     </comp>
@@ -998,7 +998,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C2747F</tstamp>
     </comp>
@@ -1008,7 +1008,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C27487</tstamp>
     </comp>
@@ -1018,7 +1018,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C2748F</tstamp>
     </comp>
@@ -1028,7 +1028,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C27497</tstamp>
     </comp>
@@ -1038,7 +1038,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C2749F</tstamp>
     </comp>
@@ -1048,7 +1048,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>56C274A7</tstamp>
     </comp>
@@ -1058,7 +1058,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C64</tstamp>
     </comp>
@@ -1068,7 +1068,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C7C</tstamp>
     </comp>
@@ -1078,7 +1078,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C83</tstamp>
     </comp>
@@ -1088,7 +1088,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C8A</tstamp>
     </comp>
@@ -1098,7 +1098,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C91</tstamp>
     </comp>
@@ -1108,7 +1108,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C98</tstamp>
     </comp>
@@ -1118,7 +1118,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4C9F</tstamp>
     </comp>
@@ -1128,7 +1128,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A4F4CA6</tstamp>
     </comp>
@@ -1138,7 +1138,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A8F08D6</tstamp>
     </comp>
@@ -1148,7 +1148,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_D/" tstamps="/542543F9/"/>
       <tstamp>5A8F0986</tstamp>
     </comp>
@@ -1158,7 +1158,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FAA</tstamp>
     </comp>
@@ -1168,7 +1168,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FD5</tstamp>
     </comp>
@@ -1178,7 +1178,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FDD</tstamp>
     </comp>
@@ -1188,7 +1188,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FE5</tstamp>
     </comp>
@@ -1198,7 +1198,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FED</tstamp>
     </comp>
@@ -1208,7 +1208,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FF5</tstamp>
     </comp>
@@ -1218,7 +1218,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C24FFD</tstamp>
     </comp>
@@ -1228,7 +1228,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>56C25005</tstamp>
     </comp>
@@ -1238,7 +1238,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD63</tstamp>
     </comp>
@@ -1248,7 +1248,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD7B</tstamp>
     </comp>
@@ -1258,7 +1258,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD82</tstamp>
     </comp>
@@ -1268,7 +1268,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD89</tstamp>
     </comp>
@@ -1278,7 +1278,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD90</tstamp>
     </comp>
@@ -1288,7 +1288,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD97</tstamp>
     </comp>
@@ -1298,7 +1298,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50AD9E</tstamp>
     </comp>
@@ -1308,7 +1308,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A50ADA5</tstamp>
     </comp>
@@ -1318,7 +1318,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A913773</tstamp>
     </comp>
@@ -1328,7 +1328,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_E/" tstamps="/54254DD3/"/>
       <tstamp>5A9138EF</tstamp>
     </comp>
@@ -1338,7 +1338,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21E5C</tstamp>
     </comp>
@@ -1348,7 +1348,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21E87</tstamp>
     </comp>
@@ -1358,7 +1358,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21E8F</tstamp>
     </comp>
@@ -1368,7 +1368,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21E97</tstamp>
     </comp>
@@ -1378,7 +1378,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21E9F</tstamp>
     </comp>
@@ -1388,7 +1388,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21EA7</tstamp>
     </comp>
@@ -1398,7 +1398,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21EAF</tstamp>
     </comp>
@@ -1408,7 +1408,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>56C21EB7</tstamp>
     </comp>
@@ -1418,7 +1418,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520EF3</tstamp>
     </comp>
@@ -1428,7 +1428,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F0B</tstamp>
     </comp>
@@ -1438,7 +1438,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F12</tstamp>
     </comp>
@@ -1448,7 +1448,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F19</tstamp>
     </comp>
@@ -1458,7 +1458,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F20</tstamp>
     </comp>
@@ -1468,7 +1468,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F27</tstamp>
     </comp>
@@ -1478,7 +1478,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F2E</tstamp>
     </comp>
@@ -1488,7 +1488,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A520F35</tstamp>
     </comp>
@@ -1498,7 +1498,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A935E60</tstamp>
     </comp>
@@ -1508,7 +1508,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_F/" tstamps="/54254DE3/"/>
       <tstamp>5A935F10</tstamp>
     </comp>
@@ -1518,7 +1518,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D372</tstamp>
     </comp>
@@ -1528,7 +1528,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D39D</tstamp>
     </comp>
@@ -1538,7 +1538,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D3A5</tstamp>
     </comp>
@@ -1548,7 +1548,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D3AD</tstamp>
     </comp>
@@ -1558,7 +1558,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D3B5</tstamp>
     </comp>
@@ -1568,7 +1568,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D3BD</tstamp>
     </comp>
@@ -1578,7 +1578,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D3C5</tstamp>
     </comp>
@@ -1588,7 +1588,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>56C1D3CD</tstamp>
     </comp>
@@ -1598,7 +1598,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536E6F</tstamp>
     </comp>
@@ -1608,7 +1608,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536E87</tstamp>
     </comp>
@@ -1618,7 +1618,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536E8E</tstamp>
     </comp>
@@ -1628,7 +1628,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536E95</tstamp>
     </comp>
@@ -1638,7 +1638,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536E9C</tstamp>
     </comp>
@@ -1648,7 +1648,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536EA3</tstamp>
     </comp>
@@ -1658,7 +1658,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536EAA</tstamp>
     </comp>
@@ -1668,7 +1668,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A536EB1</tstamp>
     </comp>
@@ -1678,7 +1678,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A9522A9</tstamp>
     </comp>
@@ -1688,7 +1688,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_G/" tstamps="/54254DF1/"/>
       <tstamp>5A96AC0D</tstamp>
     </comp>
@@ -1698,7 +1698,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5118ABBB</tstamp>
     </comp>
@@ -1708,7 +1708,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>51168961</tstamp>
     </comp>
@@ -1718,7 +1718,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C06E0E</tstamp>
     </comp>
@@ -1728,7 +1728,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C06E52</tstamp>
     </comp>
@@ -1738,7 +1738,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C06F1D</tstamp>
     </comp>
@@ -1748,7 +1748,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C06FBB</tstamp>
     </comp>
@@ -1758,7 +1758,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C07772</tstamp>
     </comp>
@@ -1768,7 +1768,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C077C2</tstamp>
     </comp>
@@ -1778,7 +1778,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>56C07914</tstamp>
     </comp>
@@ -1788,7 +1788,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A470142</tstamp>
     </comp>
@@ -1798,7 +1798,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A47014C</tstamp>
     </comp>
@@ -1808,7 +1808,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A470165</tstamp>
     </comp>
@@ -1818,7 +1818,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A47016C</tstamp>
     </comp>
@@ -1828,7 +1828,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A470173</tstamp>
     </comp>
@@ -1838,7 +1838,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A47017A</tstamp>
     </comp>
@@ -1848,7 +1848,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A470181</tstamp>
     </comp>
@@ -1858,7 +1858,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A470188</tstamp>
     </comp>
@@ -1868,7 +1868,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="APA102"/>
+      <libsource lib="ClockIOT" part="APA102" description=""/>
       <sheetpath names="/Row_H/" tstamps="/54254DF9/"/>
       <tstamp>5A47018F</tstamp>
     </comp>
@@ -1878,7 +1878,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A474511</tstamp>
     </comp>
@@ -1888,7 +1888,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A474601</tstamp>
     </comp>
@@ -1898,7 +1898,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A474623</tstamp>
     </comp>
@@ -1908,7 +1908,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A474670</tstamp>
     </comp>
@@ -1918,7 +1918,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4747BA</tstamp>
     </comp>
@@ -1928,7 +1928,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4747C1</tstamp>
     </comp>
@@ -1938,7 +1938,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4747C8</tstamp>
     </comp>
@@ -1948,7 +1948,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4747CF</tstamp>
     </comp>
@@ -1958,7 +1958,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47540E</tstamp>
     </comp>
@@ -1968,7 +1968,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A475415</tstamp>
     </comp>
@@ -1978,7 +1978,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47541C</tstamp>
     </comp>
@@ -1988,7 +1988,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A475423</tstamp>
     </comp>
@@ -1998,7 +1998,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47542A</tstamp>
     </comp>
@@ -2008,7 +2008,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A475431</tstamp>
     </comp>
@@ -2018,7 +2018,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A475438</tstamp>
     </comp>
@@ -2028,7 +2028,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47732A</tstamp>
     </comp>
@@ -2038,7 +2038,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477331</tstamp>
     </comp>
@@ -2048,7 +2048,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477338</tstamp>
     </comp>
@@ -2058,7 +2058,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47733F</tstamp>
     </comp>
@@ -2068,7 +2068,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477346</tstamp>
     </comp>
@@ -2078,7 +2078,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47734D</tstamp>
     </comp>
@@ -2088,7 +2088,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477354</tstamp>
     </comp>
@@ -2098,7 +2098,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47735B</tstamp>
     </comp>
@@ -2108,7 +2108,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477362</tstamp>
     </comp>
@@ -2118,7 +2118,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477369</tstamp>
     </comp>
@@ -2128,7 +2128,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477370</tstamp>
     </comp>
@@ -2138,7 +2138,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477377</tstamp>
     </comp>
@@ -2148,7 +2148,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47737E</tstamp>
     </comp>
@@ -2158,7 +2158,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477385</tstamp>
     </comp>
@@ -2168,7 +2168,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47738C</tstamp>
     </comp>
@@ -2178,7 +2178,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4778F7</tstamp>
     </comp>
@@ -2188,7 +2188,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4778FE</tstamp>
     </comp>
@@ -2198,7 +2198,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477905</tstamp>
     </comp>
@@ -2208,7 +2208,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47790C</tstamp>
     </comp>
@@ -2218,7 +2218,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477913</tstamp>
     </comp>
@@ -2228,7 +2228,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47791A</tstamp>
     </comp>
@@ -2238,7 +2238,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477921</tstamp>
     </comp>
@@ -2248,7 +2248,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477928</tstamp>
     </comp>
@@ -2258,7 +2258,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47792F</tstamp>
     </comp>
@@ -2268,7 +2268,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477936</tstamp>
     </comp>
@@ -2278,7 +2278,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47793D</tstamp>
     </comp>
@@ -2288,7 +2288,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477944</tstamp>
     </comp>
@@ -2298,7 +2298,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A47794B</tstamp>
     </comp>
@@ -2308,7 +2308,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A477952</tstamp>
     </comp>
@@ -2318,7 +2318,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A80D0</tstamp>
     </comp>
@@ -2328,7 +2328,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A8341</tstamp>
     </comp>
@@ -2338,7 +2338,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A8811</tstamp>
     </comp>
@@ -2348,7 +2348,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A8818</tstamp>
     </comp>
@@ -2358,7 +2358,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A8943</tstamp>
     </comp>
@@ -2368,7 +2368,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A894A</tstamp>
     </comp>
@@ -2376,7 +2376,7 @@
       <value>CLK_IN</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4866AD</tstamp>
     </comp>
@@ -2384,7 +2384,7 @@
       <value>DAT_IN</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A486E6A</tstamp>
     </comp>
@@ -2392,7 +2392,7 @@
       <value>5V</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A487307</tstamp>
     </comp>
@@ -2400,7 +2400,7 @@
       <value>GND</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A48730D</tstamp>
     </comp>
@@ -2408,7 +2408,7 @@
       <value>CLK_IN</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4877A0</tstamp>
     </comp>
@@ -2416,7 +2416,7 @@
       <value>DAT_IN</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4877A6</tstamp>
     </comp>
@@ -2424,7 +2424,7 @@
       <value>5V</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4877C4</tstamp>
     </comp>
@@ -2432,47 +2432,47 @@
       <value>GND</value>
       <footprint>ClockIOT_libs:1pin</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4877CA</tstamp>
     </comp>
     <comp ref="HB51">
       <value>mtg_hole_3mm</value>
-      <footprint>ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via</footprint>
+      <footprint>ClockIOT_libs:1pin</footprint>
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A736F2B</tstamp>
     </comp>
     <comp ref="HB52">
       <value>mtg_hole_3mm</value>
-      <footprint>ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via</footprint>
+      <footprint>ClockIOT_libs:1pin</footprint>
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A736F32</tstamp>
     </comp>
     <comp ref="HB53">
       <value>mtg_hole_3mm</value>
-      <footprint>ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via</footprint>
+      <footprint>ClockIOT_libs:1pin</footprint>
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A736F39</tstamp>
     </comp>
     <comp ref="HB54">
       <value>mtg_hole_3mm</value>
-      <footprint>ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via</footprint>
+      <footprint>ClockIOT_libs:1pin</footprint>
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SCREW"/>
+      <libsource lib="ClockIOT" part="SCREW" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A736F40</tstamp>
     </comp>
@@ -2482,7 +2482,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A49F376</tstamp>
     </comp>
@@ -2492,7 +2492,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A147E</tstamp>
     </comp>
@@ -2502,7 +2502,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A2BA0</tstamp>
     </comp>
@@ -2512,7 +2512,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A2BA6</tstamp>
     </comp>
@@ -2522,7 +2522,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A2F4F</tstamp>
     </comp>
@@ -2532,7 +2532,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A2F55</tstamp>
     </comp>
@@ -2542,7 +2542,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A335C</tstamp>
     </comp>
@@ -2552,7 +2552,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="Mouse_Bite"/>
+      <libsource lib="ClockIOT" part="Mouse_Bite" description=""/>
       <sheetpath names="/mechanical/" tstamps="/5A47432D/"/>
       <tstamp>5A4A3362</tstamp>
     </comp>
@@ -2560,7 +2560,7 @@
       <value>4K7</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A448924</tstamp>
     </comp>
@@ -2568,7 +2568,7 @@
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A448933</tstamp>
     </comp>
@@ -2576,7 +2576,7 @@
       <value>10k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A44893A</tstamp>
     </comp>
@@ -2584,7 +2584,7 @@
       <value>DS3231N</value>
       <footprint>ClockIOT_libs:DS3231</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="DS3231N"/>
+      <libsource lib="ClockIOT" part="DS3231N" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A448948</tstamp>
     </comp>
@@ -2592,24 +2592,24 @@
       <value>4K7</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A44894F</tstamp>
     </comp>
     <comp ref="BT1">
       <value>Batt_RTC</value>
-      <footprint>ClockIOT_libs:CR2032_SMD2</footprint>
+      <footprint>ClockIOT_libs:CR2032_SMD_SKST-2007D</footprint>
       <fields>
         <field name="Digikey">BU2032SM-HD-GCT-ND </field>
       </fields>
-      <libsource lib="ClockIOT" part="Batt_RTC"/>
+      <libsource lib="ClockIOT" part="Batt_RTC" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A448957</tstamp>
     </comp>
     <comp ref="C22">
       <value>100nF</value>
       <footprint>ClockIOT_libs:c_0805</footprint>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A613CC0</tstamp>
     </comp>
@@ -2617,7 +2617,7 @@
       <value>~RST</value>
       <footprint>ClockIOT_libs:BreakOutPad</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A48EA43</tstamp>
     </comp>
@@ -2625,7 +2625,7 @@
       <value>SQR</value>
       <footprint>ClockIOT_libs:BreakOutPad</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A95B66E</tstamp>
     </comp>
@@ -2633,14 +2633,14 @@
       <value>32kHz</value>
       <footprint>ClockIOT_libs:BreakOutPad</footprint>
       <datasheet>~</datasheet>
-      <libsource lib="ClockIOT" part="Conn_01x01"/>
+      <libsource lib="ClockIOT" part="Conn_01x01" description="Generic connector, single row, 01x01"/>
       <sheetpath names="/rtc_ds3231/" tstamps="/5A447BD8/"/>
       <tstamp>5A95B721</tstamp>
     </comp>
     <comp ref="R4">
       <value>1k</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4511A4</tstamp>
     </comp>
@@ -2651,28 +2651,28 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="AP1117-15"/>
+      <libsource lib="ClockIOT" part="AP1117-15" description="1A Low Dropout regulator, positive, 1.5V fixed output, SOT-223"/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4518D4</tstamp>
     </comp>
     <comp ref="JP1">
       <value>LED_PWR_EN</value>
       <footprint>ClockIOT_libs:R_0402</footprint>
-      <libsource lib="ClockIOT" part="Jumper_NC_Small"/>
+      <libsource lib="ClockIOT" part="Jumper_NC_Small" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A456474</tstamp>
     </comp>
     <comp ref="C17">
       <value>10uF/25V</value>
       <footprint>ClockIOT_libs:c_2917</footprint>
-      <libsource lib="ClockIOT" part="C_POL"/>
+      <libsource lib="ClockIOT" part="C_POL" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A6251BF</tstamp>
     </comp>
     <comp ref="C18">
       <value>22uF/25V</value>
       <footprint>ClockIOT_libs:c_2917</footprint>
-      <libsource lib="ClockIOT" part="C_POL"/>
+      <libsource lib="ClockIOT" part="C_POL" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A6254D5</tstamp>
     </comp>
@@ -2689,7 +2689,7 @@
         <field name="Field8">WP7113ID</field>
         <field name="Field9">Digikey</field>
       </fields>
-      <libsource lib="ClockIOT" part="LED"/>
+      <libsource lib="ClockIOT" part="LED" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A6340FA</tstamp>
     </comp>
@@ -2700,21 +2700,21 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="CP2102N-A01-GQFN28"/>
+      <libsource lib="ClockIOT" part="CP2102N-A01-GQFN28" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A738B9C</tstamp>
     </comp>
     <comp ref="P1">
       <value>USB_micro</value>
-      <footprint>ClockIOT_libs:USB_Micro-B_Molex-105017-0001</footprint>
-      <libsource lib="ClockIOT" part="USB_micro"/>
+      <footprint>ClockIOT_libs:USB_Micro-B_seeed-320010561</footprint>
+      <libsource lib="ClockIOT" part="USB_micro" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A73BE05</tstamp>
     </comp>
     <comp ref="C23">
       <value>10uF/25V</value>
       <footprint>ClockIOT_libs:c_2917</footprint>
-      <libsource lib="ClockIOT" part="C_POL"/>
+      <libsource lib="ClockIOT" part="C_POL" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A451EDF</tstamp>
     </comp>
@@ -2724,14 +2724,14 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4520AD</tstamp>
     </comp>
     <comp ref="C25">
       <value>10uF/25V</value>
       <footprint>ClockIOT_libs:c_2917</footprint>
-      <libsource lib="ClockIOT" part="C_POL"/>
+      <libsource lib="ClockIOT" part="C_POL" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A45212F</tstamp>
     </comp>
@@ -2741,7 +2741,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A452201</tstamp>
     </comp>
@@ -2751,7 +2751,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A453081</tstamp>
     </comp>
@@ -2761,7 +2761,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4534CF</tstamp>
     </comp>
@@ -2771,7 +2771,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4535C0</tstamp>
     </comp>
@@ -2781,7 +2781,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A45360A</tstamp>
     </comp>
@@ -2791,7 +2791,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4536A6</tstamp>
     </comp>
@@ -2801,7 +2801,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A458085</tstamp>
     </comp>
@@ -2811,7 +2811,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4583E7</tstamp>
     </comp>
@@ -2821,7 +2821,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A458830</tstamp>
     </comp>
@@ -2831,17 +2831,17 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4588F3</tstamp>
     </comp>
     <comp ref="S3">
       <value>SW-EN</value>
-      <footprint>ClockIOT_libs:SW_SMD</footprint>
+      <footprint>ClockIOT_libs:SW_SMD_311020004</footprint>
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SW-SPST-M"/>
+      <libsource lib="ClockIOT" part="SW-SPST-M" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A45898C</tstamp>
     </comp>
@@ -2851,7 +2851,7 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="R"/>
+      <libsource lib="ClockIOT" part="R" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4599CC</tstamp>
     </comp>
@@ -2861,17 +2861,17 @@
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="C_NP"/>
+      <libsource lib="ClockIOT" part="C_NP" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4599D2</tstamp>
     </comp>
     <comp ref="S4">
       <value>SW-BOOT</value>
-      <footprint>ClockIOT_libs:SW_SMD</footprint>
+      <footprint>ClockIOT_libs:SW_SMD_311020004</footprint>
       <fields>
         <field name="manf#">Value</field>
       </fields>
-      <libsource lib="ClockIOT" part="SW-SPST-M"/>
+      <libsource lib="ClockIOT" part="SW-SPST-M" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A4599D8</tstamp>
     </comp>
@@ -2879,7 +2879,7 @@
       <value>DDC114TU</value>
       <footprint>ClockIOT_libs:SOT-363_SC-70-6</footprint>
       <datasheet>https://www.diodes.com/assets/Datasheets/ds30345.pdf</datasheet>
-      <libsource lib="ClockIOT" part="DDC114TU"/>
+      <libsource lib="ClockIOT" part="DDC114TU" description="Pre-Biased Bipolar Transistor (BJT) 2 NPN - Pre-Biased (Dual) 50V 100mA 250MHz 200mW Surface Mount SOT-363"/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5A602C3C</tstamp>
     </comp>
@@ -2889,7 +2889,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="OSHW"/>
+      <libsource lib="ClockIOT" part="OSHW" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5AA76142</tstamp>
     </comp>
@@ -2899,7 +2899,7 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="KiCad"/>
+      <libsource lib="ClockIOT" part="KiCad" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5AA75FE2</tstamp>
     </comp>
@@ -2909,28 +2909,28 @@
       <fields>
         <field name="manf#">mfr_pn</field>
       </fields>
-      <libsource lib="ClockIOT" part="LOGO_WL"/>
+      <libsource lib="ClockIOT" part="LOGO_WL" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5AA760BF</tstamp>
     </comp>
     <comp ref="D1">
       <value>RClamp0854P.TCT</value>
       <footprint>ClockIOT_libs:SOT-143</footprint>
-      <libsource lib="ClockIOT" part="Diode_TVS"/>
+      <libsource lib="ClockIOT" part="Diode_TVS" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5AFE0C2C</tstamp>
     </comp>
     <comp ref="L1">
       <value>330E</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="IND_FERRITE_BEAD"/>
+      <libsource lib="ClockIOT" part="IND_FERRITE_BEAD" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5AFF9108</tstamp>
     </comp>
     <comp ref="L2">
       <value>330E</value>
       <footprint>ClockIOT_libs:r_0805</footprint>
-      <libsource lib="ClockIOT" part="IND_FERRITE_BEAD"/>
+      <libsource lib="ClockIOT" part="IND_FERRITE_BEAD" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>
       <tstamp>5AB0DB2F</tstamp>
     </comp>
@@ -2956,6 +2956,8 @@
         <alias>NCP1117-3.3_SOT223</alias>
         <alias>NCP1117-5.0_SOT223</alias>
       </aliases>
+      <description>1A Low Dropout regulator, positive, 1.5V fixed output, SOT-223</description>
+      <docs>http://www.diodes.com/datasheets/AP1117.pdf</docs>
       <footprints>
         <fp>SOT?223*TabPin2*</fp>
       </footprints>
@@ -3067,6 +3069,8 @@
       </pins>
     </libpart>
     <libpart lib="ClockIOT" part="Conn_01x01">
+      <description>Generic connector, single row, 01x01</description>
+      <docs>~</docs>
       <footprints>
         <fp>Connector*:*_??x*mm*</fp>
         <fp>Connector*:*1x??x*mm*</fp>
@@ -3084,6 +3088,8 @@
       </pins>
     </libpart>
     <libpart lib="ClockIOT" part="Conn_01x02">
+      <description>Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
       <footprints>
         <fp>Connector*:*_1x??_*</fp>
       </footprints>
@@ -3097,6 +3103,8 @@
       </pins>
     </libpart>
     <libpart lib="ClockIOT" part="Conn_01x04">
+      <description>Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
       <footprints>
         <fp>Connector*:*_1x??_*</fp>
       </footprints>
@@ -3112,6 +3120,8 @@
       </pins>
     </libpart>
     <libpart lib="ClockIOT" part="Conn_02x03_Odd_Even">
+      <description>Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
       <footprints>
         <fp>Connector*:*_2x??_*</fp>
       </footprints>
@@ -3129,6 +3139,8 @@
       </pins>
     </libpart>
     <libpart lib="ClockIOT" part="DDC114TU">
+      <description>Pre-Biased Bipolar Transistor (BJT) 2 NPN - Pre-Biased (Dual) 50V 100mA 250MHz 200mW Surface Mount SOT-363</description>
+      <docs>https://www.diodes.com/assets/Datasheets/ds30345.pdf</docs>
       <footprints>
         <fp>SC?70*</fp>
         <fp>SC?88*</fp>
@@ -3418,7 +3430,7 @@
     <net code="9" name="/LDR1">
       <node ref="LDR1" pin="2"/>
       <node ref="U129" pin="9"/>
-      <node ref="R12" pin="1"/>
+      <node ref="R12" pin="2"/>
     </net>
     <net code="10" name="/LDR2">
       <node ref="U129" pin="8"/>
@@ -3427,9 +3439,9 @@
     </net>
     <net code="11" name="/3V3">
       <node ref="J20" pin="2"/>
-      <node ref="C31" pin="1"/>
+      <node ref="C31" pin="2"/>
+      <node ref="C30" pin="2"/>
       <node ref="U132" pin="7"/>
-      <node ref="C30" pin="1"/>
       <node ref="C23" pin="1"/>
       <node ref="U132" pin="6"/>
       <node ref="R8" pin="1"/>
@@ -3441,46 +3453,46 @@
       <node ref="U130" pin="2"/>
       <node ref="R7" pin="1"/>
       <node ref="R6" pin="1"/>
-      <node ref="S2" pin="3"/>
-      <node ref="C18" pin="1"/>
-      <node ref="C29" pin="1"/>
-      <node ref="S6" pin="1"/>
-      <node ref="LDR1" pin="1"/>
       <node ref="LDR2" pin="1"/>
-      <node ref="S5" pin="1"/>
-      <node ref="S5" pin="3"/>
       <node ref="S6" pin="3"/>
+      <node ref="C18" pin="1"/>
+      <node ref="S5" pin="3"/>
       <node ref="J25" pin="3"/>
-      <node ref="S1" pin="3"/>
-      <node ref="S1" pin="1"/>
-      <node ref="S2" pin="1"/>
-      <node ref="C28" pin="1"/>
-      <node ref="J18" pin="1"/>
-      <node ref="J24" pin="3"/>
+      <node ref="LDR1" pin="1"/>
+      <node ref="S6" pin="1"/>
+      <node ref="C29" pin="1"/>
       <node ref="C27" pin="1"/>
+      <node ref="C28" pin="1"/>
+      <node ref="S5" pin="1"/>
+      <node ref="S2" pin="3"/>
+      <node ref="S1" pin="1"/>
+      <node ref="S1" pin="3"/>
+      <node ref="J24" pin="3"/>
+      <node ref="S2" pin="1"/>
+      <node ref="J18" pin="1"/>
     </net>
     <net code="12" name="/5V">
-      <node ref="U88" pin="4"/>
-      <node ref="U9" pin="4"/>
-      <node ref="U44" pin="4"/>
-      <node ref="U47" pin="4"/>
-      <node ref="U86" pin="4"/>
-      <node ref="U85" pin="4"/>
-      <node ref="U111" pin="4"/>
-      <node ref="C5" pin="2"/>
-      <node ref="C6" pin="2"/>
-      <node ref="U81" pin="4"/>
-      <node ref="U43" pin="4"/>
-      <node ref="U48" pin="4"/>
       <node ref="U46" pin="4"/>
-      <node ref="C2" pin="2"/>
-      <node ref="U89" pin="4"/>
-      <node ref="U82" pin="4"/>
+      <node ref="U47" pin="4"/>
+      <node ref="U48" pin="4"/>
+      <node ref="U43" pin="4"/>
       <node ref="U45" pin="4"/>
-      <node ref="U112" pin="4"/>
-      <node ref="U84" pin="4"/>
+      <node ref="U44" pin="4"/>
+      <node ref="U111" pin="4"/>
       <node ref="U110" pin="4"/>
+      <node ref="C2" pin="1"/>
+      <node ref="U9" pin="4"/>
+      <node ref="U88" pin="4"/>
+      <node ref="C6" pin="1"/>
+      <node ref="C5" pin="1"/>
+      <node ref="U85" pin="4"/>
+      <node ref="U86" pin="4"/>
       <node ref="U83" pin="4"/>
+      <node ref="U84" pin="4"/>
+      <node ref="U112" pin="4"/>
+      <node ref="U82" pin="4"/>
+      <node ref="U89" pin="4"/>
+      <node ref="U81" pin="4"/>
       <node ref="U27" pin="4"/>
       <node ref="U32" pin="4"/>
       <node ref="U31" pin="4"/>
@@ -3492,22 +3504,22 @@
       <node ref="U90" pin="4"/>
       <node ref="U18" pin="4"/>
       <node ref="U19" pin="4"/>
-      <node ref="L1" pin="2"/>
       <node ref="U20" pin="4"/>
       <node ref="U17" pin="4"/>
       <node ref="U24" pin="4"/>
       <node ref="U23" pin="4"/>
       <node ref="C3" pin="2"/>
       <node ref="C4" pin="2"/>
+      <node ref="L1" pin="1"/>
       <node ref="U107" pin="4"/>
       <node ref="U108" pin="4"/>
       <node ref="U21" pin="4"/>
       <node ref="U22" pin="4"/>
       <node ref="U109" pin="4"/>
-      <node ref="C10" pin="2"/>
       <node ref="U55" pin="4"/>
+      <node ref="C10" pin="1"/>
       <node ref="U54" pin="4"/>
-      <node ref="C9" pin="2"/>
+      <node ref="C9" pin="1"/>
       <node ref="C7" pin="2"/>
       <node ref="C8" pin="2"/>
       <node ref="U71" pin="4"/>
@@ -3578,7 +3590,7 @@
       <node ref="U14" pin="4"/>
       <node ref="U12" pin="4"/>
       <node ref="U101" pin="4"/>
-      <node ref="C14" pin="2"/>
+      <node ref="C14" pin="1"/>
       <node ref="C17" pin="1"/>
       <node ref="U15" pin="4"/>
       <node ref="C26" pin="1"/>
@@ -3588,7 +3600,7 @@
       <node ref="U16" pin="4"/>
       <node ref="U104" pin="4"/>
       <node ref="U125" pin="4"/>
-      <node ref="R4" pin="1"/>
+      <node ref="R4" pin="2"/>
       <node ref="U131" pin="3"/>
       <node ref="C25" pin="1"/>
       <node ref="U127" pin="4"/>
@@ -3600,39 +3612,39 @@
       <node ref="U99" pin="4"/>
       <node ref="U100" pin="4"/>
       <node ref="U106" pin="4"/>
-      <node ref="U3" pin="4"/>
-      <node ref="U4" pin="4"/>
-      <node ref="U1" pin="4"/>
-      <node ref="U5" pin="4"/>
-      <node ref="U126" pin="4"/>
       <node ref="U7" pin="4"/>
+      <node ref="U126" pin="4"/>
+      <node ref="U5" pin="4"/>
+      <node ref="U1" pin="4"/>
+      <node ref="U4" pin="4"/>
+      <node ref="U3" pin="4"/>
       <node ref="U132" pin="8"/>
       <node ref="U8" pin="4"/>
-      <node ref="U124" pin="4"/>
+      <node ref="C13" pin="1"/>
       <node ref="U2" pin="4"/>
       <node ref="U6" pin="4"/>
-      <node ref="C1" pin="2"/>
-      <node ref="C13" pin="2"/>
+      <node ref="U124" pin="4"/>
+      <node ref="C1" pin="1"/>
     </net>
     <net code="13" name="/EN">
       <node ref="C19" pin="1"/>
-      <node ref="Q1" pin="6"/>
-      <node ref="R16" pin="1"/>
       <node ref="R3" pin="2"/>
+      <node ref="Q1" pin="6"/>
+      <node ref="R16" pin="2"/>
       <node ref="U129" pin="3"/>
     </net>
     <net code="14" name="/IO0">
-      <node ref="U129" pin="25"/>
       <node ref="Q1" pin="3"/>
-      <node ref="R18" pin="1"/>
+      <node ref="U129" pin="25"/>
+      <node ref="R18" pin="2"/>
     </net>
     <net code="15" name="/IO15">
-      <node ref="U129" pin="23"/>
       <node ref="R19" pin="1"/>
+      <node ref="U129" pin="23"/>
     </net>
     <net code="16" name="/IO13">
-      <node ref="R20" pin="1"/>
       <node ref="U129" pin="16"/>
+      <node ref="R20" pin="1"/>
     </net>
     <net code="17" name="/SCL">
       <node ref="J24" pin="1"/>
@@ -3708,8 +3720,8 @@
       <node ref="J20" pin="3"/>
     </net>
     <net code="37" name="/MOSI">
-      <node ref="J21" pin="1"/>
       <node ref="J20" pin="4"/>
+      <node ref="J21" pin="1"/>
     </net>
     <net code="38" name="/RST">
       <node ref="J20" pin="5"/>
@@ -3738,8 +3750,8 @@
       <node ref="U128" pin="6"/>
     </net>
     <net code="45" name="/CLK_OUT">
-      <node ref="U128" pin="5"/>
       <node ref="P2" pin="2"/>
+      <node ref="U128" pin="5"/>
     </net>
     <net code="46" name="/CI_H">
       <node ref="U113" pin="2"/>
@@ -3766,8 +3778,8 @@
       <node ref="U32" pin="6"/>
     </net>
     <net code="52" name="/DI_D">
-      <node ref="U48" pin="6"/>
       <node ref="U49" pin="1"/>
+      <node ref="U48" pin="6"/>
     </net>
     <net code="53" name="/CI_D">
       <node ref="U48" pin="5"/>
@@ -3993,8 +4005,8 @@
       <node ref="U22" pin="6"/>
     </net>
     <net code="109" name="Net-(U22-Pad5)">
-      <node ref="U22" pin="5"/>
       <node ref="U23" pin="2"/>
+      <node ref="U22" pin="5"/>
     </net>
     <net code="110" name="Net-(U21-Pad6)">
       <node ref="U22" pin="1"/>
@@ -4013,16 +4025,16 @@
       <node ref="U20" pin="5"/>
     </net>
     <net code="114" name="Net-(U19-Pad5)">
-      <node ref="U19" pin="5"/>
       <node ref="U20" pin="2"/>
+      <node ref="U19" pin="5"/>
     </net>
     <net code="115" name="Net-(U19-Pad6)">
       <node ref="U20" pin="1"/>
       <node ref="U19" pin="6"/>
     </net>
     <net code="116" name="Net-(U18-Pad5)">
-      <node ref="U18" pin="5"/>
       <node ref="U19" pin="2"/>
+      <node ref="U18" pin="5"/>
     </net>
     <net code="117" name="Net-(U17-Pad5)">
       <node ref="U18" pin="2"/>
@@ -4661,12 +4673,12 @@
       <node ref="U121" pin="5"/>
     </net>
     <net code="276" name="Net-(U122-Pad6)">
-      <node ref="U123" pin="1"/>
       <node ref="U122" pin="6"/>
+      <node ref="U123" pin="1"/>
     </net>
     <net code="277" name="Net-(U121-Pad6)">
-      <node ref="U122" pin="1"/>
       <node ref="U121" pin="6"/>
+      <node ref="U122" pin="1"/>
     </net>
     <net code="278" name="Net-(U127-Pad6)">
       <node ref="U128" pin="1"/>
@@ -4697,16 +4709,16 @@
       <node ref="U121" pin="2"/>
     </net>
     <net code="285" name="Net-(U120-Pad6)">
-      <node ref="U120" pin="6"/>
       <node ref="U121" pin="1"/>
+      <node ref="U120" pin="6"/>
     </net>
     <net code="286" name="Net-(U118-Pad6)">
-      <node ref="U118" pin="6"/>
       <node ref="U119" pin="1"/>
+      <node ref="U118" pin="6"/>
     </net>
     <net code="287" name="Net-(U118-Pad5)">
-      <node ref="U119" pin="2"/>
       <node ref="U118" pin="5"/>
+      <node ref="U119" pin="2"/>
     </net>
     <net code="288" name="Net-(U117-Pad5)">
       <node ref="U117" pin="5"/>
@@ -4725,8 +4737,8 @@
       <node ref="U117" pin="2"/>
     </net>
     <net code="292" name="Net-(U115-Pad5)">
-      <node ref="U116" pin="2"/>
       <node ref="U115" pin="5"/>
+      <node ref="U116" pin="2"/>
     </net>
     <net code="293" name="Net-(U115-Pad6)">
       <node ref="U115" pin="6"/>
@@ -4737,16 +4749,16 @@
       <node ref="U115" pin="2"/>
     </net>
     <net code="295" name="Net-(U113-Pad5)">
-      <node ref="U113" pin="5"/>
       <node ref="U114" pin="2"/>
+      <node ref="U113" pin="5"/>
     </net>
     <net code="296" name="Net-(U114-Pad6)">
       <node ref="U114" pin="6"/>
       <node ref="U115" pin="1"/>
     </net>
     <net code="297" name="Net-(U113-Pad6)">
-      <node ref="U114" pin="1"/>
       <node ref="U113" pin="6"/>
+      <node ref="U114" pin="1"/>
     </net>
     <net code="298" name="Net-(U119-Pad6)">
       <node ref="U120" pin="1"/>
@@ -4757,9 +4769,9 @@
       <node ref="U119" pin="5"/>
     </net>
     <net code="300" name="/rtc_ds3231/SQR">
+      <node ref="U130" pin="3"/>
       <node ref="R6" pin="2"/>
       <node ref="TP2" pin="1"/>
-      <node ref="U130" pin="3"/>
     </net>
     <net code="301" name="/rtc_ds3231/32kHz">
       <node ref="U130" pin="1"/>
@@ -4771,30 +4783,30 @@
       <node ref="U130" pin="4"/>
     </net>
     <net code="303" name="/rtc_ds3231/BAT">
-      <node ref="BT1" pin="1"/>
       <node ref="U130" pin="14"/>
+      <node ref="BT1" pin="1"/>
       <node ref="C22" pin="1"/>
     </net>
     <net code="304" name="Net-(C20-Pad1)">
-      <node ref="S3" pin="3"/>
-      <node ref="R16" pin="2"/>
+      <node ref="S3" pin="2"/>
+      <node ref="R16" pin="1"/>
       <node ref="C20" pin="1"/>
-      <node ref="S3" pin="1"/>
+      <node ref="S3" pin="4"/>
     </net>
-    <net code="305" name="Net-(C21-Pad1)">
-      <node ref="S4" pin="1"/>
-      <node ref="R18" pin="2"/>
-      <node ref="S4" pin="3"/>
-      <node ref="C21" pin="1"/>
+    <net code="305" name="Net-(C21-Pad2)">
+      <node ref="R18" pin="1"/>
+      <node ref="C21" pin="2"/>
+      <node ref="S4" pin="2"/>
+      <node ref="S4" pin="4"/>
     </net>
     <net code="306" name="/esp_pwr_uart/RTS">
-      <node ref="Q1" pin="1"/>
-      <node ref="R20" pin="2"/>
       <node ref="Q1" pin="5"/>
+      <node ref="R20" pin="2"/>
+      <node ref="Q1" pin="1"/>
       <node ref="U132" pin="24"/>
     </net>
-    <net code="307" name="Net-(L2-Pad1)">
-      <node ref="L2" pin="1"/>
+    <net code="307" name="Net-(L2-Pad2)">
+      <node ref="L2" pin="2"/>
       <node ref="P1" pin="6"/>
     </net>
     <net code="308" name="/esp_pwr_uart/USB_D+">
@@ -4846,11 +4858,11 @@
     </net>
     <net code="323" name="Net-(D2-Pad1)">
       <node ref="D2" pin="1"/>
-      <node ref="R4" pin="2"/>
+      <node ref="R4" pin="1"/>
     </net>
     <net code="324" name="Net-(D1-Pad4)">
-      <node ref="L1" pin="1"/>
       <node ref="D1" pin="4"/>
+      <node ref="L1" pin="2"/>
       <node ref="P1" pin="1"/>
     </net>
     <net code="325" name="Net-(U132-Pad9)">
@@ -4867,11 +4879,11 @@
       <node ref="D2" pin="2"/>
     </net>
     <net code="329" name="/esp_pwr_uart/TXD">
-      <node ref="R22" pin="1"/>
+      <node ref="R22" pin="2"/>
       <node ref="R23" pin="2"/>
     </net>
-    <net code="330" name="Net-(R22-Pad2)">
-      <node ref="R22" pin="2"/>
+    <net code="330" name="Net-(R22-Pad1)">
+      <node ref="R22" pin="1"/>
       <node ref="U132" pin="26"/>
     </net>
     <net code="331" name="/esp_pwr_uart/RXD">
@@ -4904,13 +4916,13 @@
       <node ref="U121" pin="3"/>
       <node ref="C16" pin="1"/>
       <node ref="U123" pin="3"/>
-      <node ref="L2" pin="2"/>
+      <node ref="L2" pin="1"/>
       <node ref="U130" pin="13"/>
       <node ref="U130" pin="12"/>
       <node ref="U130" pin="11"/>
       <node ref="U130" pin="10"/>
-      <node ref="C21" pin="2"/>
       <node ref="C15" pin="1"/>
+      <node ref="U130" pin="7"/>
       <node ref="D1" pin="1"/>
       <node ref="U118" pin="3"/>
       <node ref="U130" pin="9"/>
@@ -4918,15 +4930,15 @@
       <node ref="U117" pin="3"/>
       <node ref="BT1" pin="2"/>
       <node ref="U119" pin="3"/>
-      <node ref="U130" pin="7"/>
-      <node ref="S4" pin="2"/>
+      <node ref="S4" pin="1"/>
       <node ref="U130" pin="6"/>
       <node ref="U120" pin="3"/>
-      <node ref="S4" pin="4"/>
+      <node ref="S4" pin="3"/>
+      <node ref="C21" pin="1"/>
       <node ref="C19" pin="2"/>
       <node ref="C20" pin="2"/>
-      <node ref="S3" pin="2"/>
-      <node ref="S3" pin="4"/>
+      <node ref="S3" pin="1"/>
+      <node ref="S3" pin="3"/>
       <node ref="U130" pin="8"/>
       <node ref="U126" pin="3"/>
       <node ref="U132" pin="3"/>
@@ -4970,8 +4982,8 @@
       <node ref="U38" pin="3"/>
       <node ref="U40" pin="3"/>
       <node ref="U39" pin="3"/>
-      <node ref="C5" pin="1"/>
-      <node ref="C6" pin="1"/>
+      <node ref="C5" pin="2"/>
+      <node ref="C6" pin="2"/>
       <node ref="U46" pin="3"/>
       <node ref="U47" pin="3"/>
       <node ref="U48" pin="3"/>
@@ -4985,7 +4997,7 @@
       <node ref="U129" pin="39"/>
       <node ref="U129" pin="38"/>
       <node ref="R13" pin="2"/>
-      <node ref="R12" pin="2"/>
+      <node ref="R12" pin="1"/>
       <node ref="U129" pin="15"/>
       <node ref="U129" pin="1"/>
       <node ref="J25" pin="4"/>
@@ -4993,22 +5005,22 @@
       <node ref="C27" pin="2"/>
       <node ref="R10" pin="2"/>
       <node ref="R11" pin="2"/>
-      <node ref="C30" pin="2"/>
-      <node ref="C31" pin="2"/>
+      <node ref="C30" pin="1"/>
+      <node ref="C31" pin="1"/>
       <node ref="C29" pin="2"/>
       <node ref="U15" pin="3"/>
       <node ref="J24" pin="4"/>
       <node ref="J23" pin="1"/>
       <node ref="U2" pin="3"/>
       <node ref="U3" pin="3"/>
+      <node ref="C1" pin="2"/>
       <node ref="U1" pin="3"/>
-      <node ref="C1" pin="1"/>
       <node ref="U8" pin="3"/>
       <node ref="U4" pin="3"/>
       <node ref="U5" pin="3"/>
       <node ref="U7" pin="3"/>
       <node ref="U6" pin="3"/>
-      <node ref="C2" pin="1"/>
+      <node ref="C2" pin="2"/>
       <node ref="U9" pin="3"/>
       <node ref="U12" pin="3"/>
       <node ref="U13" pin="3"/>
@@ -5043,14 +5055,14 @@
       <node ref="U101" pin="3"/>
       <node ref="U102" pin="3"/>
       <node ref="U103" pin="3"/>
-      <node ref="C14" pin="1"/>
+      <node ref="C14" pin="2"/>
       <node ref="U110" pin="3"/>
       <node ref="U111" pin="3"/>
       <node ref="U112" pin="3"/>
       <node ref="U107" pin="3"/>
       <node ref="U109" pin="3"/>
       <node ref="U108" pin="3"/>
-      <node ref="C13" pin="1"/>
+      <node ref="C13" pin="2"/>
       <node ref="U58" pin="3"/>
       <node ref="U57" pin="3"/>
       <node ref="U50" pin="3"/>
@@ -5079,8 +5091,8 @@
       <node ref="U70" pin="3"/>
       <node ref="U72" pin="3"/>
       <node ref="U71" pin="3"/>
-      <node ref="C9" pin="1"/>
-      <node ref="C10" pin="1"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C10" pin="2"/>
       <node ref="U78" pin="3"/>
       <node ref="U79" pin="3"/>
       <node ref="U80" pin="3"/>
