@@ -36,8 +36,8 @@ bool mask[NUM_LEDS];
 bool wipe[NUM_LEDS];
 CRGB leds[NUM_LEDS];
 
-#define DATA_PIN     MOSI
-#define CLK_PIN      SCK
+#define DATA_PIN     4
+#define CLK_PIN      16
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
@@ -50,6 +50,7 @@ typedef void (*Transition)(uint16_t last_time_inc, uint16_t time_inc);
 
 NTPClock ntp_clock;
 DS3231Clock ds3231_clock;
+DoomsdayClock doomsday_clock;
 
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
@@ -315,17 +316,44 @@ void setup(){
   Serial.println("yay connected");
 #endif
   ntp_clock.setup(&timeClient);
-  //timeClient.begin();
-  //timeClient.setTimeOffset(-240 * 60);
   ds3231_clock.setup();
-  ds3231_clock.now();
+  doomsday_clock.setup(&ntp_clock, &ds3231_clock);
+  
   Serial.println("setup() complete");
 }
 
 uint32_t count;
+uint32_t OldNow(){
+  uint32_t out;
+  uint32_t rtc_time, ntp_time;
+  
+  ntp_clock.update();
+  if(ntp_clock.isCurrent()){
+    out = ntp_clock.now();
+    rtc_time = ds3231_clock.now();
+    ntp_time = ntp_clock.now();
+    if (rtc_time > ntp_time){ // stupid unsigned ints!
+      if ((rtc_time - ntp_time) > 5){
+	// ntp is current and rtc is out of date
+	ds3231_clock.set(ntp_clock.now());
+      }
+    }
+    else{
+      if ((ntp_time - rtc_time) > 5){
+	// ntp is current and rtc is out of date
+	ds3231_clock.set(ntp_clock.now());
+      }
+    }
+  }
+  else{
+    // rely on rtc
+    out = ds3231_clock.now();
+  }
+  return out;
+}
+
 uint32_t Now(){
-  timeClient.update();
-  return ntp_clock.now();
+  return doomsday_clock.now();
 }
 
 void loop(){
@@ -337,6 +365,7 @@ void loop(){
   rainbow(leds, current_time, XY);
   apply_mask(mask);
   FastLED.show();
+  Serial.print("NTP Time:");
   Serial.print(timeClient.getHours());
   Serial.print(":");
   Serial.print(timeClient.getMinutes());
@@ -344,17 +373,32 @@ void loop(){
   Serial.print(timeClient.getSeconds());
   Serial.println("");
   
+  Serial.print("RTC Time:");
   Serial.print(ds3231_clock.year());
   Serial.print("/");
   Serial.print(ds3231_clock.month());
   Serial.print("/");
-  Serial.println(ds3231_clock.day());
-
-    
+  Serial.print(ds3231_clock.day());
+  Serial.print(" ");
   Serial.print(ds3231_clock.hours());
   Serial.print(":");
   Serial.print(ds3231_clock.minutes());
   Serial.print(":");
   Serial.println(ds3231_clock.seconds());
+  Serial.println();
+
+  Serial.print("Doomsday Time:");
+  Serial.print(doomsday_clock.year());
+  Serial.print("/");
+  Serial.print(doomsday_clock.month());
+  Serial.print("/");
+  Serial.print(doomsday_clock.day());
+  Serial.print(" ");
+  Serial.print(doomsday_clock.hours());
+  Serial.print(":");
+  Serial.print(doomsday_clock.minutes());
+  Serial.print(":");
+  Serial.println(doomsday_clock.seconds());
+  Serial.println();
 delay(1000);
 }

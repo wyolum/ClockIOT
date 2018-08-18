@@ -18,12 +18,12 @@ $Comp
 L ClockIOT:R R4
 U 1 1 5A4511A4
 P 1375 1550
-F 0 "R4" H 1400 1400 40  0000 L CNN
+F 0 "R4" H 1250 1700 40  0000 L CNN
 F 1 "1k" V 1375 1475 40  0000 L CNN
 F 2 "ClockIOT_libs:r_0805" V 1305 1550 30  0001 C CNN
 F 3 "" H 1375 1550 30  0000 C CNN
 	1    1375 1550
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:AP1117-15 U131
@@ -160,7 +160,7 @@ U 1 1 5A73BE05
 P 1475 4000
 F 0 "P1" H 1527 4148 40  0000 C CNB
 F 1 "USB_micro" H 1527 4073 40  0000 C CNB
-F 2 "ClockIOT_libs:USB_Micro-B_Molex-105017-0001" H 1475 4000 60  0001 C CNN
+F 2 "ClockIOT_libs:USB_Micro-B_seeed-320010561" H 1475 4000 60  0001 C CNN
 F 3 "" H 1475 4050 60  0000 C CNN
 	1    1475 4000
 	1    0    0    -1  
@@ -313,13 +313,13 @@ $Comp
 L ClockIOT:R R22
 U 1 1 5A453081
 P 6225 4350
-F 0 "R22" V 6175 4175 40  0000 C CNN
+F 0 "R22" V 6275 4525 40  0000 C CNN
 F 1 "470R" V 6225 4350 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" V 6155 4350 30  0001 C CNN
 F 3 "" H 6225 4350 30  0000 C CNN
 F 4 "Value" H 6225 4350 50  0001 C CNN "manf#"
 	1    6225 4350
-	0    1    1    0   
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	6375 4350 6725 4350
@@ -478,7 +478,7 @@ F 2 "ClockIOT_libs:r_0805" V 9180 1350 30  0001 C CNN
 F 3 "" H 9250 1350 30  0000 C CNN
 F 4 "Value" H 9250 1350 50  0001 C CNN "manf#"
 	1    9250 1350
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:C_NP C20
@@ -498,11 +498,11 @@ U 1 1 5A45898C
 P 9575 1750
 F 0 "S3" V 9525 1975 40  0000 C CNB
 F 1 "SW-EN" V 9625 2050 40  0000 C CNB
-F 2 "ClockIOT_libs:SW_SMD" H 9575 1750 60  0001 C CNN
+F 2 "ClockIOT_libs:SW_SMD_311020004" H 9575 1750 60  0001 C CNN
 F 3 "" H 9575 1750 60  0000 C CNN
 F 4 "Value" H 9575 1750 50  0001 C CNN "manf#"
 	1    9575 1750
-	0    1    1    0   
+	0    1    -1   0   
 $EndComp
 Wire Wire Line
 	9250 1100 9250 1200
@@ -543,7 +543,7 @@ F 2 "ClockIOT_libs:r_0805" V 9180 2750 30  0001 C CNN
 F 3 "" H 9250 2750 30  0000 C CNN
 F 4 "Value" H 9250 2750 50  0001 C CNN "manf#"
 	1    9250 2750
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:C_NP C21
@@ -555,7 +555,7 @@ F 2 "ClockIOT_libs:c_0805" H 9250 3150 60  0001 C CNN
 F 3 "" H 9250 3150 60  0000 C CNN
 F 4 "Value" H 9250 3150 50  0001 C CNN "manf#"
 	1    9250 3150
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L ClockIOT:SW-SPST-M S4
@@ -563,11 +563,11 @@ U 1 1 5A4599D8
 P 9575 3150
 F 0 "S4" V 9525 3375 40  0000 C CNB
 F 1 "SW-BOOT" V 9650 3475 40  0000 C CNB
-F 2 "ClockIOT_libs:SW_SMD" H 9575 3150 60  0001 C CNN
+F 2 "ClockIOT_libs:SW_SMD_311020004" H 9575 3150 60  0001 C CNN
 F 3 "" H 9575 3150 60  0000 C CNN
 F 4 "Value" H 9575 3150 50  0001 C CNN "manf#"
 	1    9575 3150
-	0    1    1    0   
+	0    1    -1   0   
 $EndComp
 Wire Wire Line
 	9250 2500 9250 2600
@@ -769,7 +769,7 @@ L ClockIOT:Diode_TVS D1
 U 1 1 5AFE0C2C
 P 2275 5100
 F 0 "D1" H 2500 5000 50  0000 L CNN
-F 1 "RClamp0854P.TCT" H 2200 4900 50  0000 L CNN
+F 1 "PRTR5V0U2X" H 2200 4900 50  0000 L CNN
 F 2 "ClockIOT_libs:SOT-143" H 2275 5100 50  0001 C CNN
 F 3 "" H 2275 5100 50  0001 C CNN
 	1    2275 5100
@@ -808,7 +808,7 @@ F 1 "330E" H 2450 4100 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" H 2450 4000 60  0001 C CNN
 F 3 "" H 2415 4090 60  0000 C CNN
 	1    2450 4000
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	2175 4000 2250 4000
@@ -823,7 +823,7 @@ F 1 "330E" V 1275 5250 40  0000 C CNN
 F 2 "ClockIOT_libs:r_0805" H 1325 5100 60  0001 C CNN
 F 3 "" H 1290 5190 60  0000 C CNN
 	1    1325 5100
-	0    1    1    0   
+	0    1    -1   0   
 $EndComp
 Wire Wire Line
 	1325 4700 1325 4900

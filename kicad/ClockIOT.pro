@@ -32,7 +32,6 @@ version=1
 version=1
 LibDir=
 [eeschema/libraries]
-LibName1=KlokTHREEjr_libs/KlokTHREEjr
 [schematic_editor]
 version=1
 PageLayoutDescrFile=

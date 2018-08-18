@@ -1,35 +1,11 @@
-Cmp-Mod V01 Created by PcbNew   date = Sat Jun  2 21:20:03 2018
+Cmp-Mod V01 Created by PcbNew   date = Mon Jun 25 19:25:45 2018
 
 BeginCmp
-TimeStamp = 5AAE46CF
-Path = /5A452227/5AB0DB2F
-Reference = L2;
-ValeurCmp = 330E;
-IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CCD0
-Path = /5A447BD8/5A448957
-Reference = BT1;
-ValeurCmp = Batt_RTC;
-IdModule  = ClockIOT_libs:CR2032_SMD2;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A5BEB18
-Path = /5A6352DB
-Reference = LDR1;
-ValeurCmp = LDR;
-IdModule  = ClockIOT_libs:r_0805_ldr_2;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A592197
-Path = /5A63595F
-Reference = LDR2;
-ValeurCmp = LDR;
-IdModule  = ClockIOT_libs:r_0805_ldr_2;
+TimeStamp = 5AA3A018
+Path = /5A452227/5A73BE05
+Reference = P1;
+ValeurCmp = USB_micro;
+IdModule  = ClockIOT_libs:USB_Micro-B_seeed-320010561;
 EndCmp
 
 BeginCmp
@@ -37,15 +13,55 @@ TimeStamp = 5AA3CD87
 Path = /5A6C34AE
 Reference = S5;
 ValeurCmp = SW-DEC;
-IdModule  = ClockIOT_libs:SW_SMD;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CE66
-Path = /5A452227/5A6251BF
-Reference = C17;
-ValeurCmp = 10uF/25V;
-IdModule  = ClockIOT_libs:c_2917;
+TimeStamp = 5AA3FAB3
+Path = /5A6C3C89
+Reference = S6;
+ValeurCmp = SW-MODE;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3FA1E
+Path = /5A452227/5A4599D8
+Reference = S4;
+ValeurCmp = SW-BOOT;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCF6
+Path = /5A47F385
+Reference = S2;
+ValeurCmp = SW-INC;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCA4
+Path = /5A452227/5A45898C
+Reference = S3;
+ValeurCmp = SW-EN;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA39F67
+Path = /5A47F37F
+Reference = S1;
+ValeurCmp = SW-ENTER;
+IdModule  = ClockIOT_libs:SW_SMD_311020004;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCD0
+Path = /5A447BD8/5A448957
+Reference = BT1;
+ValeurCmp = Batt_RTC;
+IdModule  = ClockIOT_libs:CR2032_SMD_SKST-2007D;
 EndCmp
 
 BeginCmp
@@ -57,43 +73,227 @@ IdModule  = ClockIOT_libs:SOT-143;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3A018
-Path = /5A452227/5A73BE05
-Reference = P1;
-ValeurCmp = USB_micro;
-IdModule  = ClockIOT_libs:USB_Micro-B_Molex-105017-0001;
+TimeStamp = 5A9A8179
+Path = /54254DE3/5A935F10
+Reference = C12;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3FAC3
-Path = /5A47432D/5A4A8811
-Reference = HB47;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+TimeStamp = 5A9A8147
+Path = /542543F9/5A8F08D6
+Reference = C7;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3FAB3
-Path = /5A6C3C89
-Reference = S6;
-ValeurCmp = SW-MODE;
-IdModule  = ClockIOT_libs:SW_SMD;
+TimeStamp = 5A9A8151
+Path = /542543F9/5A8F0986
+Reference = C8;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3FA87
-Path = /5A7E92E4
-Reference = C27;
-ValeurCmp = 100uF/6V3;
-IdModule  = ClockIOT_libs:c_2917;
+TimeStamp = 5AA3CD61
+Path = /5A452227/5A4520AD
+Reference = C24;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3FA4F
-Path = /5A452227/5A738B9C
-Reference = U132;
-ValeurCmp = CP2102N-A01-GQFN28;
-IdModule  = ClockIOT_libs:QFN-28-1EP_5x5mm_Pitch0.5mm;
+TimeStamp = 5B1EA613
+Path = /5A8D7B2E
+Reference = C31;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CE5D
+Path = /5A447BD8/5A613CC0
+Reference = C22;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CDA0
+Path = /5A7E9733
+Reference = C28;
+ValeurCmp = 1uF/10V;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CD97
+Path = /5A452227/5A452201
+Reference = C26;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CD3B
+Path = /5A452227/5A4599D2
+Reference = C21;
+ValeurCmp = 1nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CD32
+Path = /5A452227/5A4588F3
+Reference = C20;
+ValeurCmp = 1nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0D7
+Path = /5A8D713D
+Reference = C29;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5B1EDA0A
+Path = /5A8D9740
+Reference = C30;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA39F77
+Path = /5A452227/5A4583E7
+Reference = C19;
+ValeurCmp = 1nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A815B
+Path = /54254DD3/5A913773
+Reference = C9;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EC037
+Path = /542543F1/5A8CE18F
+Reference = C6;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A810B
+Path = /511688A7/5118AB57
+Reference = C1;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A8115
+Path = /511688A7/5A48F6EA
+Reference = C2;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A811F
+Path = /54253F7B/5A8AB436
+Reference = C3;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A8129
+Path = /54253F7B/5A8B903C
+Reference = C4;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A8133
+Path = /542543F1/5A8CE0F0
+Reference = C5;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A8165
+Path = /54254DD3/5A9138EF
+Reference = C10;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A816F
+Path = /54254DE3/5A935E60
+Reference = C11;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A8183
+Path = /54254DF1/5A96AC0D
+Reference = C13;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A818D
+Path = /54254DF1/5A9522A9
+Reference = C14;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A9A8197
+Path = /54254DF9/51168961
+Reference = C15;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBEE9
+Path = /54254DF9/5A47014C
+Reference = C16;
+ValeurCmp = 100nF;
+IdModule  = ClockIOT_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5B2045EF
+Path = /5A447BD8/5A44894F
+Reference = R9;
+ValeurCmp = 4K7;
+IdModule  = ClockIOT_libs:r_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AAE46CF
+Path = /5A452227/5AB0DB2F
+Reference = L2;
+ValeurCmp = 330E;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
@@ -113,62 +313,6 @@ IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3FA2E
-Path = /5A8D7B2E
-Reference = C31;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3FA1E
-Path = /5A452227/5A4599D8
-Reference = S4;
-ValeurCmp = SW-BOOT;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3FA17
-Path = /5A47432D/5A4A80D0
-Reference = HB45;
-ValeurCmp = mtg_hole_3mm_small;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3FA10
-Path = /5A47432D/5A4A8341
-Reference = HB46;
-ValeurCmp = mtg_hole_3mm_small;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AC2881E
-Path = /5A4DA853
-Reference = G1;
-ValeurCmp = LOGO_WL;
-IdModule  = ClockIOT_libs:Logo-WL3;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AAE0EFF
-Path = /5A452227/5A6254D5
-Reference = C18;
-ValeurCmp = 22uF/25V;
-IdModule  = ClockIOT_libs:c_2917;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CE5D
-Path = /5A447BD8/5A613CC0
-Reference = C22;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
 TimeStamp = 5AA3CE51
 Path = /5A47F369
 Reference = R11;
@@ -182,22 +326,6 @@ Path = /5A47F363
 Reference = R10;
 ValeurCmp = 10k;
 IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CE39
-Path = /5A447BD8/5A44894F
-Reference = R9;
-ValeurCmp = 4K7;
-IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CE1E
-Path = /5A452227/5A4518D4
-Reference = U131;
-ValeurCmp = 1117-33;
-IdModule  = ClockIOT_libs:SOT-223-3_TabPin2;
 EndCmp
 
 BeginCmp
@@ -265,70 +393,6 @@ IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CDA9
-Path = /5A452227/5A602C3C
-Reference = Q1;
-ValeurCmp = DDC114TU;
-IdModule  = ClockIOT_libs:SOT-363_SC-70-6;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CDA0
-Path = /5A7E9733
-Reference = C28;
-ValeurCmp = 1uF/10V;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD97
-Path = /5A452227/5A452201
-Reference = C26;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD6A
-Path = /5A452227/5A45212F
-Reference = C25;
-ValeurCmp = 10uF/25V;
-IdModule  = ClockIOT_libs:c_2917;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD61
-Path = /5A452227/5A4520AD
-Reference = C24;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD44
-Path = /5A452227/5A451EDF
-Reference = C23;
-ValeurCmp = 10uF/25V;
-IdModule  = ClockIOT_libs:c_2917;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD3B
-Path = /5A452227/5A4599D2
-Reference = C21;
-ValeurCmp = 1nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3CD32
-Path = /5A452227/5A4588F3
-Reference = C20;
-ValeurCmp = 1nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
 TimeStamp = 5AA3CD26
 Path = /5A447BD8/5A448924
 Reference = R8;
@@ -353,195 +417,59 @@ IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CD06
-Path = /5A447BD8/5A48EA43
-Reference = TP1;
-ValeurCmp = ~RST;
-IdModule  = ClockIOT_libs:BreakOutPad;
+TimeStamp = 5AA39F80
+Path = /5A452227/5A4534CF
+Reference = R21;
+ValeurCmp = 0R;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CCF6
-Path = /5A47F385
-Reference = S2;
-ValeurCmp = SW-INC;
-IdModule  = ClockIOT_libs:SW_SMD;
+TimeStamp = 5A9AAFCF
+Path = /542DD0E5
+Reference = R1;
+ValeurCmp = 470R;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CCE7
-Path = /5A47432D/5A4A8818
-Reference = HB48;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+TimeStamp = 5A9AAFDC
+Path = /5A71F25C
+Reference = R2;
+ValeurCmp = 470R;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3F172
-Path = /5A447BD8/5A448948
-Reference = U130;
-ValeurCmp = DS3231N;
-IdModule  = ClockIOT_libs:DS3231;
+TimeStamp = 5A9AB05E
+Path = /54C265D8
+Reference = R12;
+ValeurCmp = 10k;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CCA4
-Path = /5A452227/5A45898C
-Reference = S3;
-ValeurCmp = SW-EN;
-IdModule  = ClockIOT_libs:SW_SMD;
+TimeStamp = 5A9AB06B
+Path = /54C28558
+Reference = R13;
+ValeurCmp = 10k;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CC9F
-Path = /5A47432D/5A48730D
-Reference = J8;
-ValeurCmp = GND;
-IdModule  = ClockIOT_libs:1pin;
+TimeStamp = 5AE6A3F9
+Path = /5A452227/5AFF9108
+Reference = L1;
+ValeurCmp = 330E;
+IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA3CC9A
-Path = /5A47432D/5A487307
-Reference = J7;
-ValeurCmp = 5V;
-IdModule  = ClockIOT_libs:1pin;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A131
-Path = /5A63C3B0
-Reference = J23;
-ValeurCmp = GND;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A129
-Path = /5A63BDD4
-Reference = J22;
-ValeurCmp = RST;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A121
-Path = /5A63C933
-Reference = J21;
-ValeurCmp = MOSI;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0F8
-Path = /5A590BB3
-Reference = J20;
-ValeurCmp = SPI;
-IdModule  = ClockIOT_libs:Header_ISP;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0F0
-Path = /5A63BBF7
-Reference = J19;
-ValeurCmp = SCK;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0E8
-Path = /5A63CDCD
-Reference = J18;
-ValeurCmp = 3V3;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0E0
-Path = /5A6285C8
-Reference = J17;
-ValeurCmp = MISO;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0D7
-Path = /5A8D713D
-Reference = C29;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0CF
-Path = /5A447BD8/5A95B721
-Reference = TP3;
-ValeurCmp = 32kHz;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0C7
-Path = /5A447BD8/5A95B66E
-Reference = TP2;
-ValeurCmp = SQR;
-IdModule  = ClockIOT_libs:BreakOutPad;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A0A0
-Path = /5A7E9B9A
-Reference = J25;
-ValeurCmp = I2C_ext2;
-IdModule  = ClockIOT_libs:Header_4x1;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A079
-Path = /5A79A9A1
-Reference = J24;
-ValeurCmp = I2C_ext1;
-IdModule  = ClockIOT_libs:Header_4x1;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A070
-Path = /5A8D9740
-Reference = C30;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A06C
-Path = /5A4DB491
-Reference = G3;
-ValeurCmp = OSHW;
-IdModule  = ClockIOT_libs:OSHW_6mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A058
-Path = /5A5061ED
-Reference = G2;
-ValeurCmp = KiCad;
-IdModule  = ClockIOT_libs:KiCad-Logo2_6mm_SilkScreen;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA3A004
-Path = /5A47432D/5A486E6A
-Reference = J2;
-ValeurCmp = DAT_IN;
-IdModule  = ClockIOT_libs:1pin;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA39FFF
-Path = /5A47432D/5A4866AD
-Reference = J1;
-ValeurCmp = CLK_IN;
-IdModule  = ClockIOT_libs:1pin;
+TimeStamp = 5AA3CE1E
+Path = /5A452227/5A4518D4
+Reference = U131;
+ValeurCmp = 1117-33;
+IdModule  = ClockIOT_libs:SOT-223-3_TabPin2;
 EndCmp
 
 BeginCmp
@@ -553,38 +481,6 @@ IdModule  = ClockIOT_libs:R_0402;
 EndCmp
 
 BeginCmp
-TimeStamp = 5AA39F8C
-Path = /5A41BC22
-Reference = U129;
-ValeurCmp = ESP-wroom-32;
-IdModule  = ClockIOT_libs:esp_wroom_32;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA39F80
-Path = /5A452227/5A4534CF
-Reference = R21;
-ValeurCmp = 0R;
-IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA39F77
-Path = /5A452227/5A4583E7
-Reference = C19;
-ValeurCmp = 1nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AA39F67
-Path = /5A47F37F
-Reference = S1;
-ValeurCmp = SW-ENTER;
-IdModule  = ClockIOT_libs:SW_SMD;
-EndCmp
-
-BeginCmp
 TimeStamp = 5AA39F5F
 Path = /5A452227/5A6340FA
 Reference = D2;
@@ -593,27 +489,59 @@ IdModule  = ClockIOT_libs:LED-0805;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A9A815B
-Path = /54254DD3/5A913773
-Reference = C9;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
+TimeStamp = 5A99764A
+Path = /54254DF9/5A47016C
+Reference = U123;
+ValeurCmp = APA102;
+IdModule  = ClockIOT_libs:APA102;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A4EC037
-Path = /542543F1/5A8CE18F
-Reference = C6;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
+TimeStamp = 5A5222ED
+Path = /5A47432D/5A736F40
+Reference = HB54;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A9A810B
-Path = /511688A7/5118AB57
-Reference = C1;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
+TimeStamp = 5A5222E7
+Path = /5A47432D/5A736F39
+Reference = HB53;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A491B1B
+Path = /5A47432D/5A736F32
+Reference = HB52;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A491B00
+Path = /5A47432D/5A736F2B
+Reference = HB51;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3FAC3
+Path = /5A47432D/5A4A8811
+Reference = HB47;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CCE7
+Path = /5A47432D/5A4A8818
+Reference = HB48;
+ValeurCmp = mtg_hole_3mm;
+IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
 EndCmp
 
 BeginCmp
@@ -633,67 +561,371 @@ IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A491B00
-Path = /5A47432D/5A736F2B
-Reference = HB51;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+TimeStamp = 5AA39F8C
+Path = /5A41BC22
+Reference = U129;
+ValeurCmp = ESP-wroom-32;
+IdModule  = ClockIOT_libs:esp_wroom_32;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A491B1B
-Path = /5A47432D/5A736F32
-Reference = HB52;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+TimeStamp = 5A4EBBD8
+Path = /5A47432D/5A477952
+Reference = HB44;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A5222E7
-Path = /5A47432D/5A736F39
-Reference = HB53;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+TimeStamp = 5A4EBBD3
+Path = /5A47432D/5A47794B
+Reference = HB43;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A5222ED
-Path = /5A47432D/5A736F40
-Reference = HB54;
-ValeurCmp = mtg_hole_3mm;
-IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3_Pad_Via;
+TimeStamp = 5A4EBBCE
+Path = /5A47432D/5A477944
+Reference = HB42;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A51D9F1
-Path = /5A47432D/5A4877A0
-Reference = J9;
-ValeurCmp = CLK_IN;
-IdModule  = ClockIOT_libs:1pin;
+TimeStamp = 5A4EBBC9
+Path = /5A47432D/5A47793D
+Reference = HB41;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A51D9F7
-Path = /5A47432D/5A4877A6
-Reference = J10;
-ValeurCmp = DAT_IN;
-IdModule  = ClockIOT_libs:1pin;
+TimeStamp = 5A4EBBC4
+Path = /5A47432D/5A477936
+Reference = HB40;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A51DA15
-Path = /5A47432D/5A4877C4
-Reference = J15;
-ValeurCmp = 5V;
-IdModule  = ClockIOT_libs:1pin;
+TimeStamp = 5A4EBBBF
+Path = /5A47432D/5A47792F
+Reference = HB39;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A51DA1B
-Path = /5A47432D/5A4877CA
-Reference = J16;
-ValeurCmp = GND;
-IdModule  = ClockIOT_libs:1pin;
+TimeStamp = 5A4EBBBA
+Path = /5A47432D/5A477928
+Reference = HB38;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBBB5
+Path = /5A47432D/5A477921
+Reference = HB37;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBBB0
+Path = /5A47432D/5A47791A
+Reference = HB36;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBBAB
+Path = /5A47432D/5A477913
+Reference = HB35;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBBA6
+Path = /5A47432D/5A47790C
+Reference = HB34;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBBA1
+Path = /5A47432D/5A477905
+Reference = HB33;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB9C
+Path = /5A47432D/5A4778FE
+Reference = HB32;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB97
+Path = /5A47432D/5A4778F7
+Reference = HB31;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB92
+Path = /5A47432D/5A47738C
+Reference = HB30;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB8D
+Path = /5A47432D/5A477385
+Reference = HB29;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB88
+Path = /5A47432D/5A47737E
+Reference = HB28;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB83
+Path = /5A47432D/5A477377
+Reference = HB27;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB7E
+Path = /5A47432D/5A477370
+Reference = HB26;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB79
+Path = /5A47432D/5A477369
+Reference = HB25;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB74
+Path = /5A47432D/5A477362
+Reference = HB24;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB6F
+Path = /5A47432D/5A47735B
+Reference = HB23;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB6A
+Path = /5A47432D/5A477354
+Reference = HB22;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB65
+Path = /5A47432D/5A47734D
+Reference = HB21;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB60
+Path = /5A47432D/5A477346
+Reference = HB20;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB5B
+Path = /5A47432D/5A47733F
+Reference = HB19;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB56
+Path = /5A47432D/5A477338
+Reference = HB18;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB51
+Path = /5A47432D/5A477331
+Reference = HB17;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB4C
+Path = /5A47432D/5A47732A
+Reference = HB16;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB47
+Path = /5A47432D/5A475438
+Reference = HB15;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB42
+Path = /5A47432D/5A475431
+Reference = HB14;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB3D
+Path = /5A47432D/5A47542A
+Reference = HB13;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB38
+Path = /5A47432D/5A475423
+Reference = HB12;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB33
+Path = /5A47432D/5A47541C
+Reference = HB11;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB2E
+Path = /5A47432D/5A475415
+Reference = HB10;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB29
+Path = /5A47432D/5A47540E
+Reference = HB9;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB24
+Path = /5A47432D/5A4747CF
+Reference = HB8;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB1F
+Path = /5A47432D/5A4747C8
+Reference = HB7;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB1A
+Path = /5A47432D/5A4747C1
+Reference = HB6;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB15
+Path = /5A47432D/5A4747BA
+Reference = HB5;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB10
+Path = /5A47432D/5A474670
+Reference = HB4;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB0B
+Path = /5A47432D/5A474623
+Reference = HB3;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB06
+Path = /5A47432D/5A474601
+Reference = HB2;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A4EBB01
+Path = /5A47432D/5A474511
+Reference = HB1;
+ValeurCmp = hole_baffle;
+IdModule  = ClockIOT_libs:hole_baffle_2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A619AB6
+Path = /5A479D4B
+Reference = P2;
+ValeurCmp = OUT_CLK_DAT;
+IdModule  = ClockIOT_libs:Pin_Header_Straight_1x02;
 EndCmp
 
 BeginCmp
@@ -761,11 +993,275 @@ IdModule  = ClockIOT_libs:mouse-bite-2.54mm-slot_OSH;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A619AB6
-Path = /5A479D4B
-Reference = P2;
-ValeurCmp = OUT_CLK_DAT;
-IdModule  = ClockIOT_libs:Pin_Header_Straight_1x02;
+TimeStamp = 5AA3A058
+Path = /5A5061ED
+Reference = G2;
+ValeurCmp = KiCad;
+IdModule  = ClockIOT_libs:KiCad-Logo2_6mm_SilkScreen;
+EndCmp
+
+BeginCmp
+TimeStamp = 5ACE5D66
+Path = /5A452227/5AA75FE2
+Reference = G8;
+ValeurCmp = KiCad;
+IdModule  = ClockIOT_libs:KiCad-Logo2_6mm_SilkScreen;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A06C
+Path = /5A4DB491
+Reference = G3;
+ValeurCmp = OSHW;
+IdModule  = ClockIOT_libs:OSHW_6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5ACE5D4A
+Path = /5A452227/5AA76142
+Reference = G9;
+ValeurCmp = OSHW;
+IdModule  = ClockIOT_libs:OSHW_6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0A0
+Path = /5A7E9B9A
+Reference = J25;
+ValeurCmp = I2C_ext2;
+IdModule  = ClockIOT_libs:Header_4x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A079
+Path = /5A79A9A1
+Reference = J24;
+ValeurCmp = I2C_ext1;
+IdModule  = ClockIOT_libs:Header_4x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0F8
+Path = /5A590BB3
+Reference = J20;
+ValeurCmp = SPI;
+IdModule  = ClockIOT_libs:Header_ISP;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CC9F
+Path = /5A47432D/5A48730D
+Reference = J8;
+ValeurCmp = GND;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CC9A
+Path = /5A47432D/5A487307
+Reference = J7;
+ValeurCmp = 5V;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A004
+Path = /5A47432D/5A486E6A
+Reference = J2;
+ValeurCmp = DAT_IN;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA39FFF
+Path = /5A47432D/5A4866AD
+Reference = J1;
+ValeurCmp = CLK_IN;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A51D9F1
+Path = /5A47432D/5A4877A0
+Reference = J9;
+ValeurCmp = CLK_IN;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A51D9F7
+Path = /5A47432D/5A4877A6
+Reference = J10;
+ValeurCmp = DAT_IN;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A51DA15
+Path = /5A47432D/5A4877C4
+Reference = J15;
+ValeurCmp = 5V;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A51DA1B
+Path = /5A47432D/5A4877CA
+Reference = J16;
+ValeurCmp = GND;
+IdModule  = ClockIOT_libs:1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CD06
+Path = /5A447BD8/5A48EA43
+Reference = TP1;
+ValeurCmp = ~RST;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A131
+Path = /5A63C3B0
+Reference = J23;
+ValeurCmp = GND;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A129
+Path = /5A63BDD4
+Reference = J22;
+ValeurCmp = RST;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A121
+Path = /5A63C933
+Reference = J21;
+ValeurCmp = MOSI;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0F0
+Path = /5A63BBF7
+Reference = J19;
+ValeurCmp = SCK;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0E8
+Path = /5A63CDCD
+Reference = J18;
+ValeurCmp = 3V3;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0E0
+Path = /5A6285C8
+Reference = J17;
+ValeurCmp = MISO;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0CF
+Path = /5A447BD8/5A95B721
+Reference = TP3;
+ValeurCmp = 32kHz;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3A0C7
+Path = /5A447BD8/5A95B66E
+Reference = TP2;
+ValeurCmp = SQR;
+IdModule  = ClockIOT_libs:BreakOutPad;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AC2881E
+Path = /5A4DA853
+Reference = G1;
+ValeurCmp = LOGO_WL;
+IdModule  = ClockIOT_libs:Logo-WL3;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A94BFDD
+Path = /5A452227/5AA760BF
+Reference = G7;
+ValeurCmp = LOGO_WL;
+IdModule  = ClockIOT_libs:Logo-WL3;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A5BEB18
+Path = /5A6352DB
+Reference = LDR1;
+ValeurCmp = LDR;
+IdModule  = ClockIOT_libs:r_0805_ldr_2;
+EndCmp
+
+BeginCmp
+TimeStamp = 5A592197
+Path = /5A63595F
+Reference = LDR2;
+ValeurCmp = LDR;
+IdModule  = ClockIOT_libs:r_0805_ldr_2;
+EndCmp
+
+BeginCmp
+TimeStamp = 5B214AD0
+Path = /5A447BD8/5A448948
+Reference = U130;
+ValeurCmp = DS3231N;
+IdModule  = ClockIOT_libs:DS3231;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CE66
+Path = /5A452227/5A6251BF
+Reference = C17;
+ValeurCmp = 10uF/25V;
+IdModule  = ClockIOT_libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3FA87
+Path = /5A7E92E4
+Reference = C27;
+ValeurCmp = 100uF/6V3;
+IdModule  = ClockIOT_libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AAE0EFF
+Path = /5A452227/5A6254D5
+Reference = C18;
+ValeurCmp = 22uF/25V;
+IdModule  = ClockIOT_libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = 5B139E7F
+Path = /5A452227/5A45212F
+Reference = C25;
+ValeurCmp = 10uF/25V;
+IdModule  = ClockIOT_libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = 5AA3CD44
+Path = /5A452227/5A451EDF
+Reference = C23;
+ValeurCmp = 10uF/25V;
+IdModule  = ClockIOT_libs:c_2917;
 EndCmp
 
 BeginCmp
@@ -774,38 +1270,6 @@ Path = /54254DF9/5A470188
 Reference = U127;
 ValeurCmp = APA102;
 IdModule  = ClockIOT_libs:APA102;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9AAFCF
-Path = /542DD0E5
-Reference = R1;
-ValeurCmp = 470R;
-IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9AAFDC
-Path = /5A71F25C
-Reference = R2;
-ValeurCmp = 470R;
-IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9AB05E
-Path = /54C265D8
-Reference = R12;
-ValeurCmp = 10k;
-IdModule  = ClockIOT_libs:r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9AB06B
-Path = /54C28558
-Reference = R13;
-ValeurCmp = 10k;
-IdModule  = ClockIOT_libs:r_0805;
 EndCmp
 
 BeginCmp
@@ -1777,14 +2241,6 @@ IdModule  = ClockIOT_libs:APA102;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A99764A
-Path = /54254DF9/5A47016C
-Reference = U123;
-ValeurCmp = APA102;
-IdModule  = ClockIOT_libs:APA102;
-EndCmp
-
-BeginCmp
 TimeStamp = 5A9A02E7
 Path = /54254DF9/5A470173
 Reference = U124;
@@ -1825,491 +2281,35 @@ IdModule  = ClockIOT_libs:APA102;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A4EBBD8
-Path = /5A47432D/5A477952
-Reference = HB44;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
+TimeStamp = 5B139709
+Path = /5A452227/5A602C3C
+Reference = Q1;
+ValeurCmp = DDC114TU;
+IdModule  = ClockIOT_libs:SOT-363_SC-70-6;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A4EBBD3
-Path = /5A47432D/5A47794B
-Reference = HB43;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
+TimeStamp = 5AA3FA4F
+Path = /5A452227/5A738B9C
+Reference = U132;
+ValeurCmp = CP2102N-A01-GQFN28;
+IdModule  = ClockIOT_libs:QFN-28-1EP_5x5mm_Pitch0.5mm;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A4EBBCE
-Path = /5A47432D/5A477944
-Reference = HB42;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
+TimeStamp = 5AA3FA17
+Path = /5A47432D/5A4A80D0
+Reference = HB45;
+ValeurCmp = mtg_hole_3mm_small;
+IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3;
 EndCmp
 
 BeginCmp
-TimeStamp = 5A4EBBC9
-Path = /5A47432D/5A47793D
-Reference = HB41;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBC4
-Path = /5A47432D/5A477936
-Reference = HB40;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBBF
-Path = /5A47432D/5A47792F
-Reference = HB39;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBBA
-Path = /5A47432D/5A477928
-Reference = HB38;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBB5
-Path = /5A47432D/5A477921
-Reference = HB37;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBB0
-Path = /5A47432D/5A47791A
-Reference = HB36;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBAB
-Path = /5A47432D/5A477913
-Reference = HB35;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBA6
-Path = /5A47432D/5A47790C
-Reference = HB34;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBBA1
-Path = /5A47432D/5A477905
-Reference = HB33;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB9C
-Path = /5A47432D/5A4778FE
-Reference = HB32;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB97
-Path = /5A47432D/5A4778F7
-Reference = HB31;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB92
-Path = /5A47432D/5A47738C
-Reference = HB30;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB8D
-Path = /5A47432D/5A477385
-Reference = HB29;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB88
-Path = /5A47432D/5A47737E
-Reference = HB28;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB83
-Path = /5A47432D/5A477377
-Reference = HB27;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB7E
-Path = /5A47432D/5A477370
-Reference = HB26;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB79
-Path = /5A47432D/5A477369
-Reference = HB25;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB74
-Path = /5A47432D/5A477362
-Reference = HB24;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB6F
-Path = /5A47432D/5A47735B
-Reference = HB23;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB6A
-Path = /5A47432D/5A477354
-Reference = HB22;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB65
-Path = /5A47432D/5A47734D
-Reference = HB21;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB60
-Path = /5A47432D/5A477346
-Reference = HB20;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB5B
-Path = /5A47432D/5A47733F
-Reference = HB19;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB56
-Path = /5A47432D/5A477338
-Reference = HB18;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB51
-Path = /5A47432D/5A477331
-Reference = HB17;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB4C
-Path = /5A47432D/5A47732A
-Reference = HB16;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB47
-Path = /5A47432D/5A475438
-Reference = HB15;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB42
-Path = /5A47432D/5A475431
-Reference = HB14;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB3D
-Path = /5A47432D/5A47542A
-Reference = HB13;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB38
-Path = /5A47432D/5A475423
-Reference = HB12;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB33
-Path = /5A47432D/5A47541C
-Reference = HB11;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB2E
-Path = /5A47432D/5A475415
-Reference = HB10;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB29
-Path = /5A47432D/5A47540E
-Reference = HB9;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB24
-Path = /5A47432D/5A4747CF
-Reference = HB8;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB1F
-Path = /5A47432D/5A4747C8
-Reference = HB7;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB1A
-Path = /5A47432D/5A4747C1
-Reference = HB6;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB15
-Path = /5A47432D/5A4747BA
-Reference = HB5;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB10
-Path = /5A47432D/5A474670
-Reference = HB4;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB0B
-Path = /5A47432D/5A474623
-Reference = HB3;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB06
-Path = /5A47432D/5A474601
-Reference = HB2;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBB01
-Path = /5A47432D/5A474511
-Reference = HB1;
-ValeurCmp = hole_baffle;
-IdModule  = ClockIOT_libs:hole_baffle_2mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8115
-Path = /511688A7/5A48F6EA
-Reference = C2;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A811F
-Path = /54253F7B/5A8AB436
-Reference = C3;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8129
-Path = /54253F7B/5A8B903C
-Reference = C4;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8133
-Path = /542543F1/5A8CE0F0
-Reference = C5;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8147
-Path = /542543F9/5A8F08D6
-Reference = C7;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8151
-Path = /542543F9/5A8F0986
-Reference = C8;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8165
-Path = /54254DD3/5A9138EF
-Reference = C10;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A816F
-Path = /54254DE3/5A935E60
-Reference = C11;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8179
-Path = /54254DE3/5A935F10
-Reference = C12;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8183
-Path = /54254DF1/5A96AC0D
-Reference = C13;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A818D
-Path = /54254DF1/5A9522A9
-Reference = C14;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A9A8197
-Path = /54254DF9/51168961
-Reference = C15;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A4EBEE9
-Path = /54254DF9/5A47014C
-Reference = C16;
-ValeurCmp = 100nF;
-IdModule  = ClockIOT_libs:c_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = 5A94BFDD
-Path = /5A452227/5AA760BF
-Reference = G7;
-ValeurCmp = LOGO_WL;
-IdModule  = ClockIOT_libs:Logo-WL3;
-EndCmp
-
-BeginCmp
-TimeStamp = 5ACE5D66
-Path = /5A452227/5AA75FE2
-Reference = G8;
-ValeurCmp = KiCad;
-IdModule  = ClockIOT_libs:KiCad-Logo2_6mm_SilkScreen;
-EndCmp
-
-BeginCmp
-TimeStamp = 5ACE5D4A
-Path = /5A452227/5AA76142
-Reference = G9;
-ValeurCmp = OSHW;
-IdModule  = ClockIOT_libs:OSHW_6mm;
-EndCmp
-
-BeginCmp
-TimeStamp = 5AE6A3F9
-Path = /5A452227/5AFF9108
-Reference = L1;
-ValeurCmp = 330E;
-IdModule  = ClockIOT_libs:r_0805;
+TimeStamp = 5AA3FA10
+Path = /5A47432D/5A4A8341
+Reference = HB46;
+ValeurCmp = mtg_hole_3mm_small;
+IdModule  = ClockIOT_libs:MountingHole_3.2mm_M3;
 EndCmp
 
 EndListe
