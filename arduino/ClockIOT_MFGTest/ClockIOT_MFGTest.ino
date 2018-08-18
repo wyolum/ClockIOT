@@ -9,7 +9,7 @@ RTC_DS3231 rtc;
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
-#define BRIGHTNESS 50
+#define BRIGHTNESS 20
 
 // Buttons
 #define SW_ENTER 17
