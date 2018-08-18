@@ -2,8 +2,8 @@
 <export version="D">
   <design>
     <source>/home/samata/projects-git/ClockIOT/kicad/ClockIOT.sch</source>
-    <date>Mon Jun 25 19:24:44 2018</date>
-    <tool>Eeschema 5.0.0-rc2-unknown-6d77e59~65~ubuntu16.04.1</tool>
+    <date>Fri Aug 17 11:02:03 2018</date>
+    <tool>Eeschema 5.0.0-fee4fd1~66~ubuntu16.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
         <title>ClockIOT</title>
@@ -2914,7 +2914,7 @@
       <tstamp>5AA760BF</tstamp>
     </comp>
     <comp ref="D1">
-      <value>RClamp0854P.TCT</value>
+      <value>PRTR5V0U2X</value>
       <footprint>ClockIOT_libs:SOT-143</footprint>
       <libsource lib="ClockIOT" part="Diode_TVS" description=""/>
       <sheetpath names="/esp_pwr_uart/" tstamps="/5A452227/"/>

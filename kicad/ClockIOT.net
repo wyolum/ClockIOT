@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /home/samata/projects-git/ClockIOT/kicad/ClockIOT.sch)
-    (date "Mon Jun 25 19:21:31 2018")
-    (tool "Eeschema 5.0.0-rc2-unknown-6d77e59~65~ubuntu16.04.1")
+    (date "Fri Aug 17 10:42:52 2018")
+    (tool "Eeschema 5.0.0-fee4fd1~66~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title ClockIOT)
@@ -2364,7 +2364,7 @@
       (sheetpath (names /esp_pwr_uart/) (tstamps /5A452227/))
       (tstamp 5AA760BF))
     (comp (ref D1)
-      (value RClamp0854P.TCT)
+      (value PRTR5V0U2X)
       (footprint ClockIOT_libs:SOT-143)
       (libsource (lib ClockIOT) (part Diode_TVS) (description ""))
       (sheetpath (names /esp_pwr_uart/) (tstamps /5A452227/))

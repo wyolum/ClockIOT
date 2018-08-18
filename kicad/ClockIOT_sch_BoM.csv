@@ -8,7 +8,7 @@ Reference Type, Quantity, Reference, Value, Footprint, Datasheet, manf#, Digikey
 "C","3","C17,C23,C25,","10uF/25V","ClockIOT_libs:c_2917",""
 "C","1","C18,","22uF/25V","ClockIOT_libs:c_2917",""
 "D","1","D2,","LED_PWR","ClockIOT_libs:LED-0805","","","","754-1264-ND","http://www.digikey.com/product-detail/en/WP7113ID/754-1264-ND/1747663","LED SS 5MM 625NM RED DIFF","2V, 10mA","Round with Domed Top, 5mm, T-1 3/4","Kingbright Corp","WP7113ID","Digikey"
-"D","1","D1,","RClamp0854P.TCT","ClockIOT_libs:SOT-143",""
+"D","1","D1,","PRTR5V0U2X","ClockIOT_libs:SOT-143",""
 "G","2","G2,G8,","KiCad","ClockIOT_libs:KiCad-Logo2_6mm_SilkScreen","","Value","","","","","","","","",""
 "G","2","G1,G7,","LOGO_WL","ClockIOT_libs:Logo-WL3","","Value","","","","","","","","",""
 "G","2","G3,G9,","OSHW","ClockIOT_libs:OSHW_6mm","","Value","","","","","","","","",""
