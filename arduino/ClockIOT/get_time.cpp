@@ -4,9 +4,6 @@
 bool Clock::isCurrent(){
   return true;
 }
-bool Clock::set(uint32_t t){
-  return false;
-}
 int Clock::year(){
   return ::year(now());
 }
@@ -29,6 +26,9 @@ int Clock::seconds(){
 uint32_t current_time = 0;
 Clock::Clock(){
 }
+bool DummyClock::set(uint32_t t){
+  return false;
+}
 DummyClock::DummyClock(){
 }
 uint32_t DummyClock::now(){
@@ -37,10 +37,17 @@ uint32_t DummyClock::now(){
 
 NTPClock::NTPClock(){
 }
+bool NTPClock::set(uint32_t t){
+  return false;
+}
+
 void NTPClock::setup(NTPClient *_timeClient){
   this->timeClient = _timeClient;
-  this->timeClient->setTimeOffset(-240 * 60);
+  //this->timeClient->setTimeOffset(-240 * 60);
   this->timeClient->begin();
+}
+void NTPClock::setOffset(int32_t offset_seconds){
+  this->timeClient->setTimeOffset(offset_seconds);
 }
 
 bool NTPClock::update(){
@@ -75,6 +82,9 @@ void DoomsdayClock::setup(Clock *_master, Clock *_backup){
   this->master = _master;
   this->backup = _backup;
 }
+bool DoomsdayClock::set(uint32_t t){
+  return false;
+}
 
 uint32_t abs_diff(uint32_t left, uint32_t right){
   uint32_t out;
@@ -99,7 +109,11 @@ uint32_t DoomsdayClock::now(){
   if(master->isCurrent()){
     out = master->now();
     if(abs_diff(m, b) > tol_sec){
-      backup->set(master->now());
+      //Serial.print("SET THE BACKUP to ");
+      //Serial.println(master->now());
+      backup->set(m);
+      //Serial.print("got: ");
+      //Serial.println(backup->now());
     }
   }
   else{

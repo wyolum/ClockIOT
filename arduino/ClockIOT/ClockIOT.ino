@@ -2,11 +2,11 @@
 #include <Wire.h>
 #include <FastLED.h>
 #include <WiFiManager.h>
+#include <PubSubClient.h>
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
 #define ULTIM8x16
 #include <MatrixMaps.h>
-//#include <credentials.h>
 
 #include "klok.h"
 #include "textures.h"
@@ -36,17 +36,23 @@ bool mask[NUM_LEDS];
 bool wipe[NUM_LEDS];
 CRGB leds[NUM_LEDS];
 
-#define DATA_PIN     4
-#define CLK_PIN      16
+WiFiClient espClient;
+PubSubClient mqtt_client(espClient);
+
+//#define DATA_PIN     4
+//#define CLK_PIN      16
+#define DATA_PIN     MOSI
+#define CLK_PIN      SCK
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 
+uint32_t last_time;
+
 //********************************************************************************
 // Displays
 typedef void (*Init)();
-typedef void (*Background)();
-typedef void (*Transition)(uint16_t last_time_inc, uint16_t time_inc);
+typedef void (*DisplayTime)(uint32_t last_tm, uint32_t tm);
 
 NTPClock ntp_clock;
 DS3231Clock ds3231_clock;
@@ -59,34 +65,82 @@ Faceplate faceplates[] = {
   spanish_v1
 };
 uint8_t num_faceplates = 2;
+uint8_t faceplate_idx = 0;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
 Klok klok(faceplates[0], timeClient);
 
+void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b){
+  if(row >= MatrixHeight){
+  }
+  else if(col >= MatrixWidth){
+  }
+  else{
+    uint16_t pos = XY(col, row);
+    if(pos < NUM_LEDS){
+      mask[pos] = b;
+    }
+  }
+}
+
+void wipe_around(bool val){
+  float dtheta = 31.4 / 180;
+  float theta = -3.14 - dtheta;
+  int row, col;
+  bool tmp[NUM_LEDS];
+
+  int cx = random(0, MatrixWidth-1);
+  int cy = random(0, MatrixHeight-1);
+  cx = 8;
+  cy = 4;
+  
+  fillMask(wipe, !val);
+  while (theta < 3.14 + dtheta){
+    for(row=0; row < MatrixHeight; row++){
+      for(col=0; col < MatrixWidth; col++){
+	if(atan2(row - cy, col - cx) < theta){
+	  setPixelMask(wipe, row, col, val);
+	}
+      }
+    }
+    logical_or(NUM_LEDS, wipe, mask, tmp);
+    rainbow();
+    apply_mask(tmp);
+    FastLED.show();
+    theta += dtheta;
+    delay(10);
+  }
+  
+}
+
 typedef struct{
-  Init       init;
-  Background background;
-  Transition transition;
+  Init       init;           // called when display changes
+  DisplayTime display_time;  // called in main loop to update time display (if needed)
   String     name;
   int        id;
 } Display;
 
-typedef Display Displays[];
-
-void TheMatrix(uint16_t last_time_inc, uint16_t time_inc);
-void wipe_around(bool val){
+void Plain_init(){
+  blend_to_rainbow();
+  last_time = 0;
 }
-void wipe_around_transition(uint16_t last_time_inc, uint16_t time_inc);
-void word_drop(uint16_t last_time_inc, uint16_t time_inc);
-
-void next_time(uint16_t last_time_inc, uint16_t time_inc){
+void Plain_display_time(uint32_t last_tm, uint32_t tm){
+  fillMask(mask, OFF);
+  faceplates[faceplate_idx].maskTime(tm, mask);
+  rainbow();
+  apply_mask(mask);
 }
 
-Display PlainDisplay = {blend_to_rainbow, rainbow, next_time, String("Plain"), 0};
+Display *CurrentDisplay_p;
+Display PlainDisplay = {Plain_init, Plain_display_time, String("Plain"), 0};
+Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 1};
+Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 2};
+
+const uint8_t N_DISPLAY = 3;
+Display Displays[N_DISPLAY] = {PlainDisplay, WordDropDisplay, TheMatrixDisplay};
+
 /*
-Display WordDropDisplay = {blend_to_rainbow, rainbow, word_drop, String("Word Drop"), 1};
-Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 2};
-Display TheMatrixDisplay = {blend_to_blue, fill_blue, TheMatrix, String("The Matrix"), 3};
+Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 3};
 */
 
 //--------------------------------------------------------------------------------
@@ -151,6 +205,284 @@ void fill_blue(){
 void noop(){
 }
 
+void setWordMask(bool *mask, uint8_t* word, bool b){
+  // word = [row, col, len]
+  for(int i=0; i < word[2]; i++){
+    setPixelMask(mask, word[1], word[0] + i, b);
+  }
+}
+
+
+void WordDrop_init(){
+  last_time = 0;
+  uint32_t current_time = Now();
+  fillMask(mask, OFF);
+  faceplates[faceplate_idx].maskTime(current_time, mask);
+  blend_to_rainbow();
+  last_time = current_time;
+}
+
+void word_drop_in(uint16_t time_inc){
+  uint8_t bits;     // holds the on off state for 8 words at a time
+  uint8_t word[3];  // start columm, start row, length of the current word
+  bool tmp_mask[NUM_LEDS];
+  uint8_t tmp_word[3];
+  uint8_t n_byte_per_display = faceplates[faceplate_idx].displays[0];
+  
+  fillMask(mask, false);
+  fillMask(wipe, false);
+  fillMask(tmp_mask, false);
+  
+  for(uint8_t j = 0; j < n_byte_per_display; j++){ // j is a byte index 
+    // read the state for the next set of 8 words
+    bits = pgm_read_byte(faceplates[faceplate_idx].displays + 1 + (time_inc * n_byte_per_display) + j);
+    for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
+      if((bits >> k) & 1){                              // check to see if word is on or off
+	faceplates[faceplate_idx].getword(j * 8 + k, word);                       // if on, read location and length
+	tmp_word[0] = word[0];
+	tmp_word[1] = word[1];
+	tmp_word[2] = word[2];
+	for(int rr = 0; rr <= word[1]; rr++){
+	  tmp_word[1] = rr;
+	  setWordMask(wipe, tmp_word, true);
+	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
+	  rainbow();
+	  apply_mask(tmp_mask);
+	  FastLED.show();
+	  delay(25);
+	}
+	setWordMask(mask, word, true);
+	for(int rr = 0; rr < word[1]; rr++){
+	  tmp_word[1] = rr;
+	  setWordMask(wipe, tmp_word, false);
+	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
+	  
+	  rainbow();
+	  apply_mask(tmp_mask);
+	  FastLED.show();
+	  delay(25);
+	}
+      }
+    }
+  }
+}
+void word_drop_out(uint16_t time_inc){
+  uint8_t bits;     // holds the on off state for 8 words at a time
+  uint8_t word[3];  // start columm, start row, length of the current word
+  bool tmp_mask[NUM_LEDS];
+  uint8_t tmp_word[3];
+  uint8_t n_byte_per_display = faceplates[faceplate_idx].displays[0];
+  
+  //fillMask(mask, false);
+  //fillMask(wipe, false);
+  //fillMask(tmp_mask, false);
+  logical_copy(NUM_LEDS, mask, wipe);
+  logical_copy(NUM_LEDS, mask, tmp_mask);
+  
+  for(uint8_t j = 0; j < n_byte_per_display; j++){ // j is a byte index 
+    // read the state for the next set of 8 words
+    bits = pgm_read_byte(faceplates[faceplate_idx].displays + 1 + (time_inc * n_byte_per_display) + j);
+    for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
+      if((bits >> k) & 1){                              // check to see if word is on or off
+	faceplates[faceplate_idx].getword(j * 8 + k, word);                       // if on, read location and length
+	tmp_word[0] = word[0];
+	tmp_word[1] = word[1];
+	tmp_word[2] = word[2];
+	for(int rr = word[1]; rr <= 8; rr++){
+	  tmp_word[1] = rr;
+	  setWordMask(wipe, tmp_word, true);
+	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
+	  rainbow();
+	  apply_mask(tmp_mask);
+	  FastLED.show();
+	  delay(25);
+	}
+	setWordMask(mask, word, false);
+	for(int rr = word[1]; rr <= 8; rr++){
+	  tmp_word[1] = rr;
+	  setWordMask(wipe, tmp_word, false);
+	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
+	  
+	  rainbow();
+	  apply_mask(tmp_mask);
+	  FastLED.show();
+	  delay(25);
+	}
+      }
+    }
+  }
+}
+
+void word_drop(uint16_t last_time_inc, uint16_t time_inc){
+  bool tmp_d[NUM_LEDS];
+
+  rainbow();
+
+  // swipe rainbow from the left
+  //wipe_around(ON);
+  //delay(1000);
+  if(last_time_inc != 289){
+    word_drop_out(last_time_inc);
+  }
+  
+  // clear the new display
+  fillMask(tmp_d, false);
+  
+  // read display for next time incement
+  faceplates[faceplate_idx].maskTime(time_inc * 300, mask);
+  
+  // clear rainbow to reveal the time
+  //wipe_off_left();
+  //wipe_around(OFF);
+  word_drop_in(time_inc);
+}
+
+void WordDrop_display_time(uint32_t last_tm, uint32_t next_tm){
+  int last_tm_inc = (last_tm / 300) % 288;
+  int      tm_inc = (next_tm / 300) % 288;
+  if(last_tm_inc != tm_inc){
+    word_drop(last_tm_inc, tm_inc);
+  }
+}
+
+void TheMatrix_init(){
+  last_time = 0;
+  blend_to_blue();
+}
+
+void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
+
+  int last_tm_inc = (last_tm / 300) % 288;
+  int      tm_inc = (     tm / 300) % 288;
+  
+  int n_drop = 0;
+  int n_need = 8;
+  
+  const struct CRGB color = CRGB::Green;
+  uint8_t cols[NUM_LEDS];
+  uint8_t rows[NUM_LEDS];
+  uint8_t pause[NUM_LEDS];
+  bool have[NUM_LEDS];
+  int col;
+  int i, j;
+
+  if(last_tm_inc != tm_inc){
+    Serial.print("TheMatrix: Change Time\n");
+    // clear all masks
+    fillMask(mask, false);
+    fillMask(wipe, false);
+    fillMask(have, false);
+
+    // set masks to appropriate times
+
+    faceplates[faceplate_idx].maskTime(last_tm, mask);
+    faceplates[faceplate_idx].maskTime(tm, wipe);
+    fill_green();
+    apply_mask(mask);
+    FastLED.show();
+    
+    for(i=0; i < MatrixWidth; i++){
+      for(j=0; j < MatrixHeight; j++){
+	if(leds[XY(i, j)].red > 0 ||
+	   leds[XY(i, j)].green > 0 ||
+	   leds[XY(i, j)].blue > 0){
+	  rows[n_drop] = j;
+	  cols[n_drop] = i;
+	  n_drop++;
+	}
+	if(wipe[XY(i, j)]){
+	  n_need++;
+	}
+      }
+    }
+  
+    delay(10);
+    for(j = 0; j < 255 * 3; j++){
+      for(i=0; i < NUM_LEDS; i++){
+	leds[i].red   = blend8(leds[i].red, 0, 1);
+	leds[i].green = blend8(leds[i].green, 255, 1);
+	leds[i].blue  = blend8(leds[i].blue, 0, 1);
+      }
+      apply_mask(mask);
+      FastLED.show();
+      delay(5);
+    }
+
+    for(i = n_drop; i < n_need; i++){/// add enough drops to complete
+      cols[i] = random(0, MatrixWidth);
+      rows[i] = -random(0, MatrixHeight);
+      n_drop++;
+    }
+
+    int end = millis() + 5000; // go for 5 seconds
+    // while new display is not filled out
+    while(!logical_equal(NUM_LEDS, wipe, have)){
+      //  while(millis() < end){
+      fadeToBlackBy(leds, NUM_LEDS, 75);
+      for(i = 0; i < n_drop; i++){
+	if(millis() > end && wipe[XY(cols[i], rows[i])]){
+	  if(random(0, 3) == 0){
+	    have[XY(cols[i], rows[i])] = true;
+	  }
+	}
+      
+	if(random(0, 16) == 0){ // pause at random times
+	  pause[i] = random(6, 9); // for random duration
+	}
+	if(pause[i] == 0){
+	  rows[i]++;
+	}
+	else{
+	  pause[i]--; 
+	}
+	if(rows[i] > MatrixHeight - 1){
+	  if(n_drop > n_need){
+	    for(j = i; j < n_drop; j++){ // slide drops down by one
+	      rows[j] = rows[j + 1];
+	      cols[j] = cols[j + 1];
+	    }
+	    n_drop--;
+	    Serial.print("n_drop:");
+	    Serial.println(n_drop);
+	  }
+	  else{
+	    rows[i] = -random(0, MatrixHeight);
+	    cols[i] = random(0, MatrixWidth);
+	  }
+	}
+	if(0 <= rows[i] && rows[i] <  MatrixHeight){
+	  leds[XY(cols[i], rows[i])] = color;
+	}
+      }
+
+      for(int ii = 0; ii < NUM_LEDS; ii++){
+	if(have[ii]){
+	  leds[ii] = CRGB::Blue;
+	}
+      }
+      FastLED.show();
+      delay(75);
+    }
+    for(int ii=0; ii< MatrixHeight * 10; ii++){
+      //  while(millis() < end){
+      fadeToBlackBy(leds, NUM_LEDS, 75);
+      for(i = 0; i < n_drop; i++){
+	rows[i]++;
+	if(0 <= rows[i] && rows[i] <  MatrixHeight){
+	  leds[XY(cols[i], rows[i])] = color;
+	}
+      }
+      for(int ii = 0; ii < NUM_LEDS; ii++){
+	if(have[ii]){
+	  leds[ii] = CRGB::Blue;
+	}
+      }
+      FastLED.show();
+      delay(75);
+    }
+  }
+}
+
 void rainbow() {
   int i, dx, dy;
   CHSV hsv;
@@ -184,14 +516,60 @@ uint8_t logo_rgb[] = {
   0x11,0x00,0x09,0x88,0x05,0x48,0x03,0x28,0x05,0x18,0x09,0x28,0x11,0x48,0x00,0x88
 };
 
-
 struct config_t{
   int timezone;
   long alarm;
   int mode;
   uint8_t brightness;
   uint8_t display_idx;
+  bool summer_time;
 } configuration;
+
+void ChangeDisplay(Display* display_p);
+void ChangeDisplay(Display* display_p){
+  CurrentDisplay_p = display_p;
+  CurrentDisplay_p->init();
+}
+
+// Common Interface for buttons and MQTT
+void set_brightness(uint8_t brightness){
+  configuration.brightness = brightness;
+  saveSettings();
+}
+void set_display(uint8_t display_idx){
+  configuration.display_idx = display_idx % N_DISPLAY;
+  ChangeDisplay(&Displays[display_idx % N_DISPLAY]);
+  saveSettings();
+}
+void next_display(){
+  configuration.display_idx = (configuration.display_idx + 1) % N_DISPLAY;
+  ChangeDisplay(&Displays[configuration.display_idx]);
+  saveSettings();
+}
+
+void add_to_timezone(int32_t offset){ // does not include summer time offset
+  configuration.timezone += offset;
+  saveSettings();
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
+}
+
+void set_timezone_offset(int32_t offset){ // does not include summer time offset
+  configuration.timezone = offset;
+  saveSettings();
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
+}
+
+void set_summer_time(bool summer_time){                   // AKA Dailight Savings Time
+  configuration.summer_time = summer_time;
+  saveSettings();
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
+}
+
+void toggle_summer_time(){
+  configuration.summer_time = !configuration.summer_time;
+  saveSettings();  
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
+}
 
 void display_bitmap_rgb(uint8_t* bitmap){
   uint8_t n = 16;
@@ -273,6 +651,90 @@ uint16_t XY( uint8_t x, uint8_t y){
   return out;
 }
 
+void mqtt_callback(char* topic, byte* payload, unsigned int length) {
+  bool handled = false;
+  char str_payload[length + 1];
+  for(int i = 0; i < length; i++){
+    str_payload[i] = payload[i];
+  }
+  str_payload[length] = 0;
+  
+  Serial.print("mqtt msg\n  topic:");
+  Serial.println(topic + 9);
+  Serial.print("  payload:");
+  Serial.println(str_payload);
+  
+  if(strcmp(topic + 9, "timezone_offset") == 0){
+    Serial.println("Change timezone!!");
+    set_timezone_offset(String(str_payload).toInt());
+  }
+  if(strcmp(topic + 9, "summer_time") == 0){
+    Serial.println("Change summer time!!");
+    if(strcmp(str_payload, "true") == 0){
+      set_summer_time(true);
+    }
+    else{
+      set_summer_time(false);
+    }
+  }
+  if(strcmp(topic + 9, "add_to_timezone") == 0){
+    Serial.println("Add to timezone!");
+    add_to_timezone(String(str_payload).toInt());
+  }
+  if(strcmp(topic + 9, "display_idx") == 0){
+    Serial.println("Change display_idx!!");
+    set_display(String(str_payload).toInt());
+  }
+}
+
+
+void mqtt_subscribe(){
+  mqtt_client.subscribe("clockiot/#");
+}
+void mqtt_connect(){
+  String str;
+  
+  while (!mqtt_client.connected()) {
+    if(mqtt_client.connect("ClockIOT")) {
+      Serial.println("mqtt connected");
+      // Once connected, publish an announcement...
+      // ... and resubscribe
+      mqtt_subscribe();
+    }
+    else{
+      Serial.println("Try again in 5 seconds.");
+      delay(5000);
+    }
+  }
+}
+
+void mqtt_reconnect() {
+  // Loop until we're reconnected
+  while (!mqtt_client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (mqtt_client.connect("ESP32Client")) {
+      Serial.println("mqtt connected");
+      // Once connected, publish an announcement...
+      // ... and resubscribe
+      mqtt_subscribe();
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(mqtt_client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+
+void mqtt_setup(){
+  uint8_t server[4] = {192, 168, 1, 159};
+  mqtt_client.setServer(server, 1883);
+  mqtt_client.setCallback(mqtt_callback);
+  mqtt_connect();
+}
+
 void led_setup(){
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setDither(true);
@@ -280,17 +742,20 @@ void led_setup(){
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
-
-  FastLED.setBrightness(10);
-  //FastLED.setBrightness(configuration.brightness);
-  wipe_around(ON);
-  display_bitmap_rgb(logo_rgb);
-  wipe_around(OFF);
-  display_bitmap_rgb(logo_rgb);
-  FastLED.show();
 }
 
+void wifi_setup(){
+  wifiManager.autoConnect("KLOK");
+  Serial.println("Yay connected!");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
 void setup(){
+  last_time = 0;
+  
+  CurrentDisplay_p = &PlainDisplay;
+  //CurrentDisplay_p = &TheMatrixDisplay;
+  //CurrentDisplay_p = &WordDropDisplay;
   Wire.begin();
   Serial.begin(115200);
   delay(200);
@@ -298,58 +763,34 @@ void setup(){
   //Serial.println(year(0));
   loadSettings();
   led_setup();
-
+  wifi_setup();
+  mqtt_setup();
+  
   for(int ii = 0; ii < num_faceplates; ii++){
     faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
   }
 
-  
-#ifdef USE_CREDENTIALS
-  WiFi.begin(ssid, password);
-
-  while ( WiFi.status() != WL_CONNECTED ) {
-    delay ( 500 );
-    Serial.print ( "." );
-  }
-#else
-  wifiManager.autoConnect("KLOK");
-  Serial.println("yay connected");
-#endif
   ntp_clock.setup(&timeClient);
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
   ds3231_clock.setup();
   doomsday_clock.setup(&ntp_clock, &ds3231_clock);
-  
-  Serial.println("setup() complete");
-}
 
-uint32_t count;
-uint32_t OldNow(){
-  uint32_t out;
-  uint32_t rtc_time, ntp_time;
+  // logo
+  FastLED.setBrightness(10);
+  wipe_around(ON);
+  display_bitmap_rgb(logo_rgb);
+  FastLED.show();  
+  wipe_around(OFF);
+  display_bitmap_rgb(logo_rgb);
+  FastLED.show();
+  delay(1000);
   
-  ntp_clock.update();
-  if(ntp_clock.isCurrent()){
-    out = ntp_clock.now();
-    rtc_time = ds3231_clock.now();
-    ntp_time = ntp_clock.now();
-    if (rtc_time > ntp_time){ // stupid unsigned ints!
-      if ((rtc_time - ntp_time) > 5){
-	// ntp is current and rtc is out of date
-	ds3231_clock.set(ntp_clock.now());
-      }
-    }
-    else{
-      if ((ntp_time - rtc_time) > 5){
-	// ntp is current and rtc is out of date
-	ds3231_clock.set(ntp_clock.now());
-      }
-    }
-  }
-  else{
-    // rely on rtc
-    out = ds3231_clock.now();
-  }
-  return out;
+  wipe_around(ON);
+  fillMask(mask, false);
+  wipe_around(OFF);
+  
+  CurrentDisplay_p->init();
+  Serial.println("setup() complete");
 }
 
 uint32_t Now(){
@@ -360,11 +801,15 @@ void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
 
-  fillMask(mask, OFF);
-  faceplates[0].maskTime(current_time, mask);
-  rainbow(leds, current_time, XY);
-  apply_mask(mask);
+  if (!mqtt_client.connected()) {
+    mqtt_reconnect();
+  }
+  mqtt_client.loop();
+  
+  CurrentDisplay_p->display_time(last_time, current_time);
   FastLED.show();
+
+  /*
   Serial.print("NTP Time:");
   Serial.print(timeClient.getHours());
   Serial.print(":");
@@ -386,19 +831,23 @@ void loop(){
   Serial.print(":");
   Serial.println(ds3231_clock.seconds());
   Serial.println();
-
-  Serial.print("Doomsday Time:");
-  Serial.print(doomsday_clock.year());
-  Serial.print("/");
-  Serial.print(doomsday_clock.month());
-  Serial.print("/");
-  Serial.print(doomsday_clock.day());
-  Serial.print(" ");
-  Serial.print(doomsday_clock.hours());
-  Serial.print(":");
-  Serial.print(doomsday_clock.minutes());
-  Serial.print(":");
-  Serial.println(doomsday_clock.seconds());
-  Serial.println();
-delay(1000);
+  */
+  if(doomsday_clock.seconds() == 0){
+    Serial.print("Doomsday Time:");
+    Serial.print(doomsday_clock.year());
+    Serial.print("/");
+    Serial.print(doomsday_clock.month());
+    Serial.print("/");
+    Serial.print(doomsday_clock.day());
+    Serial.print(" ");
+    if(doomsday_clock.hours() < 10)Serial.print('0');
+    Serial.print(doomsday_clock.hours());
+    Serial.print(":");
+    if(doomsday_clock.minutes() < 10)Serial.print('0');
+    Serial.print(doomsday_clock.minutes());
+    Serial.print(":");
+    if(doomsday_clock.seconds() < 10)Serial.print('0');
+    Serial.println(doomsday_clock.seconds());
+  }
+  last_time = current_time;
 }
