@@ -121,8 +121,9 @@ typedef struct{
 } Display;
 
 void Plain_init(){
+  uint32_t current_time = Now();
+  last_time = current_time;
   blend_to_rainbow();
-  last_time = 0;
 }
 void Plain_display_time(uint32_t last_tm, uint32_t tm){
   fillMask(mask, OFF);
@@ -214,8 +215,8 @@ void setWordMask(bool *mask, uint8_t* word, bool b){
 
 
 void WordDrop_init(){
-  last_time = 0;
   uint32_t current_time = Now();
+  last_time = current_time;
   fillMask(mask, OFF);
   faceplates[faceplate_idx].maskTime(current_time, mask);
   blend_to_rainbow();
@@ -345,16 +346,7 @@ void WordDrop_display_time(uint32_t last_tm, uint32_t next_tm){
   }
 }
 
-void TheMatrix_init(){
-  last_time = 0;
-  blend_to_blue();
-}
-
-void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
-
-  int last_tm_inc = (last_tm / 300) % 288;
-  int      tm_inc = (     tm / 300) % 288;
-  
+void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   int n_drop = 0;
   int n_need = 8;
   
@@ -366,120 +358,138 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
   int col;
   int i, j;
 
-  if(last_tm_inc != tm_inc){
-    Serial.print("TheMatrix: Change Time\n");
-    // clear all masks
-    fillMask(mask, false);
-    fillMask(wipe, false);
-    fillMask(have, false);
+  Serial.print("TheMatrix: Change Time\n");
+  // clear all masks
+  fillMask(mask, false);
+  fillMask(wipe, false);
+  fillMask(have, false);
 
-    // set masks to appropriate times
+  // set masks to appropriate times
 
-    faceplates[faceplate_idx].maskTime(last_tm, mask);
-    faceplates[faceplate_idx].maskTime(tm, wipe);
-    fill_green();
+  faceplates[faceplate_idx].maskTime(last_tm_inc * 300, mask);
+  faceplates[faceplate_idx].maskTime(current_tm_inc * 300, wipe);
+  fill_green();
+  apply_mask(mask);
+  FastLED.show();
+    
+  for(i=0; i < MatrixWidth; i++){
+    for(j=0; j < MatrixHeight; j++){
+      mqtt_client.loop();
+      if(leds[XY(i, j)].red > 0 ||
+	 leds[XY(i, j)].green > 0 ||
+	 leds[XY(i, j)].blue > 0){
+	rows[n_drop] = j;
+	cols[n_drop] = i;
+	n_drop++;
+      }
+      if(wipe[XY(i, j)]){
+	n_need++;
+      }
+    }
+  }
+  
+  delay(10);
+  for(j = 0; j < 255 * 3; j++){
+    for(i=0; i < NUM_LEDS; i++){
+      mqtt_client.loop();
+      leds[i].red   = blend8(leds[i].red, 0, 1);
+      leds[i].green = blend8(leds[i].green, 255, 1);
+      leds[i].blue  = blend8(leds[i].blue, 0, 1);
+    }
     apply_mask(mask);
     FastLED.show();
-    
-    for(i=0; i < MatrixWidth; i++){
-      for(j=0; j < MatrixHeight; j++){
-	if(leds[XY(i, j)].red > 0 ||
-	   leds[XY(i, j)].green > 0 ||
-	   leds[XY(i, j)].blue > 0){
-	  rows[n_drop] = j;
-	  cols[n_drop] = i;
-	  n_drop++;
-	}
-	if(wipe[XY(i, j)]){
-	  n_need++;
+    delay(5);
+  }
+
+  for(i = n_drop; i < n_need; i++){/// add enough drops to complete
+    mqtt_client.loop();
+    cols[i] = random(0, MatrixWidth);
+    rows[i] = -random(0, MatrixHeight);
+    n_drop++;
+  }
+
+  int end = millis() + 5000; // go for 5 seconds
+  // while new display is not filled out
+  while(!logical_equal(NUM_LEDS, wipe, have)){
+    //  while(millis() < end){
+    fadeToBlackBy(leds, NUM_LEDS, 75);
+    for(i = 0; i < n_drop; i++){
+      mqtt_client.loop();
+      if(millis() > end && wipe[XY(cols[i], rows[i])]){
+	if(random(0, 3) == 0){
+	  have[XY(cols[i], rows[i])] = true;
 	}
       }
-    }
-  
-    delay(10);
-    for(j = 0; j < 255 * 3; j++){
-      for(i=0; i < NUM_LEDS; i++){
-	leds[i].red   = blend8(leds[i].red, 0, 1);
-	leds[i].green = blend8(leds[i].green, 255, 1);
-	leds[i].blue  = blend8(leds[i].blue, 0, 1);
-      }
-      apply_mask(mask);
-      FastLED.show();
-      delay(5);
-    }
-
-    for(i = n_drop; i < n_need; i++){/// add enough drops to complete
-      cols[i] = random(0, MatrixWidth);
-      rows[i] = -random(0, MatrixHeight);
-      n_drop++;
-    }
-
-    int end = millis() + 5000; // go for 5 seconds
-    // while new display is not filled out
-    while(!logical_equal(NUM_LEDS, wipe, have)){
-      //  while(millis() < end){
-      fadeToBlackBy(leds, NUM_LEDS, 75);
-      for(i = 0; i < n_drop; i++){
-	if(millis() > end && wipe[XY(cols[i], rows[i])]){
-	  if(random(0, 3) == 0){
-	    have[XY(cols[i], rows[i])] = true;
-	  }
-	}
       
-	if(random(0, 16) == 0){ // pause at random times
-	  pause[i] = random(6, 9); // for random duration
-	}
-	if(pause[i] == 0){
-	  rows[i]++;
+      if(random(0, 16) == 0){ // pause at random times
+	pause[i] = random(6, 9); // for random duration
+      }
+      if(pause[i] == 0){
+	rows[i]++;
+      }
+      else{
+	pause[i]--; 
+      }
+      if(rows[i] > MatrixHeight - 1){
+	if(n_drop > n_need){
+	  for(j = i; j < n_drop; j++){ // slide drops down by one
+	    rows[j] = rows[j + 1];
+	    cols[j] = cols[j + 1];
+	  }
+	  n_drop--;
+	  Serial.print("n_drop:");
+	  Serial.println(n_drop);
 	}
 	else{
-	  pause[i]--; 
-	}
-	if(rows[i] > MatrixHeight - 1){
-	  if(n_drop > n_need){
-	    for(j = i; j < n_drop; j++){ // slide drops down by one
-	      rows[j] = rows[j + 1];
-	      cols[j] = cols[j + 1];
-	    }
-	    n_drop--;
-	    Serial.print("n_drop:");
-	    Serial.println(n_drop);
-	  }
-	  else{
-	    rows[i] = -random(0, MatrixHeight);
-	    cols[i] = random(0, MatrixWidth);
-	  }
-	}
-	if(0 <= rows[i] && rows[i] <  MatrixHeight){
-	  leds[XY(cols[i], rows[i])] = color;
+	  rows[i] = -random(0, MatrixHeight);
+	  cols[i] = random(0, MatrixWidth);
 	}
       }
+      if(0 <= rows[i] && rows[i] <  MatrixHeight){
+	leds[XY(cols[i], rows[i])] = color;
+      }
+    }
 
-      for(int ii = 0; ii < NUM_LEDS; ii++){
-	if(have[ii]){
-	  leds[ii] = CRGB::Blue;
-	}
+    for(int ii = 0; ii < NUM_LEDS; ii++){
+      if(have[ii]){
+	leds[ii] = CRGB::Blue;
       }
-      FastLED.show();
-      delay(75);
     }
-    for(int ii=0; ii< MatrixHeight * 10; ii++){
-      //  while(millis() < end){
-      fadeToBlackBy(leds, NUM_LEDS, 75);
-      for(i = 0; i < n_drop; i++){
-	rows[i]++;
-	if(0 <= rows[i] && rows[i] <  MatrixHeight){
-	  leds[XY(cols[i], rows[i])] = color;
-	}
+    FastLED.show();
+    delay(75);
+  }
+  for(int ii=0; ii< MatrixHeight * 10; ii++){
+    //  while(millis() < end){
+    fadeToBlackBy(leds, NUM_LEDS, 75);
+    for(i = 0; i < n_drop; i++){
+      mqtt_client.loop();
+      rows[i]++;
+      if(0 <= rows[i] && rows[i] <  MatrixHeight){
+	leds[XY(cols[i], rows[i])] = color;
       }
-      for(int ii = 0; ii < NUM_LEDS; ii++){
-	if(have[ii]){
-	  leds[ii] = CRGB::Blue;
-	}
-      }
-      FastLED.show();
-      delay(75);
     }
+    for(int ii = 0; ii < NUM_LEDS; ii++){
+      if(have[ii]){
+	leds[ii] = CRGB::Blue;
+      }
+    }
+    FastLED.show();
+    delay(75);
+  }
+}
+
+void TheMatrix_init(){
+  uint32_t current_time = Now();
+  blend_to_blue();
+}
+
+void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
+
+  int last_tm_inc = (last_tm / 300) % 288;
+  int      tm_inc = (     tm / 300) % 288;
+  
+  if(last_tm_inc != tm_inc){
+    TheMatrix_drop(last_tm_inc, tm_inc);
   }
 }
 
@@ -685,6 +695,10 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Change display_idx!!");
     set_display(String(str_payload).toInt());
   }
+  if(strcmp(topic + 9, "next_display") == 0){
+    Serial.println("Increment display!!");
+    next_display();
+  }
 }
 
 
@@ -832,7 +846,7 @@ void loop(){
   Serial.println(ds3231_clock.seconds());
   Serial.println();
   */
-  if(doomsday_clock.seconds() == 0){
+  if(doomsday_clock.seconds() == 0 and millis() < 1){
     Serial.print("Doomsday Time:");
     Serial.print(doomsday_clock.year());
     Serial.print("/");
