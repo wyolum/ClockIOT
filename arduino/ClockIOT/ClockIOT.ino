@@ -220,7 +220,6 @@ void WordDrop_init(){
   fillMask(mask, OFF);
   faceplates[faceplate_idx].maskTime(current_time, mask);
   blend_to_rainbow();
-  last_time = current_time;
 }
 
 void word_drop_in(uint16_t time_inc){
@@ -480,7 +479,12 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 
 void TheMatrix_init(){
   uint32_t current_time = Now();
+  last_time = current_time;
   blend_to_blue();
+  fill_blue();
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(current_time, mask);  
+  apply_mask(mask);
 }
 
 void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
@@ -488,8 +492,15 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
   int last_tm_inc = (last_tm / 300) % 288;
   int      tm_inc = (     tm / 300) % 288;
   
-  if(last_tm_inc != tm_inc){
+  if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
     TheMatrix_drop(last_tm_inc, tm_inc);
+  }
+  else if(last_tm_inc != tm_inc){
+    fill_blue();
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(tm, mask);  
+    apply_mask(mask);
+    apply_mask(mask);
   }
 }
 
