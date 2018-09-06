@@ -3,6 +3,7 @@
 #include <FastLED.h>
 #include <WiFiManager.h>
 #include <PubSubClient.h>
+#include <EEPROM.h>
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
 #define ULTIM8x16
@@ -104,7 +105,7 @@ void wipe_around(bool val){
       }
     }
     logical_or(NUM_LEDS, wipe, mask, tmp);
-    rainbow();
+    rainbow_slow();
     apply_mask(tmp);
     FastLED.show();
     theta += dtheta;
@@ -128,7 +129,7 @@ void Plain_init(){
 void Plain_display_time(uint32_t last_tm, uint32_t tm){
   fillMask(mask, OFF);
   faceplates[faceplate_idx].maskTime(tm, mask);
-  rainbow();
+  rainbow_fast();
   apply_mask(mask);
 }
 
@@ -246,7 +247,7 @@ void word_drop_in(uint16_t time_inc){
 	  tmp_word[1] = rr;
 	  setWordMask(wipe, tmp_word, true);
 	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
-	  rainbow();
+	  rainbow_slow();
 	  apply_mask(tmp_mask);
 	  FastLED.show();
 	  delay(25);
@@ -257,7 +258,7 @@ void word_drop_in(uint16_t time_inc){
 	  setWordMask(wipe, tmp_word, false);
 	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
 	  
-	  rainbow();
+	  rainbow_slow();
 	  apply_mask(tmp_mask);
 	  FastLED.show();
 	  delay(25);
@@ -292,7 +293,7 @@ void word_drop_out(uint16_t time_inc){
 	  tmp_word[1] = rr;
 	  setWordMask(wipe, tmp_word, true);
 	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
-	  rainbow();
+	  rainbow_slow();
 	  apply_mask(tmp_mask);
 	  FastLED.show();
 	  delay(25);
@@ -303,7 +304,7 @@ void word_drop_out(uint16_t time_inc){
 	  setWordMask(wipe, tmp_word, false);
 	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
 	  
-	  rainbow();
+	  rainbow_slow();
 	  apply_mask(tmp_mask);
 	  FastLED.show();
 	  delay(25);
@@ -316,7 +317,7 @@ void word_drop_out(uint16_t time_inc){
 void word_drop(uint16_t last_time_inc, uint16_t time_inc){
   bool tmp_d[NUM_LEDS];
 
-  rainbow();
+  rainbow_slow();
 
   // swipe rainbow from the left
   //wipe_around(ON);
@@ -340,8 +341,14 @@ void word_drop(uint16_t last_time_inc, uint16_t time_inc){
 void WordDrop_display_time(uint32_t last_tm, uint32_t next_tm){
   int last_tm_inc = (last_tm / 300) % 288;
   int      tm_inc = (next_tm / 300) % 288;
-  if(last_tm_inc != tm_inc){
+  if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
     word_drop(last_tm_inc, tm_inc);
+  }
+  else if(last_tm_inc != tm_inc){
+    rainbow_slow();
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(next_tm, mask);  
+    apply_mask(mask);
   }
 }
 
@@ -504,7 +511,7 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
   }
 }
 
-void rainbow() {
+void rainbow_cycle(int count){
   int i, dx, dy;
   CHSV hsv;
   float dist;
@@ -512,10 +519,10 @@ void rainbow() {
   hsv.hue = 0;
   hsv.val = 255;
   hsv.sat = 240;
-  uint32_t current_time = Now();
-  int count = ((current_time % 300) * 255) / 300;
+
   for( int row = 0; row < MatrixHeight; row++) {
     for( int col = 0; col < MatrixWidth; col++) {
+      // dx, dy, dist used for radial pattern, not used here
       dy = (row - 4) * 2;
       dx = col - 8;
       dist = sqrt(dx * dx + dy * dy);
@@ -525,9 +532,25 @@ void rainbow() {
       leds[i] = hsv;
     }
   }
+}
+
+void rainbow_fast() {
+  uint32_t current_time = Now();
+  int count = millis() / 100;
+  
+  rainbow_cycle(millis()/25);
   // Show the leds (only one of which is set to white, from above)
   //delay(100);
 }
+
+void rainbow_slow() {
+  uint32_t current_time = Now();
+  int count = ((current_time % 300) * 255) / 300;
+  rainbow_cycle(count);
+  // Show the leds (only one of which is set to white, from above)
+  //delay(100);
+}
+
 // end Displays
 //********************************************************************************
 
@@ -575,7 +598,7 @@ void add_to_timezone(int32_t offset){ // does not include summer time offset
 }
 
 void set_timezone_offset(int32_t offset){ // does not include summer time offset
-  configuration.timezone = offset;
+  configuration.timezone = offset % 86400;
   saveSettings();
   ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
 }
@@ -786,8 +809,10 @@ void setup(){
   delay(200);
   Serial.println("setup() starting");
   //Serial.println(year(0));
+  EEPROM.begin(1024);
   loadSettings();
   led_setup();
+  CurrentDisplay_p = &Displays[configuration.display_idx % N_DISPLAY];
   wifi_setup();
   mqtt_setup();
   
