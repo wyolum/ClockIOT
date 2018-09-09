@@ -105,7 +105,7 @@ void wipe_around(bool val){
       }
     }
     logical_or(NUM_LEDS, wipe, mask, tmp);
-    rainbow_slow();
+    //rainbow_slow();
     apply_mask(tmp);
     FastLED.show();
     theta += dtheta;
@@ -547,8 +547,6 @@ void rainbow_slow() {
   uint32_t current_time = Now();
   int count = ((current_time % 300) * 255) / 300;
   rainbow_cycle(count);
-  // Show the leds (only one of which is set to white, from above)
-  //delay(100);
 }
 
 // end Displays
@@ -757,6 +755,7 @@ void mqtt_connect(){
 }
 
 void mqtt_reconnect() {
+  return;
   // Loop until we're reconnected
   while (!mqtt_client.connected()) {
     Serial.print("Attempting MQTT connection...");
@@ -777,7 +776,8 @@ void mqtt_reconnect() {
 }
 
 void mqtt_setup(){
-  uint8_t server[4] = {192, 168, 1, 159};
+  //uint8_t server[4] = {192, 168, 1, 159};
+  uint8_t server[4] = {10, 10, 10, 2};
   mqtt_client.setServer(server, 1883);
   mqtt_client.setCallback(mqtt_callback);
   mqtt_connect();

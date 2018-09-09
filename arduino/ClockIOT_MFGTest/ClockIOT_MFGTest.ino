@@ -19,7 +19,7 @@ RTC_DS3231 rtc;
 #define SW_DEC   18
 #define SW_MODE  19
 
-CRGBArray<NUM_LEDS> leds;
+CRGBArray<NUM_LEDS> leds; 
 
 void setup() {
   Serial.begin(115200);
