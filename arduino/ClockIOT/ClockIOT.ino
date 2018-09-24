@@ -6,7 +6,8 @@
 #include <EEPROM.h>
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
-//#define ULTIM8x16
+
+//#define ULTIM8x16 // DullesKlok
 #define CLOCKIOT
 #include <MatrixMaps.h>
 #include <HTTPClient.h>
@@ -42,11 +43,14 @@ CRGB leds[NUM_LEDS];
 WiFiClient espClient;
 PubSubClient mqtt_client(espClient);
 
-
+#ifdef CLOCKIOT
 #define DATA_PIN     4
 #define CLK_PIN      16
-//#define DATA_PIN     MOSI
-//#define CLK_PIN      SCK
+#else
+#define DATA_PIN     MOSI
+#define CLK_PIN      SCK
+#endif
+
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
@@ -624,9 +628,21 @@ void ChangeDisplay(Display* display_p){
 
 // Common Interface for buttons and MQTT
 void set_brightness(uint8_t brightness){
-  configuration.brightness = brightness;
-  saveSettings();
+  if(brightness < 256){
+    configuration.brightness = brightness;
+    FastLED.setBrightness(configuration.brightness);
+    Serial.println(configuration.brightness);
+    saveSettings();
+  }
 }
+
+void adjust_brightness(int delta){
+  int new_val = delta + configuration.brightness;
+  if(0 < new_val && new_val < 256){
+    set_brightness(new_val);
+  }
+}
+
 void set_display(uint8_t display_idx){
   configuration.display_idx = display_idx % N_DISPLAY;
   ChangeDisplay(&Displays[display_idx % N_DISPLAY]);
@@ -780,6 +796,14 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Increment display!!");
     next_display();
   }
+  if(strcmp(topic + 9, "brighter") == 0){
+    Serial.println("Increment brigtness!!");
+    adjust_brightness(10);
+  }
+  if(strcmp(topic + 9, "dimmer") == 0){
+    Serial.println("Decrement brigtness!!");
+    adjust_brightness(-10);
+  }
 }
 
 
@@ -853,7 +877,11 @@ void setup(){
   }
 
   // logo
-  FastLED.setBrightness(10);
+  if( configuration.brightness == 0){
+    configuration.brightness == 30;
+  }
+  FastLED.setBrightness(configuration.brightness);
+
   wipe_around(ON);
   display_bitmap_rgb(logo_rgb);
   FastLED.show();  
@@ -890,9 +918,6 @@ void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
 
-  if (!mqtt_client.connected()) {
-    mqtt_connect();
-  }
   mqtt_client.loop();
   
   CurrentDisplay_p->display_time(last_time, current_time);
