@@ -6,6 +6,7 @@
 #include <EEPROM.h>
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
+#include <WebSocketsServer.h>
 
 //#define ULTIM8x16 // DullesKlok
 #define CLOCKIOT
@@ -854,6 +855,107 @@ void wifi_setup(){
   Serial.println(WiFi.localIP());
 }
 
+
+/*********************************************************************************/
+// Web Socket Server stuff
+WebSocketsServer webSocket = WebSocketsServer(81);
+
+void hexdump(const void *mem, uint32_t len, uint8_t cols = 16) {
+	const uint8_t* src = (const uint8_t*) mem;
+	Serial.printf("\n[HEXDUMP] Address: 0x%08X len: 0x%X (%d)", (ptrdiff_t)src, len, len);
+	for(uint32_t i = 0; i < len; i++) {
+		if(i % cols == 0) {
+			Serial.printf("\n[0x%08X] 0x%08X: ", (ptrdiff_t)src, i);
+		}
+		Serial.printf("%02X ", *src);
+		src++;
+	}
+	Serial.printf("\n");
+}
+
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t length) {
+  char topic_payload[length + 1];
+  String str_topic_payload;
+  int i;
+  int start, stop;
+  
+  switch(type) {
+  case WStype_DISCONNECTED:
+    Serial.printf("[%u] Disconnected!\n", num);
+    break;
+  case WStype_CONNECTED:
+    {
+      IPAddress ip = webSocket.remoteIP(num);
+      Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], ws_payload);
+      
+      // send message to client
+      webSocket.sendTXT(num, "Connected");
+    }
+    break;
+  case WStype_TEXT:
+    Serial.printf("[%u] get Text: %s\n", num, ws_payload);
+
+    for(i=0; i < length; i++){
+      topic_payload[i] = (char)ws_payload[i];
+    }
+    topic_payload[length] = 0;
+    str_topic_payload = String(topic_payload);
+
+    start = str_topic_payload.indexOf("//");
+    stop = start + 2;
+    if(start < 0){
+      start = length;
+      stop = length;
+    }
+    
+    char topic[100];
+    byte payload[100];
+    for(i = 0; i < start; i++){
+      topic[i] = topic_payload[i];
+    }
+    topic[start] = 0;
+
+    for(i = 0; i < length - stop; i++){
+      payload[i] = (byte)topic_payload[stop + i];
+    }
+    payload[length - stop] = 0;
+    
+    // mqtt_callback(char* topic, byte* payload, unsigned int length);
+
+    mqtt_callback(topic,
+		  payload,
+		  length - stop);
+    
+    // send message to client
+    // webSocket.sendTXT(num, "message here");
+    
+    // send data to all connected clients
+    // webSocket.broadcastTXT("message here");
+    break;
+  case WStype_BIN:
+    Serial.printf("[%u] get binary length: %u\n", num, length);
+    hexdump(ws_payload, length);
+    
+    // send message to client
+    // webSocket.sendBIN(num, ws_payload, length);
+    break;
+  case WStype_ERROR:			
+  case WStype_FRAGMENT_TEXT_START:
+  case WStype_FRAGMENT_BIN_START:
+  case WStype_FRAGMENT:
+  case WStype_FRAGMENT_FIN:
+    break;
+  }
+}
+
+void websocket_setup(){
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);  
+}
+
+// Web Socket Server stuff
+/*********************************************************************************/
+
 void setup(){
   last_time = 0;
   
@@ -903,10 +1005,8 @@ void setup(){
   set_timezone_from_ip(); // does not include summer time
   Serial.print("configuration.timezone: ");
   Serial.println(configuration.timezone);
-  Serial.print("configuration.summer_time: ");
-  Serial.println(configuration.summer_time);
-  Serial.print("configuration.timezone + 3600 * configuration.summer_time: ");
-  Serial.println(configuration.timezone + 3600 * configuration.summer_time);
+
+  websocket_setup();
   Serial.println("setup() complete");
 }
 
@@ -919,6 +1019,7 @@ void loop(){
   uint32_t current_time = Now();
 
   mqtt_client.loop();
+  webSocket.loop();
   
   CurrentDisplay_p->display_time(last_time, current_time);
   FastLED.show();
