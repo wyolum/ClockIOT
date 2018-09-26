@@ -4,10 +4,10 @@
 
 RTC_DS3231 rtc;
 #define NUM_LEDS 8*16
-//#define DATA_PIN     4
-//#define CLK_PIN      16
-#define DATA_PIN     MOSI
-#define CLK_PIN      SCK
+#define DATA_PIN     4
+#define CLK_PIN      16
+//#define DATA_PIN     MOSI
+//#define CLK_PIN      SCK
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)

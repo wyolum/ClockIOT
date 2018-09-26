@@ -1,17 +1,14 @@
-#include <Time.h>
+//#include <Time.h>
 #include <Wire.h>
 #include <FastLED.h>
 #include <WiFiManager.h>
+#include <HTTPClient.h>
 #include <PubSubClient.h>
 #include <EEPROM.h>
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
-#include <WebSocketsServer.h>
-
-//#define ULTIM8x16 // DullesKlok
-#define CLOCKIOT
+#define ULTIM8x16
 #include <MatrixMaps.h>
-#include <HTTPClient.h>
 
 #include "klok.h"
 #include "textures.h"
@@ -44,14 +41,10 @@ CRGB leds[NUM_LEDS];
 WiFiClient espClient;
 PubSubClient mqtt_client(espClient);
 
-#ifdef CLOCKIOT
-#define DATA_PIN     4
-#define CLK_PIN      16
-#else
+//#define DATA_PIN     4
+//#define CLK_PIN      16
 #define DATA_PIN     MOSI
 #define CLK_PIN      SCK
-#endif
-
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
 #define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
@@ -78,52 +71,6 @@ uint8_t faceplate_idx = 0;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
 Klok klok(faceplates[0], timeClient);
-
-String jsonLookup(String s, String name){
-  int start = s.indexOf(name) + name.length() + 3;
-  int stop = s.indexOf('"', start);
-  return s.substring(start, stop);
-}
-
-void set_timezone_from_ip(){
-
-  HTTPClient http;
-  
-  Serial.print("[HTTP] begin...\n");
-  // configure traged server and url
-  //http.begin("https://www.howsmyssl.com/a/check", ca); //HTTPS
-  // http.begin("http://example.com/index.html"); //HTTP
-  http.begin("https://timezoneapi.io/api/ip");
-  Serial.print("[HTTP] GET...\n");
-  // start connection and send HTTP header
-  int httpCode = http.GET();
-  
-  // httpCode will be negative on error
-  if(httpCode > 0) {
-    // HTTP header has been send and Server response header has been handled
-    Serial.printf("[HTTP] GET... code: %d\n", httpCode);
-    
-    // file found at server
-    String findme = String("offset_seconds");
-    if(httpCode == HTTP_CODE_OK) {
-      String payload = http.getString();
-      Serial.println(payload);
-      
-      int offset = jsonLookup(payload, String("offset_seconds")).toInt();
-      String dst_str = jsonLookup(payload, String("dst"));
-      bool dst = dst_str.equals("true");
-      Serial.print("timezone_offset:");
-      Serial.println(offset);
-      Serial.print("summer time?:");
-      Serial.println(dst);
-      set_timezone_offset(offset);
-      set_summer_time(dst);
-    }
-    else{
-      Serial.println("No timezone found");
-    }
-  }
-}
 
 void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b){
   if(row >= MatrixHeight){
@@ -159,7 +106,7 @@ void wipe_around(bool val){
       }
     }
     logical_or(NUM_LEDS, wipe, mask, tmp);
-    //rainbow_slow();
+    rainbow_slow();
     apply_mask(tmp);
     FastLED.show();
     theta += dtheta;
@@ -601,8 +548,9 @@ void rainbow_slow() {
   uint32_t current_time = Now();
   int count = ((current_time % 300) * 255) / 300;
   rainbow_cycle(count);
+  // Show the leds (only one of which is set to white, from above)
+  //delay(100);
 }
-
 // end Displays
 //********************************************************************************
 
@@ -629,21 +577,9 @@ void ChangeDisplay(Display* display_p){
 
 // Common Interface for buttons and MQTT
 void set_brightness(uint8_t brightness){
-  if(brightness < 256){
-    configuration.brightness = brightness;
-    FastLED.setBrightness(configuration.brightness);
-    Serial.println(configuration.brightness);
-    saveSettings();
-  }
+  configuration.brightness = brightness;
+  saveSettings();
 }
-
-void adjust_brightness(int delta){
-  int new_val = delta + configuration.brightness;
-  if(0 < new_val && new_val < 256){
-    set_brightness(new_val);
-  }
-}
-
 void set_display(uint8_t display_idx){
   configuration.display_idx = display_idx % N_DISPLAY;
   ChangeDisplay(&Displays[display_idx % N_DISPLAY]);
@@ -658,25 +594,25 @@ void next_display(){
 void add_to_timezone(int32_t offset){ // does not include summer time offset
   configuration.timezone += offset;
   saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
 }
 
 void set_timezone_offset(int32_t offset){ // does not include summer time offset
-  configuration.timezone = offset % 86400;
+  configuration.timezone = offset;
   saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
 }
 
 void set_summer_time(bool summer_time){                   // AKA Dailight Savings Time
   configuration.summer_time = summer_time;
   saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
 }
 
 void toggle_summer_time(){
   configuration.summer_time = !configuration.summer_time;
   saveSettings();  
-  ntp_clock.setOffset(configuration.timezone);
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
 }
 
 void display_bitmap_rgb(uint8_t* bitmap){
@@ -739,12 +675,20 @@ void fillMask(bool* mask, bool b, int start, int stop){
 }
 
 void loadSettings(){
-  EEPROM_readAnything(0, configuration);  
+  EEPROM_readAnything(0, configuration);
+  Serial.print("timezone:");Serial.println(configuration.timezone);
+  Serial.print("alarm:");Serial.println(configuration.alarm);
+  Serial.print("mode:");Serial.println(configuration.mode);
+  Serial.print("brightness:");Serial.println(configuration.brightness);
+  Serial.print("display_idx:");Serial.println(configuration.display_idx);
+  Serial.print("summer_time:");Serial.println(configuration.summer_time);
 }
 
 void saveSettings(){
   EEPROM_writeAnything(0, configuration);
   EEPROM.commit();
+  Serial.print("save... display_idx:");
+  Serial.print(configuration.display_idx);
 }
 
 uint16_t XY( uint8_t x, uint8_t y){
@@ -785,6 +729,10 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
       set_summer_time(false);
     }
   }
+  if(strcmp(topic + 9, "toggle_summer_time") == 0){
+    Serial.println("Toggle summer time!!");
+    toggle_summer_time();
+  }
   if(strcmp(topic + 9, "add_to_timezone") == 0){
     Serial.println("Add to timezone!");
     add_to_timezone(String(str_payload).toInt());
@@ -797,43 +745,51 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Increment display!!");
     next_display();
   }
-  if(strcmp(topic + 9, "brighter") == 0){
-    Serial.println("Increment brigtness!!");
-    adjust_brightness(10);
-  }
-  if(strcmp(topic + 9, "dimmer") == 0){
-    Serial.println("Decrement brigtness!!");
-    adjust_brightness(-10);
-  }
 }
 
 
 void mqtt_subscribe(){
   mqtt_client.subscribe("clockiot/#");
 }
-
-uint32_t next_mqtt_attempt = 0;
-
-bool mqtt_connect(){
+void mqtt_connect(){
   String str;
-  if(!mqtt_client.connected() && next_mqtt_attempt < millis()){
-    if(mqtt_client.connect("ClockIOT")){
+  
+  while (!mqtt_client.connected()) {
+    if(mqtt_client.connect("ClockIOT")) {
       Serial.println("mqtt connected");
       // Once connected, publish an announcement...
       // ... and resubscribe
       mqtt_subscribe();
     }
+    else{
+      Serial.println("Try again in 5 seconds.");
+      delay(5000);
+    }
   }
-  uint32_t n = millis();
-  
-  next_mqtt_attempt = n + 5000;
-  
-  return mqtt_client.connected();
+}
+
+void mqtt_reconnect() {
+  // Loop until we're reconnected
+  while (!mqtt_client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (mqtt_client.connect("ESP32Client")) {
+      Serial.println("mqtt connected");
+      // Once connected, publish an announcement...
+      // ... and resubscribe
+      mqtt_subscribe();
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(mqtt_client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
 }
 
 void mqtt_setup(){
   uint8_t server[4] = {192, 168, 1, 159};
-  //uint8_t server[4] = {10, 10, 10, 2};
   mqtt_client.setServer(server, 1883);
   mqtt_client.setCallback(mqtt_callback);
   mqtt_connect();
@@ -854,118 +810,13 @@ void wifi_setup(){
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 }
-
-
-/*********************************************************************************/
-// Web Socket Server stuff
-WebSocketsServer webSocket = WebSocketsServer(81);
-
-void hexdump(const void *mem, uint32_t len, uint8_t cols = 16) {
-	const uint8_t* src = (const uint8_t*) mem;
-	Serial.printf("\n[HEXDUMP] Address: 0x%08X len: 0x%X (%d)", (ptrdiff_t)src, len, len);
-	for(uint32_t i = 0; i < len; i++) {
-		if(i % cols == 0) {
-			Serial.printf("\n[0x%08X] 0x%08X: ", (ptrdiff_t)src, i);
-		}
-		Serial.printf("%02X ", *src);
-		src++;
-	}
-	Serial.printf("\n");
-}
-
-void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t length) {
-  char topic_payload[length + 1];
-  String str_topic_payload;
-  int i;
-  int start, stop;
-  
-  switch(type) {
-  case WStype_DISCONNECTED:
-    Serial.printf("[%u] Disconnected!\n", num);
-    break;
-  case WStype_CONNECTED:
-    {
-      IPAddress ip = webSocket.remoteIP(num);
-      Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], ws_payload);
-      
-      // send message to client
-      webSocket.sendTXT(num, "Connected");
-    }
-    break;
-  case WStype_TEXT:
-    Serial.printf("[%u] get Text: %s\n", num, ws_payload);
-
-    for(i=0; i < length; i++){
-      topic_payload[i] = (char)ws_payload[i];
-    }
-    topic_payload[length] = 0;
-    str_topic_payload = String(topic_payload);
-
-    start = str_topic_payload.indexOf("//");
-    stop = start + 2;
-    if(start < 0){
-      start = length;
-      stop = length;
-    }
-    
-    char topic[100];
-    byte payload[100];
-    for(i = 0; i < start; i++){
-      topic[i] = topic_payload[i];
-    }
-    topic[start] = 0;
-
-    for(i = 0; i < length - stop; i++){
-      payload[i] = (byte)topic_payload[stop + i];
-    }
-    payload[length - stop] = 0;
-    
-    // mqtt_callback(char* topic, byte* payload, unsigned int length);
-
-    mqtt_callback(topic,
-		  payload,
-		  length - stop);
-    
-    // send message to client
-    // webSocket.sendTXT(num, "message here");
-    
-    // send data to all connected clients
-    // webSocket.broadcastTXT("message here");
-    break;
-  case WStype_BIN:
-    Serial.printf("[%u] get binary length: %u\n", num, length);
-    hexdump(ws_payload, length);
-    
-    // send message to client
-    // webSocket.sendBIN(num, ws_payload, length);
-    break;
-  case WStype_ERROR:			
-  case WStype_FRAGMENT_TEXT_START:
-  case WStype_FRAGMENT_BIN_START:
-  case WStype_FRAGMENT:
-  case WStype_FRAGMENT_FIN:
-    break;
-  }
-}
-
-void websocket_setup(){
-  webSocket.begin();
-  webSocket.onEvent(webSocketEvent);  
-}
-
-// Web Socket Server stuff
-/*********************************************************************************/
-
-/*********************************************************************************/
-// Button stuff
-void button_setup(){
-}
-// Button stuff
-/*********************************************************************************/
 void setup(){
-  last_time = 0;
+
+  EEPROM.begin(1024);
   
-  CurrentDisplay_p = &PlainDisplay;
+  last_time = 0;
+
+  CurrentDisplay_p = &Displays[configuration.display_idx];
   //CurrentDisplay_p = &TheMatrixDisplay;
   //CurrentDisplay_p = &WordDropDisplay;
   Wire.begin();
@@ -973,23 +824,23 @@ void setup(){
   delay(200);
   Serial.println("setup() starting");
   //Serial.println(year(0));
-  EEPROM.begin(1024);
   loadSettings();
+  //ChangeDisplay(&Displays[configuration.display_idx % N_DISPLAY]);
   led_setup();
-  CurrentDisplay_p = &Displays[configuration.display_idx % N_DISPLAY];
   wifi_setup();
   mqtt_setup();
-  
+
   for(int ii = 0; ii < num_faceplates; ii++){
     faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
   }
+  
+  ntp_clock.setup(&timeClient);
+  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
+  ds3231_clock.setup();
+  doomsday_clock.setup(&ntp_clock, &ds3231_clock);
 
   // logo
-  if( configuration.brightness == 0){
-    configuration.brightness == 30;
-  }
-  FastLED.setBrightness(configuration.brightness);
-
+  FastLED.setBrightness(10);
   wipe_around(ON);
   display_bitmap_rgb(logo_rgb);
   FastLED.show();  
@@ -1001,18 +852,8 @@ void setup(){
   wipe_around(ON);
   fillMask(mask, false);
   wipe_around(OFF);
-
-  //CurrentDisplay_p->init();
-  //while(1)delay(100);
-  ntp_clock.setup(&timeClient);
-  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
-  ds3231_clock.setup();
-  doomsday_clock.setup(&ntp_clock, &ds3231_clock);
-  set_timezone_from_ip(); // does not include summer time
-  Serial.print("configuration.timezone: ");
-  Serial.println(configuration.timezone);
-
-  websocket_setup();
+  
+  CurrentDisplay_p->init();
   Serial.println("setup() complete");
 }
 
@@ -1020,12 +861,63 @@ uint32_t Now(){
   return doomsday_clock.now();
 }
 
+
+/*
+  find the first oocurance of a json key value pair, return the value
+*/
+String jsonLookup(String s, String name){
+  int start = s.indexOf(name) + name.length() + 3;
+  int stop = s.indexOf('"', start);
+  return s.substring(start, stop);
+}
+/*
+  http request to find out timezone offset in seconds and daylight savings time boolean.
+Total offset in seconds from UTC is offset + 3600 * DST
+Returns true if successful, false else
+*/
+bool http_timezone_info(int *offset, bool *dst){
+  bool out = false;
+  
+  HTTPClient http;
+  http.begin("https://timezoneapi.io/api/ip");
+  int httpCode = http.GET();
+
+  if(httpCode > 0) {
+    // HTTP header has been send and Server response header has been handled
+    Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+
+    // file found at server
+    String findme = String("offset_seconds");
+    if(httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      int start = payload.indexOf(findme) + findme.length() + 3;
+      int stop = payload.indexOf('"', start);
+      String dst_str = jsonLookup(payload, String("dst"));
+      *offset = jsonLookup(payload, String("offset_seconds")).toInt();
+      *dst = dst_str.equals("true");
+      out = true;
+    }
+  }
+  http.end();
+  return out;
+}
 void loop(){
+  int _offset;
+  bool _dst;
+  /*
+  http_timezone_info(&_offset, &_dst);
+  Serial.print(_offset);
+  Serial.print(" ");
+  Serial.println(_dst);
+  while(1)delay(100);
+  */
   uint8_t word[3];
   uint32_t current_time = Now();
 
+  if (!mqtt_client.connected()) {
+    mqtt_reconnect();
+  }
   mqtt_client.loop();
-  webSocket.loop();
   
   CurrentDisplay_p->display_time(last_time, current_time);
   FastLED.show();

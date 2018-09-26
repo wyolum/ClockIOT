@@ -109,11 +109,27 @@ uint32_t DoomsdayClock::now(){
   if(master->isCurrent()){
     out = master->now();
     if(abs_diff(m, b) > tol_sec){
-      //Serial.print("SET THE BACKUP to ");
-      //Serial.println(master->now());
+      /*
+      */
+      Serial.print("abs diff: ");
+      Serial.println(abs_diff(m, b), BIN);
+      Serial.print("master: ");
+      Serial.println(m, BIN);
+      Serial.print("backup: ");
+      Serial.println(b, BIN);
+      Serial.print("backout wrong: ");
+      Serial.println(backup->now(), BIN);
+
       backup->set(m);
-      //Serial.print("got: ");
-      //Serial.println(backup->now());
+      Serial.print("SET THE BACKUP to master: ");
+      Serial.println(m, BIN);
+      Serial.print("got: ");
+      Serial.println(backup->now(), BIN);
+      Serial.println();
+      Serial.println();
+      delay(1000);
+      /*
+      */
     }
   }
   else{
