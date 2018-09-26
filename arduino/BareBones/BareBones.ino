@@ -10,7 +10,6 @@
 #include "textures.h"
 #include "logic.h"
 #include "Faceplate.h"
-#include "get_time.h"
 
 #include "dutch_v1.h"
 #include "french_v1.h"
@@ -24,8 +23,8 @@
 
 #include "config.h"
 
-//const bool ON = true;
-//const bool OFF = !ON;
+const bool ON = true;
+const bool OFF = !ON;
 
 // How many leds are in the strip?
 const uint8_t N_BOARD = 2;
