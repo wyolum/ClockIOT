@@ -11,6 +11,10 @@
 #include "logic.h"
 #include "Faceplate.h"
 
+
+#include <WiFiManager.h>
+#include "get_time.h"
+
 #include "dutch_v1.h"
 #include "french_v1.h"
 #include "german_v3.h"
@@ -23,8 +27,15 @@
 
 #include "config.h"
 
-const bool ON = true;
-const bool OFF = !ON;
+//const bool ON = true;
+//const bool OFF = !ON;
+
+WiFiManager wifiManager;
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
+NTPClock ntp_clock;
+
+// DS3231Clock ds3231_clock;
 
 // How many leds are in the strip?
 const uint8_t N_BOARD = 2;
@@ -698,6 +709,18 @@ void button_setup(){
 }
 // Button stuff
 /*********************************************************************************/
+
+/*********************************************************************************/
+// wifi setup
+void wifi_setup(){
+  wifiManager.autoConnect("KLOK");
+  Serial.println("Yay connected!");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+// wifi setup
+/*********************************************************************************/
+
 void setup(){
   last_time = 0;
   
@@ -722,12 +745,20 @@ void setup(){
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
   delay(900);
-  
+
+  wifi_setup();
+  ntp_clock.setup(&timeClient);
+  int mumbai_offset = 19800;
+  int dc_offset = -14400;
+  ntp_clock.setOffset(mumbai_offset);
+  //ntp_clock.setOffset(dc_offset);
+
   Serial.println("setup() complete");
 }
 
 uint32_t Now(){
-  return millis() / 1000;
+  //return ds3231_clock.now();
+  return ntp_clock.now();
 }
 
 void loop(){
