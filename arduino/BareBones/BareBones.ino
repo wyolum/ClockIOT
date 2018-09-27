@@ -12,8 +12,11 @@
 #include "Faceplate.h"
 
 
+#define BAREBONES
+#ifndef BAREBONES
 #include <WiFiManager.h>
 #include "get_time.h"
+#endif
 
 #include "dutch_v1.h"
 #include "french_v1.h"
@@ -27,13 +30,12 @@
 
 #include "config.h"
 
-//const bool ON = true;
-//const bool OFF = !ON;
-
+#ifndef BAREBONES
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
 NTPClock ntp_clock;
+#endif
 
 // DS3231Clock ds3231_clock;
 
@@ -128,7 +130,7 @@ void Plain_init(){
   blend_to_rainbow();
 }
 void Plain_display_time(uint32_t last_tm, uint32_t tm){
-  fillMask(mask, OFF);
+  fillMask(mask, false);
   faceplates[faceplate_idx].maskTime(tm, mask);
   rainbow_fast();
   apply_mask(mask);
@@ -215,7 +217,7 @@ void setWordMask(bool *mask, uint8_t* word, bool b){
 void WordDrop_init(){
   uint32_t current_time = Now();
   last_time = current_time;
-  fillMask(mask, OFF);
+  fillMask(mask, false);
   faceplates[faceplate_idx].maskTime(current_time, mask);
   blend_to_rainbow();
 }
@@ -317,7 +319,7 @@ void word_drop(uint16_t last_time_inc, uint16_t time_inc){
   rainbow_slow();
 
   // swipe rainbow from the left
-  //wipe_around(ON);
+  //wipe_around(true);
   //delay(1000);
   if(last_time_inc != 289){
     word_drop_out(last_time_inc);
@@ -331,7 +333,7 @@ void word_drop(uint16_t last_time_inc, uint16_t time_inc){
   
   // clear rainbow to reveal the time
   //wipe_off_left();
-  //wipe_around(OFF);
+  //wipe_around(false);
   word_drop_in(time_inc);
 }
 
@@ -712,12 +714,14 @@ void button_setup(){
 
 /*********************************************************************************/
 // wifi setup
+#ifndef BAREBONES
 void wifi_setup(){
   wifiManager.autoConnect("KLOK");
   Serial.println("Yay connected!");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 }
+#endif
 // wifi setup
 /*********************************************************************************/
 
@@ -746,19 +750,24 @@ void setup(){
   FastLED.show();
   delay(900);
 
+#ifndef BAREBONES
   wifi_setup();
   ntp_clock.setup(&timeClient);
   int mumbai_offset = 19800;
   int dc_offset = -14400;
   ntp_clock.setOffset(mumbai_offset);
   //ntp_clock.setOffset(dc_offset);
-
+#endif
   Serial.println("setup() complete");
 }
 
 uint32_t Now(){
-  //return ds3231_clock.now();
+#ifndef BAREBONES
   return ntp_clock.now();
+#else
+  //  return ds3231_clock.now();
+  return millis()/1000;
+#endif
 }
 
 void loop(){
