@@ -62,17 +62,33 @@ uint32_t NTPClock::now(){
   return this->timeClient->getEpochTime();
 }
 
+time_t ds3231_now(){
+  RTC_DS3231 rtc;
+  return rtc.now().unixtime();
+}
+time_t timelib_now(){ // now() so that Clock classes can call the original timelib_now function
+  return now();
+}
+void timelib_setTime(time_t tm){// rename so that Clock classes can call the original timelib_now function
+  return setTime(tm);
+}
+
 DS3231Clock::DS3231Clock(){
+  setSyncProvider(ds3231_now);
+  setSyncInterval(678);
+  timelib_setTime(rtc.now().unixtime());
 }
 void DS3231Clock::setup(){
 }
 uint32_t DS3231Clock::now(){
-  return rtc.now().unixtime();
+  return timelib_now();
+  //return rtc.now().unixtime();
 }
 
 bool DS3231Clock::set(uint32_t t){
   DateTime dt(t);
   rtc.adjust(dt);
+  timelib_setTime(rtc.now().unixtime());
   return true;
 }
 
@@ -108,23 +124,23 @@ uint32_t DoomsdayClock::now(){
   
   if(master->isCurrent()){
     out = master->now();
-    if(false && abs_diff(m, b) > tol_sec){ /// false && to ignore ds3231 errors
+    if(abs_diff(m, b) > tol_sec){ /// false && to ignore ds3231 errors
       /*
       */
       Serial.print("abs diff: ");
-      Serial.println(abs_diff(m, b), BIN);
+      Serial.println(abs_diff(m, b), DEC);
       Serial.print("master: ");
-      Serial.println(m, BIN);
+      Serial.println(m, DEC);
       Serial.print("backup: ");
-      Serial.println(b, BIN);
+      Serial.println(b, DEC);
       Serial.print("backout wrong: ");
-      Serial.println(backup->now(), BIN);
+      Serial.println(backup->now(), DEC);
 
       backup->set(m);
       Serial.print("SET THE BACKUP to master: ");
-      Serial.println(m, BIN);
+      Serial.println(m, DEC);
       Serial.print("got: ");
-      Serial.println(backup->now(), BIN);
+      Serial.println(backup->now(), DEC);
       Serial.println();
       Serial.println();
       delay(1000);

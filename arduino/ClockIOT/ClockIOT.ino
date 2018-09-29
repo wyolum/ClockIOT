@@ -71,7 +71,8 @@ WiFiManager wifiManager;
 WiFiUDP ntpUDP;
 Faceplate faceplates[] = {
   english_v3,
-  spanish_v1
+  spanish_v1,
+  //hungarian_v2,
 };
 uint8_t num_faceplates = 2;
 uint8_t faceplate_idx = 0;
@@ -114,10 +115,7 @@ void set_timezone_from_ip(){
       bool dst = dst_str.equals("true");
       Serial.print("timezone_offset:");
       Serial.println(offset);
-      Serial.print("summer time?:");
-      Serial.println(dst);
       set_timezone_offset(offset);
-      set_summer_time(dst);
     }
     else{
       Serial.println("No timezone found");
@@ -618,7 +616,6 @@ struct config_t{
   int mode;
   uint8_t brightness;
   uint8_t display_idx;
-  bool summer_time;
 } configuration;
 
 void ChangeDisplay(Display* display_p);
@@ -632,6 +629,7 @@ void set_brightness(uint8_t brightness){
   if(brightness < 256){
     configuration.brightness = brightness;
     FastLED.setBrightness(configuration.brightness);
+    Serial.print("Adjust brightness to ");
     Serial.println(configuration.brightness);
     saveSettings();
   }
@@ -639,9 +637,40 @@ void set_brightness(uint8_t brightness){
 
 void adjust_brightness(int delta){
   int new_val = delta + configuration.brightness;
-  if(0 < new_val && new_val < 256){
-    set_brightness(new_val);
+  if(delta != 0){
+    if(0 < new_val && new_val < 256){
+      set_brightness(new_val);
+    }
   }
+}
+
+void dimmer(){
+  byte b;
+  b = configuration.brightness;
+  if(b == 255){
+    b = 128;
+  }
+  else if(b > 2){
+    b /= 2;
+  }
+  else{
+    b = 2;
+  }
+  set_brightness(b);
+}
+void brighter(){
+  byte b;
+  b = configuration.brightness;
+  if(b >= 128){
+    b = 255;
+  }
+  else if(b < 128){
+    b *= 2;
+  }
+  else{
+    b = 128;
+  }
+  set_brightness(b);
 }
 
 void set_display(uint8_t display_idx){
@@ -655,27 +684,15 @@ void next_display(){
   saveSettings();
 }
 
-void add_to_timezone(int32_t offset){ // does not include summer time offset
+void add_to_timezone(int32_t offset){ 
   configuration.timezone += offset;
   saveSettings();
   ntp_clock.setOffset(configuration.timezone);
 }
 
-void set_timezone_offset(int32_t offset){ // does not include summer time offset
+void set_timezone_offset(int32_t offset){
   configuration.timezone = offset % 86400;
   saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
-}
-
-void set_summer_time(bool summer_time){                   // AKA Dailight Savings Time
-  configuration.summer_time = summer_time;
-  saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
-}
-
-void toggle_summer_time(){
-  configuration.summer_time = !configuration.summer_time;
-  saveSettings();  
   ntp_clock.setOffset(configuration.timezone);
 }
 
@@ -775,15 +792,6 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   if(strcmp(topic + 9, "timezone_offset") == 0){
     Serial.println("Change timezone!!");
     set_timezone_offset(String(str_payload).toInt());
-  }
-  if(strcmp(topic + 9, "summer_time") == 0){
-    Serial.println("Change summer time!!");
-    if(strcmp(str_payload, "true") == 0){
-      set_summer_time(true);
-    }
-    else{
-      set_summer_time(false);
-    }
   }
   if(strcmp(topic + 9, "add_to_timezone") == 0){
     Serial.println("Add to timezone!");
@@ -958,10 +966,69 @@ void websocket_setup(){
 
 /*********************************************************************************/
 // Button stuff
+byte read_buttons(bool *enter_p, bool *inc_p, bool *decr_p, bool *mode_p){
+  byte state;
+  *enter_p = digitalRead(ENTER);
+  *inc_p = digitalRead(INC);
+  *decr_p = digitalRead(DECR);
+  *mode_p = digitalRead(MODE);
+  
+  state |= (*enter_p) << 3;
+  state |= (*inc_p)  << 2;
+  state |= (*decr_p) << 1;
+  state |= (*mode_p) << 0;
+
+  return state;
+}
+
 void button_setup(){
+  bool enter, inc, decr, mode;
+  pinMode(ENTER, INPUT);
+  pinMode(INC, INPUT);
+  pinMode(DECR, INPUT);
+  pinMode(MODE, INPUT);
+
+  byte button_state = read_buttons(&enter, &inc, &decr, &mode);
+
+  Serial.print("Button state: ");
+  Serial.println(button_state);
+
+  if(button_state == (1 << 3 | 1)){
+    Serial.println("Factory RESET!!");
+    set_brightness(32);
+    wifiManager.resetSettings();
+    Serial.println("Hit reset again to complete");
+    delay(1000);
+    while(1) delay(100);
+  }
+  else if(mode){
+    Serial.println("Set Time w/ INC/DEC buttons");
+  }
+  
+}
+uint32_t last_pressed = 0;
+byte last_button_state = 0b0000;
+void button_loop(){
+  bool enter, inc, decr, mode;
+  byte button_state = read_buttons(&enter, &inc, &decr, &mode);
+  
+  if(button_state != last_button_state){
+    if(mode){
+      next_display();
+    }
+    if(inc){
+      brighter();
+    }
+    if(decr){
+      dimmer();
+    }
+  }
+
+  last_button_state = button_state;
 }
 // Button stuff
 /*********************************************************************************/
+
 void setup(){
   last_time = 0;
   
@@ -970,15 +1037,16 @@ void setup(){
   //CurrentDisplay_p = &WordDropDisplay;
   Wire.begin();
   Serial.begin(115200);
+  
   delay(200);
   Serial.println("setup() starting");
-  //Serial.println(year(0));
+
   EEPROM.begin(1024);
   loadSettings();
-  led_setup();
+  led_setup(); // set up leds first so buttons can affect display if needed
+  button_setup();
+
   CurrentDisplay_p = &Displays[configuration.display_idx % N_DISPLAY];
-  wifi_setup();
-  mqtt_setup();
   
   for(int ii = 0; ii < num_faceplates; ii++){
     faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
@@ -996,7 +1064,8 @@ void setup(){
   wipe_around(OFF);
   display_bitmap_rgb(logo_rgb);
   FastLED.show();
-  delay(1000);
+  wifi_setup();
+  mqtt_setup();
   
   wipe_around(ON);
   fillMask(mask, false);
@@ -1005,10 +1074,10 @@ void setup(){
   //CurrentDisplay_p->init();
   //while(1)delay(100);
   ntp_clock.setup(&timeClient);
-  ntp_clock.setOffset(configuration.timezone + 3600 * configuration.summer_time);
+  ntp_clock.setOffset(configuration.timezone);
   ds3231_clock.setup();
   doomsday_clock.setup(&ntp_clock, &ds3231_clock);
-  set_timezone_from_ip(); // does not include summer time
+  set_timezone_from_ip(); 
   Serial.print("configuration.timezone: ");
   Serial.println(configuration.timezone);
 
@@ -1026,6 +1095,7 @@ void loop(){
 
   mqtt_client.loop();
   webSocket.loop();
+  button_loop();
   
   CurrentDisplay_p->display_time(last_time, current_time);
   FastLED.show();
