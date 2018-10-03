@@ -64,7 +64,10 @@ uint32_t NTPClock::now(){
 
 time_t ds3231_now(){
   RTC_DS3231 rtc;
-  return rtc.now().unixtime();
+  time_t n = rtc.now().unixtime();
+  Serial.print("DS3231 Time:");
+  Serial.println(n);
+  return n;
 }
 time_t timelib_now(){ // now() so that Clock classes can call the original timelib_now function
   return now();
@@ -74,11 +77,11 @@ void timelib_setTime(time_t tm){// rename so that Clock classes can call the ori
 }
 
 DS3231Clock::DS3231Clock(){
+}
+void DS3231Clock::setup(){
   setSyncProvider(ds3231_now);
   setSyncInterval(678);
   timelib_setTime(rtc.now().unixtime());
-}
-void DS3231Clock::setup(){
 }
 uint32_t DS3231Clock::now(){
   return timelib_now();
@@ -133,7 +136,7 @@ uint32_t DoomsdayClock::now(){
       Serial.println(m, DEC);
       Serial.print("backup: ");
       Serial.println(b, DEC);
-      Serial.print("backout wrong: ");
+      Serial.print("backup wrong: ");
       Serial.println(backup->now(), DEC);
 
       backup->set(m);

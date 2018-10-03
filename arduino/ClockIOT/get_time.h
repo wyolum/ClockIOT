@@ -41,8 +41,8 @@ class NTPClock : public Clock{
 };
 
 class DS3231Clock : public Clock{
-  RTC_DS3231 rtc;
  public:
+  RTC_DS3231 rtc;
   DS3231Clock();
   void setup();
   uint32_t now();

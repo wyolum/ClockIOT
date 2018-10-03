@@ -31,15 +31,15 @@ void setup() {
     Serial.println("Couldn't find RTC");
     //while (1);
   } else{
-  if (rtc.lostPower()) {
-    Serial.println("RTC lost power, lets set the time!");
-    // following line sets the RTC to the date & time this sketch was compiled
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    // This line sets the RTC with an explicit date & time, for example to set
-    // January 21, 2014 at 3am you would call:
-    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-  }
-     DateTime now = rtc.now();
+    if (rtc.lostPower()) {
+      Serial.println("RTC lost power, lets set the time!");
+      // following line sets the RTC to the date & time this sketch was compiled
+      rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+      // This line sets the RTC with an explicit date & time, for example to set
+      // January 21, 2014 at 3am you would call:
+      // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+    }
+    DateTime now = rtc.now();
     
     Serial.print(now.year(), DEC);
     Serial.print('/');
@@ -59,23 +59,20 @@ void setup() {
 }
 
 void loop() {
-   Serial.println("Testing LEDS");
+  Serial.println("Testing LEDS");
   incremental_fill_color(CRGB(255,0,0));
-
   delay(1000);
   incremental_fill_color(CRGB(0,255,0));
   delay(1000);
   incremental_fill_color(CRGB(0,0,255));
   delay(1000);
-   
-
-  
 }
+
 void incremental_fill_color(CRGB color){
   for(int i=0;i < NUM_LEDS;i++){
-      leds[i] = color;
-       FastLED.show();
-       delay(10);
+    leds[i] = color;
+    FastLED.show();
+    delay(10);
   }
   for (int i = NUM_LEDS-1; i >=0; i--){
     leds[i] = CRGB::Black;

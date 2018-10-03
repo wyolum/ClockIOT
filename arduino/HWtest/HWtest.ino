@@ -1,5 +1,8 @@
 #include <Wire.h>
 #include <FastLED.h>
+#include <RTClib.h>
+
+RTC_DS3231 rtc;
 
 #define LED_TYPE   APA102
 #define MILLI_AMPS   1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
@@ -13,10 +16,10 @@
 CRGBArray<NUM_LEDS> leds; 
 
 /*
-#define ENTER 19
-#define INC 18
-#define DECR 5
-#define MODE 17
+  #define ENTER 19
+  #define INC 18
+  #define DECR 5
+  #define MODE 17
 */
 #define ENTER 17
 #define INC 5
@@ -28,10 +31,12 @@ void incremental_fill_color(CRGB color){
     leds[i] = color;
     FastLED.show();
   }
-  for (int i = NUM_LEDS-1; i >=0; i--){
+  /*
+    for (int i = NUM_LEDS-1; i >=0; i--){
     leds[i] = CRGB::Black;
     FastLED.show();
-  }
+    }
+  */
 }
 
 void setup() {
@@ -53,7 +58,39 @@ void setup() {
 
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN, COLOR_ORDER>(leds,NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS);
-  
+
+
+  if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    //while (1);
+  } else{
+    if (rtc.lostPower()) {
+      Serial.println("RTC lost power, lets set the time!");
+      // following line sets the RTC to the date & time this sketch was compiled
+      rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+      // This line sets the RTC with an explicit date & time, for example to set
+      // January 21, 2014 at 3am you would call:
+      // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+    }  
+  }
+  // January 21, 2014 at 3am you would call:
+  rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+
+  DateTime now = rtc.now();
+    
+  Serial.print(now.year(), DEC);
+  Serial.print('/');
+  Serial.print(now.month(), DEC);
+  Serial.print('/');
+  Serial.print(now.day(), DEC);
+  Serial.print(" ");
+  Serial.print(now.hour(), DEC);
+  Serial.print(':');
+  Serial.print(now.minute(), DEC);
+  Serial.print(':');
+  Serial.print(now.second(), DEC);
+  Serial.println();
 }
 
 byte bcd(byte in){
@@ -71,7 +108,7 @@ void loop() {
   Wire.endTransmission();
   Wire.requestFrom(0x68, 3); // request three bytes (seconds, minutes, hours)
   
-  while(Wire.available()){
+  if(Wire.available()){
     int seconds = bcd(Wire.read()); // get seconds
     int minutes = bcd(Wire.read()); // get minutes
     int hours = bcd(Wire.read());   // get hours
@@ -80,8 +117,16 @@ void loop() {
     Serial.print(minutes);
     Serial.print(":");
     Serial.println(seconds);
+
+    if(minutes != 0){// set time every minute
+      //rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+
+      //DateTime dt(0);
+      //rtc.adjust(dt);
+    }
   }
 
+  
 
   if (Serial.available()){
     Serial.print("received: ");

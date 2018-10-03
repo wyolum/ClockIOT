@@ -108,8 +108,6 @@ void set_timezone_from_ip(){
     String findme = String("offset_seconds");
     if(httpCode == HTTP_CODE_OK) {
       String payload = http.getString();
-      Serial.println(payload);
-      
       int offset = jsonLookup(payload, String("offset_seconds")).toInt();
       String dst_str = jsonLookup(payload, String("dst"));
       bool dst = dst_str.equals("true");
@@ -123,6 +121,10 @@ void set_timezone_from_ip(){
   }
 }
 
+void setPixel(byte row, byte col, const struct CRGB & color){
+  int pos = XY(col, row);
+  leds[pos] = color;
+}
 void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b){
   if(row >= MatrixHeight){
   }
@@ -432,7 +434,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
     
   for(i=0; i < MatrixWidth; i++){
     for(j=0; j < MatrixHeight; j++){
-      mqtt_client.loop();
+      interact_loop();
       if(leds[XY(i, j)].red > 0 ||
 	 leds[XY(i, j)].green > 0 ||
 	 leds[XY(i, j)].blue > 0){
@@ -449,7 +451,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   delay(10);
   for(j = 0; j < 255 * 3; j++){
     for(i=0; i < NUM_LEDS; i++){
-      mqtt_client.loop();
+      interact_loop();
       leds[i].red   = blend8(leds[i].red, 0, 1);
       leds[i].green = blend8(leds[i].green, 255, 1);
       leds[i].blue  = blend8(leds[i].blue, 0, 1);
@@ -460,7 +462,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   }
 
   for(i = n_drop; i < n_need; i++){/// add enough drops to complete
-    mqtt_client.loop();
+    interact_loop();
     cols[i] = random(0, MatrixWidth);
     rows[i] = -random(0, MatrixHeight);
     n_drop++;
@@ -472,7 +474,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
     //  while(millis() < end){
     fadeToBlackBy(leds, NUM_LEDS, 75);
     for(i = 0; i < n_drop; i++){
-      mqtt_client.loop();
+      interact_loop();
       if(millis() > end && wipe[XY(cols[i], rows[i])]){
 	if(random(0, 3) == 0){
 	  have[XY(cols[i], rows[i])] = true;
@@ -520,7 +522,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
     //  while(millis() < end){
     fadeToBlackBy(leds, NUM_LEDS, 75);
     for(i = 0; i < n_drop; i++){
-      mqtt_client.loop();
+      interact_loop();
       rows[i]++;
       if(0 <= rows[i] && rows[i] <  MatrixHeight){
 	leds[XY(cols[i], rows[i])] = color;
@@ -616,7 +618,10 @@ struct config_t{
   int mode;
   uint8_t brightness;
   uint8_t display_idx;
-} configuration;
+  bool factory_reset;
+  bool use_wifi;
+  byte mqtt_ip[4];
+} config;
 
 void ChangeDisplay(Display* display_p);
 void ChangeDisplay(Display* display_p){
@@ -627,16 +632,16 @@ void ChangeDisplay(Display* display_p){
 // Common Interface for buttons and MQTT
 void set_brightness(uint8_t brightness){
   if(brightness < 256){
-    configuration.brightness = brightness;
-    FastLED.setBrightness(configuration.brightness);
+    config.brightness = brightness;
+    FastLED.setBrightness(config.brightness);
     Serial.print("Adjust brightness to ");
-    Serial.println(configuration.brightness);
+    Serial.println(config.brightness);
     saveSettings();
   }
 }
 
 void adjust_brightness(int delta){
-  int new_val = delta + configuration.brightness;
+  int new_val = delta + config.brightness;
   if(delta != 0){
     if(0 < new_val && new_val < 256){
       set_brightness(new_val);
@@ -646,7 +651,7 @@ void adjust_brightness(int delta){
 
 void dimmer(){
   byte b;
-  b = configuration.brightness;
+  b = config.brightness;
   if(b == 255){
     b = 128;
   }
@@ -660,7 +665,7 @@ void dimmer(){
 }
 void brighter(){
   byte b;
-  b = configuration.brightness;
+  b = config.brightness;
   if(b >= 128){
     b = 255;
   }
@@ -674,26 +679,30 @@ void brighter(){
 }
 
 void set_display(uint8_t display_idx){
-  configuration.display_idx = display_idx % N_DISPLAY;
+  config.display_idx = display_idx % N_DISPLAY;
   ChangeDisplay(&Displays[display_idx % N_DISPLAY]);
   saveSettings();
 }
 void next_display(){
-  configuration.display_idx = (configuration.display_idx + 1) % N_DISPLAY;
-  ChangeDisplay(&Displays[configuration.display_idx]);
+  config.display_idx = (config.display_idx + 1) % N_DISPLAY;
+  ChangeDisplay(&Displays[config.display_idx]);
   saveSettings();
 }
 
 void add_to_timezone(int32_t offset){ 
-  configuration.timezone += offset;
+  config.timezone += offset;
   saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
+  if(config.use_wifi){
+    ntp_clock.setOffset(config.timezone);
+  }
 }
 
 void set_timezone_offset(int32_t offset){
-  configuration.timezone = offset % 86400;
+  config.timezone = offset % 86400;
   saveSettings();
-  ntp_clock.setOffset(configuration.timezone);
+  if(config.use_wifi){
+    ntp_clock.setOffset(config.timezone);
+  }
 }
 
 void display_bitmap_rgb(uint8_t* bitmap){
@@ -756,11 +765,11 @@ void fillMask(bool* mask, bool b, int start, int stop){
 }
 
 void loadSettings(){
-  EEPROM_readAnything(0, configuration);  
+  EEPROM_readAnything(0, config);  
 }
 
 void saveSettings(){
-  EEPROM_writeAnything(0, configuration);
+  EEPROM_writeAnything(0, config);
   EEPROM.commit();
 }
 
@@ -857,7 +866,15 @@ void led_setup(){
 }
 
 void wifi_setup(){
-  wifiManager.autoConnect("KLOK");
+  if(config.factory_reset){
+    config.factory_reset = false;
+    saveSettings();
+    //wifiManager.autoConnect("KLOK");
+    wifiManager.startConfigPortal("KLOK");
+  }
+  else{
+    wifiManager.autoConnect("KLOK");
+  }
   Serial.println("Yay connected!");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
@@ -981,6 +998,66 @@ byte read_buttons(bool *enter_p, bool *inc_p, bool *decr_p, bool *mode_p){
   return state;
 }
 
+void factory_reset(){
+  Serial.println("Factory RESET!!");
+  set_brightness(32);
+  Serial.println("Hit reset again to complete");
+  config.factory_reset = true;
+  saveSettings();
+  delay(1000);
+  while(1) delay(100);
+}
+
+void button_set_time(){
+  Serial.println("Set Time w/ INC/DEC buttons");
+  
+  uint32_t current_time = ds3231_clock.now();
+  current_time -= current_time % 60;
+  bool enter, inc, decr, mode;
+  byte button_state;
+  byte last_button_state = 0b000;
+  while(1){
+
+    button_state = read_buttons(&enter, &inc, &decr, &mode);
+
+    if(button_state != last_button_state){
+      if(button_state == 0b0100){
+	Serial.println("inc");
+	current_time += 60;
+      }
+      else if(button_state == 0b0010){
+	Serial.println("decr");
+	current_time -= 60;
+      }
+      else if(button_state == 0b1000){
+	Serial.println("enter");
+	current_time += 60 * 60;
+      }
+      else if(button_state == 0b0001){
+	Serial.println("mode");
+	current_time -= 60 * 60;
+      }
+      if(button_state){
+	ds3231_clock.set(current_time);
+      }
+    }
+    last_button_state = button_state;
+    if((millis() % 1000) < 900){
+      fill_blue();
+    }
+    else{
+      fill_green();
+    }
+    fillMask(mask, OFF);
+    faceplates[faceplate_idx].maskTime(current_time, mask);
+    apply_mask(mask);
+    for(int min = 0; min < (current_time % 300)/60; min++){
+      setPixel(min, 15, CRGB::Green);
+    }
+    FastLED.show();
+  }
+}
+
 void button_setup(){
   bool enter, inc, decr, mode;
   pinMode(ENTER, INPUT);
@@ -994,18 +1071,20 @@ void button_setup(){
   Serial.println(button_state);
 
   if(button_state == (1 << 3 | 1)){
-    Serial.println("Factory RESET!!");
-    set_brightness(32);
-    wifiManager.resetSettings();
-    Serial.println("Hit reset again to complete");
-    delay(1000);
-    while(1) delay(100);
+    factory_reset();
   }
   else if(mode){
-    Serial.println("Set Time w/ INC/DEC buttons");
+    if(config.use_wifi){ // toggle use_wifi
+      config.use_wifi = false;
+      button_set_time(); // if(mode) body
+      saveSettings();
+    }
+    else{
+      config.use_wifi = true;
+    }
   }
-  
 }
+
 uint32_t last_pressed = 0;
 byte last_button_state = 0b0000;
 void button_loop(){
@@ -1029,6 +1108,17 @@ void button_loop(){
 // Button stuff
 /*********************************************************************************/
 
+bool use_mqtt(){
+  bool out = false;
+  for(int i=0; i<4; i++){
+    if(config.mqtt_ip[i] != 255){
+      out = true;
+      break;
+    }
+  }
+  return out;
+}
+
 void setup(){
   last_time = 0;
   
@@ -1043,20 +1133,37 @@ void setup(){
 
   EEPROM.begin(1024);
   loadSettings();
-  led_setup(); // set up leds first so buttons can affect display if needed
-  button_setup();
+  //config.use_wifi = false; // Debug
 
-  CurrentDisplay_p = &Displays[configuration.display_idx % N_DISPLAY];
+  Serial.println("Settings");
+  Serial.print("tikmezone:");Serial.println(config.timezone);
+  Serial.print("alarm:");Serial.println(config.alarm);
+  Serial.print("mode:");Serial.println(config.mode);
+  Serial.print("brightness:");Serial.println(config.brightness);
+  Serial.print("display_idx:");Serial.println(config.display_idx);
+  Serial.print("factory_reset:");Serial.println(config.factory_reset);
+  Serial.print("use_wifi:");Serial.println(config.use_wifi);
+  Serial.print("mqtt_ip:");
+  for(int i = 0; i< 4; i++){
+    Serial.print(config.mqtt_ip[i]);
+    Serial.print(", ");
+  }
+  Serial.println();
+  led_setup(); // set up leds first so buttons can affect display if needed
+
+  CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
   
   for(int ii = 0; ii < num_faceplates; ii++){
     faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
   }
 
   // logo
-  if( configuration.brightness == 0){
-    configuration.brightness == 30;
+  if( config.brightness == 0){
+    config.brightness == 30;
   }
-  FastLED.setBrightness(configuration.brightness);
+  FastLED.setBrightness(config.brightness);
+  ds3231_clock.setup();
+  button_setup();
 
   wipe_around(ON);
   display_bitmap_rgb(logo_rgb);
@@ -1064,8 +1171,12 @@ void setup(){
   wipe_around(OFF);
   display_bitmap_rgb(logo_rgb);
   FastLED.show();
-  wifi_setup();
-  mqtt_setup();
+  if(config.use_wifi){
+    wifi_setup();
+  }
+  if(use_mqtt()){
+    mqtt_setup();
+  }
   
   wipe_around(ON);
   fillMask(mask, false);
@@ -1073,29 +1184,46 @@ void setup(){
 
   //CurrentDisplay_p->init();
   //while(1)delay(100);
-  ntp_clock.setup(&timeClient);
-  ntp_clock.setOffset(configuration.timezone);
-  ds3231_clock.setup();
-  doomsday_clock.setup(&ntp_clock, &ds3231_clock);
-  set_timezone_from_ip(); 
-  Serial.print("configuration.timezone: ");
-  Serial.println(configuration.timezone);
-
-  websocket_setup();
+  if(config.use_wifi){
+    ntp_clock.setup(&timeClient);
+    ntp_clock.setOffset(config.timezone);
+    ds3231_clock.set(ntp_clock.now());
+    doomsday_clock.setup(&ntp_clock, &ds3231_clock);
+    set_timezone_from_ip(); 
+    websocket_setup();
+  }
+  Serial.print("config.timezone: ");
+  Serial.println(config.timezone);
   Serial.println("setup() complete");
 }
 
 uint32_t Now(){
-  return doomsday_clock.now();
+  uint32_t out;
+  
+  if(config.use_wifi){
+    out = doomsday_clock.now();
+  }
+  else{
+    out = ds3231_clock.now();
+  }
+  return out;
+}
+
+void  interact_loop(){
+  if (use_mqtt()){
+    mqtt_client.loop();
+  }
+  if(config.use_wifi){
+    webSocket.loop();
+  }
+  button_loop();
 }
 
 void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
 
-  mqtt_client.loop();
-  webSocket.loop();
-  button_loop();
+  interact_loop();
   
   CurrentDisplay_p->display_time(last_time, current_time);
   FastLED.show();
@@ -1109,7 +1237,7 @@ void loop(){
   Serial.print(timeClient.getSeconds());
   Serial.println("");
   
-  Serial.print("RTC Time:");
+  Serial.print("ds3231_clock.Time:");
   Serial.print(ds3231_clock.year());
   Serial.print("/");
   Serial.print(ds3231_clock.month());
@@ -1121,24 +1249,29 @@ void loop(){
   Serial.print(ds3231_clock.minutes());
   Serial.print(":");
   Serial.println(ds3231_clock.seconds());
+  Serial.println(ds3231_clock.now());
+  Serial.println(ds3231_clock.rtc.now().unixtime());
   Serial.println();
+  delay(1000);
   */
-  if(doomsday_clock.seconds() == 0 and millis() < 1){
-    Serial.print("Doomsday Time:");
-    Serial.print(doomsday_clock.year());
-    Serial.print("/");
-    Serial.print(doomsday_clock.month());
-    Serial.print("/");
-    Serial.print(doomsday_clock.day());
-    Serial.print(" ");
-    if(doomsday_clock.hours() < 10)Serial.print('0');
-    Serial.print(doomsday_clock.hours());
-    Serial.print(":");
-    if(doomsday_clock.minutes() < 10)Serial.print('0');
-    Serial.print(doomsday_clock.minutes());
-    Serial.print(":");
-    if(doomsday_clock.seconds() < 10)Serial.print('0');
-    Serial.println(doomsday_clock.seconds());
+  if(config.use_wifi){
+    if(doomsday_clock.seconds() == 0 and millis() < 1){
+      Serial.print("Doomsday Time:");
+      Serial.print(doomsday_clock.year());
+      Serial.print("/");
+      Serial.print(doomsday_clock.month());
+      Serial.print("/");
+      Serial.print(doomsday_clock.day());
+      Serial.print(" ");
+      if(doomsday_clock.hours() < 10)Serial.print('0');
+      Serial.print(doomsday_clock.hours());
+      Serial.print(":");
+      if(doomsday_clock.minutes() < 10)Serial.print('0');
+      Serial.print(doomsday_clock.minutes());
+      Serial.print(":");
+      if(doomsday_clock.seconds() < 10)Serial.print('0');
+      Serial.println(doomsday_clock.seconds());
+    }
   }
   last_time = current_time;
 }
