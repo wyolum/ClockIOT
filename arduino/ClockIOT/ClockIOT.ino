@@ -655,8 +655,11 @@ void dimmer(){
   if(b == 255){
     b = 128;
   }
-  else if(b > 2){
+  else if(b > 3){
     b /= 2;
+  }
+  else if (b == 3){
+    b = 2;
   }
   else{
     b = 2;
@@ -787,8 +790,8 @@ uint16_t XY( uint8_t x, uint8_t y){
 
 void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   bool handled = false;
-  char str_payload[length + 1];
-  for(int i = 0; i < length; i++){
+  char str_payload[length + 1]; 
+ for(int i = 0; i < length; i++){
     str_payload[i] = payload[i];
   }
   str_payload[length] = 0;
@@ -816,14 +819,68 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   }
   if(strcmp(topic + 9, "brighter") == 0){
     Serial.println("Increment brigtness!!");
-    adjust_brightness(10);
+    brighter();
   }
   if(strcmp(topic + 9, "dimmer") == 0){
     Serial.println("Decrement brigtness!!");
-    adjust_brightness(-10);
+    dimmer();
+  }
+  if(strcmp(topic + 9, "mqtt_ip") == 0){
+    Serial.println("Update mqtt_ip address!!");
+    if(ip_from_str(str_payload, config.mqtt_ip)){
+      saveSettings();
+      mqtt_setup();
+    }
+    else{
+      for(int i=0; i<4; i++){
+	config.mqtt_ip = 255;
+      }
+    }
   }
 }
 
+bool ip_from_str(char* str, byte* ip){
+  byte my_ip[4];
+  int end_poss[4];
+  int i = 0, j = 0;
+  int dots_found = 0;
+  bool out = false;
+  byte num;
+  String strstr = String(str);
+  
+  Serial.println("ip_from_str");
+  Serial.println(str);
+  while(i < strlen(str) && dots_found < 3){
+    if(str[i] == '.'){
+      end_poss[dots_found] = i;
+      dots_found++;
+    }
+    i++;
+  }
+  if(dots_found == 3){
+    out = true;
+    end_poss[3] = strlen(str);
+    for(i = 0; i < 4; i++){
+      num = String(strstr.substring(j, end_poss[i])).toInt();
+      if(num == 0){
+	out = false;
+      }
+      ip[i] = num;
+      j = end_poss[i] + 1;
+    }
+  }
+  if(out){
+    Serial.print("IP: ");
+    for(i=0; i<4; i++){
+      Serial.print(ip[i]);
+      if(i < 3){
+	Serial.print(".");
+      }
+    }
+    Serial.println();
+  }
+  return out;
+}
 
 void mqtt_subscribe(){
   mqtt_client.subscribe("clockiot/#");
@@ -849,11 +906,12 @@ bool mqtt_connect(){
 }
 
 void mqtt_setup(){
-  uint8_t server[4] = {192, 168, 1, 159};
+  //uint8_t server[4] = {192, 168, 1, 159};
   //uint8_t server[4] = {10, 10, 10, 2};
-  mqtt_client.setServer(server, 1883);
+  mqtt_client.setServer(config.mqtt_ip, 1883);
   mqtt_client.setCallback(mqtt_callback);
   mqtt_connect();
+  Serial.println("USE MQTT!!");
 }
 
 void led_setup(){

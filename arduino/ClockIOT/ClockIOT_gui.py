@@ -17,7 +17,7 @@ def send_mqtt_ip():
     for i in range(4):
         bytes.append(mqtt_ip[i].get())
     msg = 'clockiot/mqtt_ip//' + '.'.join(bytes)
-    print (msg)
+    asyncio.get_event_loop().run_until_complete(send_msg(msg))
 
 root = tkinter.Tk()
 frame = tkinter.Frame(root)
