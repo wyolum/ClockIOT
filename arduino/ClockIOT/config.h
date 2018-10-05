@@ -5,4 +5,5 @@
 #define DECR 18
 #define MODE 19
 
-bool FLIP_DISPLAY = true; // true: cord out bottom, false: cord out top
+/* added to config struct */
+//bool FLIP_DISPLAY = true; // true: cord out bottom, false: cord out top

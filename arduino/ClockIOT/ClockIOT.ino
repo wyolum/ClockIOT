@@ -621,6 +621,7 @@ struct config_t{
   bool factory_reset;
   bool use_wifi;
   byte mqtt_ip[4];
+  bool flip_display;
 } config;
 
 void ChangeDisplay(Display* display_p);
@@ -778,7 +779,7 @@ void saveSettings(){
 
 uint16_t XY( uint8_t x, uint8_t y){
   uint16_t out = 0;
-  if(FLIP_DISPLAY){
+  if(config.flip_display){
     x = MatrixWidth - x - 1;
     y = MatrixHeight - y - 1;
   }
@@ -825,6 +826,16 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Decrement brigtness!!");
     dimmer();
   }
+  if(strcmp(topic + 9, "flip_display") == 0){
+    Serial.println("Flip Display");
+    if(config.flip_display){
+      config.flip_display = false;
+    }
+    else{
+      config.flip_display = true;
+    }      
+    saveSettings();
+  }
   if(strcmp(topic + 9, "mqtt_ip") == 0){
     Serial.println("Update mqtt_ip address!!");
     if(ip_from_str(str_payload, config.mqtt_ip)){
@@ -833,7 +844,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     }
     else{
       for(int i=0; i<4; i++){
-	config.mqtt_ip = 255;
+	config.mqtt_ip[i] = 255;
       }
     }
   }
