@@ -838,14 +838,13 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   }
   if(strcmp(topic + 9, "mqtt_ip") == 0){
     Serial.println("Update mqtt_ip address!!");
-    if(ip_from_str(str_payload, config.mqtt_ip)){
+    byte tmp_ip[4];
+    if(ip_from_str(str_payload, tmp_ip)){
+      for(int ii=0; ii<4; ii++){
+	congfig.mqtt_ip[i] = tmp_ip[i];
+      }
       saveSettings();
       mqtt_setup();
-    }
-    else{
-      for(int i=0; i<4; i++){
-	config.mqtt_ip[i] = 255;
-      }
     }
   }
 }

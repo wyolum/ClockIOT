@@ -4,7 +4,8 @@ import websocket
 import glob
 
 ports = glob.glob('/dev/cu.SLAB*')
-print (ports)
+if len(ports) == 0:
+    ports = ['No port available']
 
 ESP32_IP = [192,168,1,183]
 
