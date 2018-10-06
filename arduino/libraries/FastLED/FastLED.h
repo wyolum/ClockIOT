@@ -11,12 +11,12 @@
 #define FASTLED_HAS_PRAGMA_MESSAGE
 #endif
 
-#define FASTLED_VERSION 3001007
+#define FASTLED_VERSION 3002000
 #ifndef FASTLED_INTERNAL
 #  ifdef FASTLED_HAS_PRAGMA_MESSAGE
-//#    pragma message "FastLED version 3.001.007"
+#    pragma message "FastLED version 3.002.000"
 #  else
-//#    warning FastLED version 3.001.007  (Not really a warning, just telling you here.)
+#    warning FastLED version 3.002.000  (Not really a warning, just telling you here.)
 #  endif
 #endif
 
@@ -25,15 +25,15 @@
 #endif
 
 #ifdef SmartMatrix_h
-#include<SmartMatrix.h>
+#include <SmartMatrix.h>
 #endif
 
 #ifdef DmxSimple_h
-#include<DmxSimple.h>
+#include <DmxSimple.h>
 #endif
 
 #ifdef DmxSerial_h
-#include<DMXSerial.h>
+#include <DMXSerial.h>
 #endif
 
 #include <stdint.h>
@@ -50,7 +50,7 @@
 #include "controller.h"
 #include "fastpin.h"
 #include "fastspi_types.h"
-#include "./dmx.h"
+#include "dmx.h"
 
 #include "platforms.h"
 #include "fastled_progmem.h"
