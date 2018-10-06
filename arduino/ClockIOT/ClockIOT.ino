@@ -83,6 +83,11 @@ Klok klok(faceplates[0], timeClient);
 String jsonLookup(String s, String name){
   int start = s.indexOf(name) + name.length() + 3;
   int stop = s.indexOf('"', start);
+  Serial.print("start:");
+  Serial.println(start);
+  Serial.print("stop:");
+  Serial.println(stop);
+  Serial.println(s.substring(start, stop));
   return s.substring(start, stop);
 }
 
@@ -94,7 +99,9 @@ void set_timezone_from_ip(){
   // configure traged server and url
   //http.begin("https://www.howsmyssl.com/a/check", ca); //HTTPS
   // http.begin("http://example.com/index.html"); //HTTP
-  http.begin("https://timezoneapi.io/api/ip");
+
+  //http.begin("https://timezoneapi.io/api/ip");// no longer works!
+  http.begin("https://ipapi.co/json");
   Serial.print("[HTTP] GET...\n");
   // start connection and send HTTP header
   int httpCode = http.GET();
@@ -108,9 +115,19 @@ void set_timezone_from_ip(){
     String findme = String("offset_seconds");
     if(httpCode == HTTP_CODE_OK) {
       String payload = http.getString();
-      int offset = jsonLookup(payload, String("offset_seconds")).toInt();
-      String dst_str = jsonLookup(payload, String("dst"));
-      bool dst = dst_str.equals("true");
+      //Serial.print("payload:");
+      //Serial.println(payload);
+      payload.replace(" ", "");
+      String offset_str = jsonLookup(payload, String("utc_offset"));
+      int hours = offset_str.substring(0, 3).toInt();
+      int minutes = offset_str.substring(3, 5).toInt();
+      if(offset_str.charAt(0) == '-'){
+	minutes *= -1;
+      }
+      int offset = hours * 3600 + minutes * 60;
+
+      Serial.print("timezone_offset String:");
+      Serial.println(offset_str);
       Serial.print("timezone_offset:");
       Serial.println(offset);
       set_timezone_offset(offset);
@@ -614,8 +631,6 @@ uint8_t logo_rgb[] = {
 
 struct config_t{
   int timezone;
-  long alarm;
-  int mode;
   uint8_t brightness;
   uint8_t display_idx;
   bool factory_reset;
@@ -802,6 +817,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("  payload:");
   Serial.println(str_payload);
   
+  /*
   if(strcmp(topic + 9, "timezone_offset") == 0){
     Serial.println("Change timezone!!");
     set_timezone_offset(String(str_payload).toInt());
@@ -810,6 +826,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Add to timezone!");
     add_to_timezone(String(str_payload).toInt());
   }
+  */
   if(strcmp(topic + 9, "display_idx") == 0){
     Serial.println("Change display_idx!!");
     set_display(String(str_payload).toInt());
@@ -840,8 +857,8 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Update mqtt_ip address!!");
     byte tmp_ip[4];
     if(ip_from_str(str_payload, tmp_ip)){
-      for(int ii=0; ii<4; ii++){
-	congfig.mqtt_ip[i] = tmp_ip[i];
+      for(int i=0; i<4; i++){
+	config.mqtt_ip[i] = tmp_ip[i];
       }
       saveSettings();
       mqtt_setup();
@@ -1013,14 +1030,10 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
     }
     payload[length - stop] = 0;
     
-    // mqtt_callback(char* topic, byte* payload, unsigned int length);
-
-    mqtt_callback(topic,
-		  payload,
-		  length - stop);
+    mqtt_callback(topic, payload, length - stop);
     
     // send message to client
-    // webSocket.sendTXT(num, "message here");
+    //webSocket.sendTXT(num, "message here");
     
     // send data to all connected clients
     // webSocket.broadcastTXT("message here");
@@ -1205,8 +1218,6 @@ void setup(){
 
   Serial.println("Settings");
   Serial.print("tikmezone:");Serial.println(config.timezone);
-  Serial.print("alarm:");Serial.println(config.alarm);
-  Serial.print("mode:");Serial.println(config.mode);
   Serial.print("brightness:");Serial.println(config.brightness);
   Serial.print("display_idx:");Serial.println(config.display_idx);
   Serial.print("factory_reset:");Serial.println(config.factory_reset);
