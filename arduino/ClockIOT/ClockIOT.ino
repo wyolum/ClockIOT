@@ -102,6 +102,7 @@ void set_timezone_from_ip(){
 
   //http.begin("https://timezoneapi.io/api/ip");// no longer works!
   http.begin("https://ipapi.co/json");
+  
   Serial.print("[HTTP] GET...\n");
   // start connection and send HTTP header
   int httpCode = http.GET();
@@ -817,7 +818,6 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("  payload:");
   Serial.println(str_payload);
   
-  /*
   if(strcmp(topic + 9, "timezone_offset") == 0){
     Serial.println("Change timezone!!");
     set_timezone_offset(String(str_payload).toInt());
@@ -826,7 +826,6 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println("Add to timezone!");
     add_to_timezone(String(str_payload).toInt());
   }
-  */
   if(strcmp(topic + 9, "display_idx") == 0){
     Serial.println("Change display_idx!!");
     set_display(String(str_payload).toInt());

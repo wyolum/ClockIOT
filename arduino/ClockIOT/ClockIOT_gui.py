@@ -21,10 +21,10 @@ def send_msg(msg):
     ws.connect(ip_str)
     ws.send(msg)
     greeting1 = ws.recv()
-    greeting2 = ws.recv()
+    # greeting2 = ws.recv()
     result = ws.close()
     print(f"< {greeting1}")
-    print(f"< {greeting2}")
+    # print(f"< {greeting2}")
 def brighter():
     send_msg('clockiot/brighter')
 def dimmer():
