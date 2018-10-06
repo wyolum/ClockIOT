@@ -30,6 +30,18 @@
 #include "spanish_v1.h"
 
 #include "config.h"
+struct config_t{
+  int timezone;
+  uint8_t brightness;
+  uint8_t display_idx;
+  bool factory_reset;
+  bool use_wifi;
+  bool use_ip_timezone;
+  byte mqtt_ip[4];
+  bool flip_display;
+  uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
+} config;
+
 
 //const bool ON = true;
 //const bool OFF = !ON;
@@ -81,12 +93,8 @@ NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
 Klok klok(faceplates[0], timeClient);
 
 String jsonLookup(String s, String name){
-  int start = s.indexOf(name) + name.length() + 3;
+  int start = s.indexOf(name) + name.length() + 2;
   int stop = s.indexOf('"', start);
-  Serial.print("start:");
-  Serial.println(start);
-  Serial.print("stop:");
-  Serial.println(stop);
   Serial.println(s.substring(start, stop));
   return s.substring(start, stop);
 }
@@ -101,7 +109,10 @@ void set_timezone_from_ip(){
   // http.begin("http://example.com/index.html"); //HTTP
 
   //http.begin("https://timezoneapi.io/api/ip");// no longer works!
-  http.begin("https://ipapi.co/json");
+  //http.begin("https://ipapi.co/json");
+  String url = String("https://www.wyolum.com/utc_offset/utc_offset.py?refresh=") + String(millis());
+  Serial.println(url);
+  http.begin(url);
   
   Serial.print("[HTTP] GET...\n");
   // start connection and send HTTP header
@@ -116,8 +127,8 @@ void set_timezone_from_ip(){
     String findme = String("offset_seconds");
     if(httpCode == HTTP_CODE_OK) {
       String payload = http.getString();
-      //Serial.print("payload:");
-      //Serial.println(payload);
+      Serial.print("payload:");
+      Serial.println(payload);
       payload.replace(" ", "");
       String offset_str = jsonLookup(payload, String("utc_offset"));
       int hours = offset_str.substring(0, 3).toInt();
@@ -132,6 +143,8 @@ void set_timezone_from_ip(){
       Serial.print("timezone_offset:");
       Serial.println(offset);
       set_timezone_offset(offset);
+      config.last_tz_lookup = Now();
+      saveSettings();
     }
     else{
       Serial.println("No timezone found");
@@ -630,16 +643,6 @@ uint8_t logo_rgb[] = {
   0x11,0x00,0x09,0x88,0x05,0x48,0x03,0x28,0x05,0x18,0x09,0x28,0x11,0x48,0x00,0x88
 };
 
-struct config_t{
-  int timezone;
-  uint8_t brightness;
-  uint8_t display_idx;
-  bool factory_reset;
-  bool use_wifi;
-  byte mqtt_ip[4];
-  bool flip_display;
-} config;
-
 void ChangeDisplay(Display* display_p);
 void ChangeDisplay(Display* display_p){
   CurrentDisplay_p = display_p;
@@ -711,6 +714,7 @@ void next_display(){
 
 void add_to_timezone(int32_t offset){ 
   config.timezone += offset;
+  config.use_ip_timezone = false; // time zone manually changed... ignore internate timezone
   saveSettings();
   if(config.use_wifi){
     ntp_clock.setOffset(config.timezone);
@@ -1080,10 +1084,21 @@ byte read_buttons(bool *enter_p, bool *inc_p, bool *decr_p, bool *mode_p){
 
 void factory_reset(){
   Serial.println("Factory RESET!!");
-  set_brightness(32);
-  Serial.println("Hit reset again to complete");
-  config.factory_reset = true;
+  config.timezone = 255; //?
+  config.brightness = 32;
+  config.display_idx = 255;
+  config.factory_reset = 255;
+  config.use_wifi = 255;
+  config.use_ip_timezone = 255;
+  config.mqtt_ip[0] = 255;
+  config.mqtt_ip[1] = 255;
+  config.mqtt_ip[2] = 255;
+  config.mqtt_ip[3] = 255;
+  config.flip_display = 255;
+  config.last_tz_lookup = 0;
   saveSettings();
+  
+  Serial.println("Hit reset again to complete");
   delay(1000);
   while(1) delay(100);
 }
@@ -1216,7 +1231,8 @@ void setup(){
   //config.use_wifi = false; // Debug
 
   Serial.println("Settings");
-  Serial.print("tikmezone:");Serial.println(config.timezone);
+  Serial.print("timezone:");Serial.println(config.timezone);
+  Serial.print("use IP timezone:");Serial.println(config.use_ip_timezone);
   Serial.print("brightness:");Serial.println(config.brightness);
   Serial.print("display_idx:");Serial.println(config.display_idx);
   Serial.print("factory_reset:");Serial.println(config.factory_reset);
@@ -1267,11 +1283,15 @@ void setup(){
     ntp_clock.setOffset(config.timezone);
     ds3231_clock.set(ntp_clock.now());
     doomsday_clock.setup(&ntp_clock, &ds3231_clock);
-    set_timezone_from_ip(); 
+    if(config.use_ip_timezone){
+      set_timezone_from_ip();
+    }
     websocket_setup();
   }
   Serial.print("config.timezone: ");
   Serial.println(config.timezone);
+  Serial.print("config.use_ip_timezone: ");
+  Serial.println((bool)config.use_ip_timezone);
   Serial.println("setup() complete");
 }
 
@@ -1280,6 +1300,13 @@ uint32_t Now(){
   
   if(config.use_wifi){
     out = doomsday_clock.now();
+    if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
+      if(hour(out) == 3){
+	if(out - config.last_tz_lookup > 3600){
+	  set_timezone_from_ip();
+	}
+      }
+    }
   }
   else{
     out = ds3231_clock.now();
