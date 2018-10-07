@@ -569,6 +569,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   }
 }
 
+bool last_orientation;
 void TheMatrix_init(){
   uint32_t current_time = Now();
   last_time = current_time;
@@ -577,22 +578,24 @@ void TheMatrix_init(){
   fillMask(mask, false);
   faceplates[faceplate_idx].maskTime(current_time, mask);  
   apply_mask(mask);
+  last_orientation = config.flip_display;
 }
 
 void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
 
   int last_tm_inc = (last_tm / 300) % 288;
   int      tm_inc = (     tm / 300) % 288;
-  
+
   if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
     TheMatrix_drop(last_tm_inc, tm_inc);
   }
-  else if(last_tm_inc != tm_inc){
+  else if((last_tm_inc != tm_inc) || (last_orientation != config.flip_display)){
     fill_blue();
     fillMask(mask, false);
     faceplates[faceplate_idx].maskTime(tm, mask);  
     apply_mask(mask);
     apply_mask(mask);
+    last_orientation = config.flip_display;
   }
 }
 
@@ -847,13 +850,14 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     dimmer();
   }
   if(strcmp(topic + 9, "flip_display") == 0){
-    Serial.println("Flip Display");
     if(config.flip_display){
       config.flip_display = false;
     }
     else{
       config.flip_display = true;
     }      
+    Serial.print("Flip Display:");
+    Serial.println(config.flip_display);
     saveSettings();
   }
   if(strcmp(topic + 9, "mqtt_ip") == 0){
@@ -920,9 +924,12 @@ uint32_t next_mqtt_attempt = 0;
 
 bool mqtt_connect(){
   String str;
+  String unique_id = String("ClockIOT") + String(WiFi.macAddress());
+
   if(!mqtt_client.connected() && next_mqtt_attempt < millis()){
-    if(mqtt_client.connect("ClockIOT")){
+    if(mqtt_client.connect(unique_id.c_str())){
       Serial.println("mqtt connected");
+      Serial.println(unique_id);
       // Once connected, publish an announcement...
       // ... and resubscribe
       mqtt_subscribe();
@@ -1302,7 +1309,7 @@ uint32_t Now(){
     out = doomsday_clock.now();
     if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
       if(hour(out) == 3){
-	if(out - config.last_tz_lookup > 3600){
+	if(out - config.last_tz_lookup > 3601){
 	  set_timezone_from_ip();
 	}
       }

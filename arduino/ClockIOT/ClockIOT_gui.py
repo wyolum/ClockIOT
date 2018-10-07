@@ -3,22 +3,31 @@ import asyncio
 import websocket
 import glob
 
+root = tkinter.Tk()
+
 ports = glob.glob('/dev/cu.SLAB*')
 if len(ports) == 0:
     ports = ['No port available']
 
 ESP32_IP = [192,168,1,183]
+esp32_vars = [tkinter.IntVar() for i in range(4)]
+[esp32_vars[i].set(ESP32_IP[i]) for i in range(4)]
 
-ws = websocket.WebSocket()
+ws = websocket.WebSocket(timeout=1)
+ws.settimeout(1)
 
 def hello():
     print ("hello")
 def send_msg(msg):
-    print (v.get())
     port = '81'
+    ESP32_IP = [var.get() for var in esp32_vars]
     ip_str = 'ws://%s:%s/' % ('.'.join(map(str, ESP32_IP)), port)
-
-    ws.connect(ip_str)
+    print(ip_str)
+    try:
+        ws.connect(ip_str)
+    except:
+        print("FAILED")
+        return
     ws.send(msg)
     greeting1 = ws.recv()
     # greeting2 = ws.recv()
@@ -39,7 +48,6 @@ def send_mqtt_ip():
 def flip_display():
     send_msg('clockiot/flip_display')
     
-root = tkinter.Tk()
 
 menubar = tkinter.Menu(root)
 
@@ -86,7 +94,7 @@ esp32_frame = tkinter.Frame(root)
 tkinter.Label(esp32_frame, text="ESP32 IP:").pack(side=tkinter.LEFT)
 esp32_ip = []
 for i in range(4):
-    e = tkinter.Label(esp32_frame, text=str(ESP32_IP[i]))
+    e = tkinter.Entry(esp32_frame, text=str(ESP32_IP[i]), textvariable=esp32_vars[i], width=3)
     # e.insert(0, ESP32_IP[i])
     esp32_ip.append(e)
     e.pack(side=tkinter.LEFT)
@@ -103,7 +111,7 @@ frame.pack()
 mqtt_ip = []
 mqtt_frame = tkinter.Frame(root)
 tkinter.Button(mqtt_frame, text="Update MQTT IP:", command=send_mqtt_ip).pack(side=tkinter.LEFT)
-bytes = ['192', '168', '1', '123']
+bytes = ['192', '168', '1', '159']
 for i in range(4):
     e = tkinter.Entry(mqtt_frame, width=3)
     e.insert(0, bytes[i])
