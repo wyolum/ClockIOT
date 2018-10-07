@@ -1092,7 +1092,7 @@ byte read_buttons(bool *enter_p, bool *inc_p, bool *decr_p, bool *mode_p){
 void factory_reset(){
   Serial.println("Factory RESET!!");
   config.timezone = 255; //?
-  config.brightness = 32;
+  config.brightness = 8;
   config.display_idx = 255;
   config.factory_reset = 255;
   config.use_wifi = 255;
