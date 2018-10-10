@@ -2,12 +2,9 @@ import tkinter
 import asyncio
 import websocket
 import glob
+import re
 
 root = tkinter.Tk()
-
-ports = glob.glob('/dev/cu.SLAB*')
-if len(ports) == 0:
-    ports = ['No port available']
 
 ESP32_IP = [192,168,1,183]
 esp32_vars = [tkinter.IntVar() for i in range(4)]
@@ -20,8 +17,8 @@ def hello():
     print ("hello")
 def send_msg(msg):
     port = '81'
-    ESP32_IP = [var.get() for var in esp32_vars]
-    ip_str = 'ws://%s:%s/' % ('.'.join(map(str, ESP32_IP)), port)
+    ESP32_IP = esp32_ip.get()
+    ip_str = 'ws://%s:%s/' % (ESP32_IP, port)
     print(ip_str)
     try:
         ws.connect(ip_str)
@@ -67,40 +64,32 @@ editmenu.add_command(label="Paste", command=hello)
 menubar.add_cascade(label="Edit", menu=editmenu)
 
 toolsmenu = tkinter.Menu(menubar, tearoff=0)
-portsmenu = tkinter.Menu(menubar, tearoff=0)
-toolsmenu.add_cascade(label=ports[0], menu=portsmenu)
-for i in range(5):
-    portsmenu.add_command(label=str(i), command=hello)
     
 menubar.add_cascade(label="Tools", menu=toolsmenu)
 
 # display the menu
 root.config(menu=menubar)
 
-MODES = [
-        ("Serial", "ser"),
-        ("WiFi WebSocket", "ws"),
-    ]
+import urllib.request
+page = urllib.request.urlopen('http://www.wyolum.com/utc_offset/get_localips.py')
+localips = page.read().splitlines()
 
-v = tkinter.StringVar()
-v.set("S") # initialize
-master = tkinter.Frame(root)
-for text, mode in MODES:
-    b = tkinter.Radiobutton(master, text=text, variable=v, value=mode)
-    b.pack(anchor=tkinter.W)
-master.pack()
 
-esp32_frame = tkinter.Frame(root)
-tkinter.Label(esp32_frame, text="ESP32 IP:").pack(side=tkinter.LEFT)
-esp32_ip = []
-for i in range(4):
-    e = tkinter.Entry(esp32_frame, text=str(ESP32_IP[i]), textvariable=esp32_vars[i], width=3)
-    # e.insert(0, ESP32_IP[i])
-    esp32_ip.append(e)
-    e.pack(side=tkinter.LEFT)
-    if i < 3:
-        tkinter.Label(esp32_frame, text=".").pack(side=tkinter.LEFT)
-esp32_frame.pack()
+esp32_ip = tkinter.StringVar()
+
+ip_x = re.compile('(\d{1-3}\.\d{1-3}\.\d{1-3}\.\d{1-3})')
+
+m = ip_x.search('192.168.1.123')
+
+for localip in localips:
+    localip = localip[3:-4].decode("utf-8") 
+
+    if localip:
+        esp32_ip.set(localip)
+        b = tkinter.Radiobutton(root, text=localip,
+                                variable=esp32_ip, value=localip)
+        b.pack(anchor=tkinter.W)
+    
 
 frame = tkinter.Frame(root)
 tkinter.Button(frame, text="Brighter", command=brighter).pack(side=tkinter.LEFT)
