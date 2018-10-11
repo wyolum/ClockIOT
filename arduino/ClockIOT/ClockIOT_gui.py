@@ -1,3 +1,5 @@
+import urllib.request
+import json
 import tkinter
 import asyncio
 import websocket
@@ -19,7 +21,7 @@ def send_msg(msg):
     port = '81'
     ESP32_IP = esp32_ip.get()
     ip_str = 'ws://%s:%s/' % (ESP32_IP, port)
-    print(ip_str)
+    # print(ip_str)
     try:
         ws.connect(ip_str)
     except:
@@ -70,24 +72,20 @@ menubar.add_cascade(label="Tools", menu=toolsmenu)
 # display the menu
 root.config(menu=menubar)
 
-import urllib.request
 page = urllib.request.urlopen('http://www.wyolum.com/utc_offset/get_localips.py')
-localips = page.read().splitlines()
-
+txt = page.read().decode('utf-8')
+localips = json.loads(txt)['localips']
 
 esp32_ip = tkinter.StringVar()
 
-ip_x = re.compile('(\d{1-3}\.\d{1-3}\.\d{1-3}\.\d{1-3})')
-
-m = ip_x.search('192.168.1.123')
-
 for localip in localips:
-    localip = localip[3:-4].decode("utf-8") 
-
+    
     if localip:
-        esp32_ip.set(localip)
-        b = tkinter.Radiobutton(root, text=localip,
-                                variable=esp32_ip, value=localip)
+        ip = localip["localip"]
+        t = localip["type"]
+        esp32_ip.set(ip)
+        b = tkinter.Radiobutton(root, text="%s" % (ip),
+                                variable=esp32_ip, value=ip)
         b.pack(anchor=tkinter.W)
     
 

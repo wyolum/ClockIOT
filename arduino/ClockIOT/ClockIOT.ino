@@ -93,7 +93,7 @@ NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
 Klok klok(faceplates[0], timeClient);
 
 String jsonLookup(String s, String name){
-  int start = s.indexOf(name) + name.length() + 2;
+  int start = s.indexOf(name) + name.length() + 3;
   int stop = s.indexOf('"', start);
   Serial.println(s.substring(start, stop));
   return s.substring(start, stop);
@@ -110,7 +110,15 @@ void set_timezone_from_ip(){
 
   //http.begin("https://timezoneapi.io/api/ip");// no longer works!
   //http.begin("https://ipapi.co/json");
-  String url = String("https://www.wyolum.com/utc_offset/utc_offset.py?refresh=") + String(millis());
+  String url = String("https://www.wyolum.com/utc_offset/utc_offset.py") +
+    String("?refresh=") + String(millis()) +
+    String("&localip=") +
+    String(WiFi.localIP()[0]) + String('.') + 
+    String(WiFi.localIP()[1]) + String('.') + 
+    String(WiFi.localIP()[2]) + String('.') + 
+    String(WiFi.localIP()[3]) + String('&') +
+    String("macaddress=") + WiFi.macAddress() + String('&') + 
+    String("type=ClockIOT");
   Serial.println(url);
   http.begin(url);
   
@@ -133,7 +141,7 @@ void set_timezone_from_ip(){
       String offset_str = jsonLookup(payload, String("utc_offset"));
       int hours = offset_str.substring(0, 3).toInt();
       int minutes = offset_str.substring(3, 5).toInt();
-      if(offset_str.charAt(0) == '-'){
+      if(hours < 0){
 	minutes *= -1;
       }
       int offset = hours * 3600 + minutes * 60;
@@ -289,6 +297,9 @@ void fill_green(){
 void fill_blue(){
   fill_solid(leds, NUM_LEDS, CRGB::Blue);
 }
+void fill_black(){
+  fill_solid(leds, NUM_LEDS, CRGB::Black);
+}
 void noop(){
 }
 
@@ -300,12 +311,15 @@ void setWordMask(bool *mask, uint8_t* word, bool b){
 }
 
 
+bool last_orientation;
+
 void WordDrop_init(){
   uint32_t current_time = Now();
   last_time = current_time;
   fillMask(mask, OFF);
   faceplates[faceplate_idx].maskTime(current_time, mask);
   blend_to_rainbow();
+  last_orientation = config.flip_display;
 }
 
 void word_drop_in(uint16_t time_inc){
@@ -429,12 +443,10 @@ void WordDrop_display_time(uint32_t last_tm, uint32_t next_tm){
   if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
     word_drop(last_tm_inc, tm_inc);
   }
-  else if(last_tm_inc != tm_inc){
-    rainbow_slow();
-    fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(next_tm, mask);  
-    apply_mask(mask);
-  }
+  rainbow_slow();
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(next_tm, mask);  
+  apply_mask(mask);
 }
 
 void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
@@ -569,7 +581,6 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   }
 }
 
-bool last_orientation;
 void TheMatrix_init(){
   uint32_t current_time = Now();
   last_time = current_time;
@@ -964,7 +975,6 @@ void wifi_setup(){
   if(config.factory_reset){
     config.factory_reset = false;
     saveSettings();
-    //wifiManager.autoConnect("KLOK");
     wifiManager.startConfigPortal("KLOK");
   }
   else{
@@ -1089,6 +1099,60 @@ byte read_buttons(bool *enter_p, bool *inc_p, bool *decr_p, bool *mode_p){
   return state;
 }
 
+void test_leds(){
+  int i;
+  
+  for(i=0; i < NUM_LEDS; i++){
+    leds[i] = CRGB::Red;
+    FastLED.show();
+    delay(10);
+  }
+  delay(100);
+  for(i=0; i < NUM_LEDS; i++){
+    leds[i] = CRGB::Green;
+    FastLED.show();
+    delay(10);
+  }
+  delay(100);
+  for(i=0; i < NUM_LEDS; i++){
+    leds[i] = CRGB::Blue;
+    FastLED.show();
+    delay(10);
+  }
+  for(i=0; i < NUM_LEDS; i++){
+    leds[i] = CRGB::White;
+    FastLED.show();
+    delay(10);
+  }
+  delay(1000);
+  fill_black();
+  FastLED.show();
+}
+
+void bigX(){
+  for(int i=0;i < 8; i++){
+    setPixel(i, 2 * i - 1, CRGB::Red);
+    setPixel(i, 2 * i, CRGB::Red);
+    setPixel(i, 2 * i + 1, CRGB::Red);
+    setPixel(7 - i, 2 * i, CRGB::Red);
+  }
+  FastLED.show();
+  Serial.println("Big X");
+  while(1) delay(100);
+}
+void test_ds3231(){
+  int first = ds3231_clock.now();
+  delay(1500);
+  int second = ds3231_clock.now();
+  if(second <= first){
+    Serial.println("RCT Failed");
+    bigX();
+  }
+  else{
+    Serial.println("RCT Passed");
+  }
+}
+
 void factory_reset(){
   Serial.println("Factory RESET!!");
   config.timezone = 255; //?
@@ -1106,6 +1170,9 @@ void factory_reset(){
   saveSettings();
   
   Serial.println("Hit reset again to complete");
+  test_leds();
+  test_ds3231();
+
   delay(1000);
   while(1) delay(100);
 }
@@ -1172,10 +1239,10 @@ void button_setup(){
   Serial.print("Button state: ");
   Serial.println(button_state);
 
-  if(button_state == (1 << 3 | 1)){
+  if(button_state == (1 << 3 | 1)){ // MODE + ENTER does a factory reset
     factory_reset();
   }
-  else if(mode){
+  else if(mode){ // mode configures stand alone
     if(config.use_wifi){ // toggle use_wifi
       config.use_wifi = false;
       button_set_time(); // if(mode) body
@@ -1183,6 +1250,7 @@ void button_setup(){
     }
     else{
       config.use_wifi = true;
+      saveSettings();
     }
   }
 }
