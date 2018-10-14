@@ -47,6 +47,9 @@ def send_mqtt_ip():
 def flip_display():
     send_msg('clockiot/flip_display')
     
+def next_display():
+    send_msg('clockiot/next_display')
+    
 
 menubar = tkinter.Menu(root)
 
@@ -78,21 +81,23 @@ localips = json.loads(txt)['localips']
 
 esp32_ip = tkinter.StringVar()
 
+have = []
 for localip in localips:
-    
-    if localip:
+    if localip and localip not in have:
         ip = localip["localip"]
         t = localip["type"]
         esp32_ip.set(ip)
-        b = tkinter.Radiobutton(root, text="%s" % (ip),
+        b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
                                 variable=esp32_ip, value=ip)
         b.pack(anchor=tkinter.W)
+        have.append(localip)
     
 
 frame = tkinter.Frame(root)
 tkinter.Button(frame, text="Brighter", command=brighter).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Dimmer", command=dimmer).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Flip", command=flip_display).pack(side=tkinter.LEFT)
+tkinter.Button(frame, text="Next", command=next_display).pack(side=tkinter.LEFT)
 frame.pack()
 
 mqtt_ip = []

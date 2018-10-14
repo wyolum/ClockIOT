@@ -66,7 +66,7 @@ PubSubClient mqtt_client(espClient);
 
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
-#define MILLI_AMPS 1000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
+#define MILLI_AMPS 500  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 
 uint32_t last_time;
 
@@ -1327,8 +1327,8 @@ void setup(){
   }
 
   // logo
-  if( config.brightness == 0){
-    config.brightness == 30;
+  if( config.brightness == 0 || config.brightness == 255){
+    config.brightness == 8;
   }
   FastLED.setBrightness(config.brightness);
   ds3231_clock.setup();
