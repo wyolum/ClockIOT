@@ -1,15 +1,15 @@
-### Module positions - created on Mon Jun 25 19:26:26 2018 ###
-### Printed by Pcbnew version kicad 5.0.0-rc2-unknown-6d77e59~65~ubuntu16.04.1
-## Unit = inches, Angle = deg.
+### Module positions - created on Thu Oct 18 17:12:03 2018 ###
+### Printed by Pcbnew version kicad 6.0.0-rc1-unknown-7dfc4e3~65~ubuntu18.04.1
+## Unit = mm, Angle = deg.
 ## Side : bottom
 # Ref     Val       Package                PosX       PosY       Rot  Side
-G7        LOGO_WL   Logo-WL3            -5.5500    -4.4500  180.0000  bottom
-G9        OSHW      OSHW_6mm            -0.8000    -4.4000  180.0000  bottom
-J20       SPI       Header_ISP          -5.0500    -1.4250   90.0000  bottom
-S1        SW-ENTER  SW_SMD_311020004    -2.9000    -0.3750  270.0000  bottom
-S2        SW-INC    SW_SMD_311020004    -2.3000    -0.3750  270.0000  bottom
-S3        SW-EN     SW_SMD_311020004    -0.5000    -0.3750  270.0000  bottom
-S4        SW-BOOT   SW_SMD_311020004    -3.5000    -0.3750  270.0000  bottom
-S5        SW-DEC    SW_SMD_311020004    -1.7000    -0.3750  270.0000  bottom
-S6        SW-MODE   SW_SMD_311020004    -1.1000    -0.3750  270.0000  bottom
+G7        LOGO_WL   Logo-WL3          -140.9700  -113.0300  180.0000  bottom
+G9        OSHW      OSHW_6mm           -20.3200  -111.7600  180.0000  bottom
+J20       SPI       Header_ISP        -128.2700   -36.1950   90.0000  bottom
+S1        SW-ENTER  SW_SMD_311020004   -73.6600    -9.5250  270.0000  bottom
+S2        SW-INC    SW_SMD_311020004   -58.4200    -9.5250  270.0000  bottom
+S3        SW-EN     SW_SMD_311020004   -12.7000    -9.5250  270.0000  bottom
+S4        SW-BOOT   SW_SMD_311020004   -88.9000    -9.5250  270.0000  bottom
+S5        SW-DEC    SW_SMD_311020004   -43.1800    -9.5250  270.0000  bottom
+S6        SW-MODE   SW_SMD_311020004   -27.9400    -9.5250  270.0000  bottom
 ## End
