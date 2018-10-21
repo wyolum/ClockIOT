@@ -174,7 +174,7 @@ Wire Wire Line
 Wire Wire Line
 	1975 4550 1975 6025
 Wire Wire Line
-	4375 6025 3700 6025
+	4375 6025 3950 6025
 Wire Wire Line
 	4375 5250 4450 5250
 Connection ~ 1975 6025
@@ -285,9 +285,6 @@ Wire Wire Line
 Wire Wire Line
 	3700 4750 3700 5325
 Connection ~ 3700 4750
-NoConn ~ 4450 4250
-Wire Wire Line
-	4450 4550 4100 4550
 NoConn ~ 4450 4450
 Text Label 4100 4550 0    40   ~ 0
 ACTIVE
@@ -640,7 +637,6 @@ $EndComp
 Wire Wire Line
 	2775 2575 2775 2475
 Connection ~ 2625 2575
-NoConn ~ 4100 4550
 NoConn ~ 7400 4650
 NoConn ~ 7400 4450
 NoConn ~ 7400 3950
@@ -697,7 +693,7 @@ Wire Wire Line
 Wire Wire Line
 	3700 6025 3475 6025
 Wire Wire Line
-	3250 3950 4375 3950
+	3250 3950 3675 3950
 Wire Wire Line
 	3700 4750 4450 4750
 Wire Wire Line
@@ -835,7 +831,7 @@ U 1 1 5BCA34C2
 P 1425 7000
 F 0 "P3" H 1425 7547 40  0000 C CNN
 F 1 "USB-C_breakout" H 1425 7450 40  0000 C CNN
-F 2 "" H 1675 7150 40  0001 C CNN
+F 2 "ClockIOT_libs:USB-C_bout" H 1675 7150 40  0001 C CNN
 F 3 "" H 1675 7150 40  0001 C CNN
 	1    1425 7000
 	1    0    0    -1  
@@ -884,4 +880,48 @@ VBUS
 Wire Wire Line
 	2275 6650 1875 6650
 Connection ~ 1875 6650
+$Comp
+L ClockIOT:R R5
+U 1 1 5BCE1E3D
+P 3950 4250
+F 0 "R5" V 4025 4325 40  0000 C CNN
+F 1 "1k" V 3950 4250 40  0000 C CNN
+F 2 "ClockIOT_libs:r_0805" V 3880 4250 30  0001 C CNN
+F 3 "" H 3950 4250 30  0000 C CNN
+F 4 "Value" H 3950 4250 50  0001 C CNN "manf#"
+	1    3950 4250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4450 4250 4100 4250
+Wire Wire Line
+	3800 4250 3675 4250
+Wire Wire Line
+	3675 4250 3675 3950
+Connection ~ 3675 3950
+Wire Wire Line
+	3675 3950 4375 3950
+$Comp
+L ClockIOT:R R?
+U 1 1 5BCEFFA9
+P 3950 5475
+F 0 "R?" V 4025 5550 40  0000 C CNN
+F 1 "1k" V 3950 5475 40  0000 C CNN
+F 2 "ClockIOT_libs:r_0805" V 3880 5475 30  0001 C CNN
+F 3 "" H 3950 5475 30  0000 C CNN
+F 4 "Value" H 3950 5475 50  0001 C CNN "manf#"
+	1    3950 5475
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3950 5625 3950 6025
+Connection ~ 3950 6025
+Wire Wire Line
+	3950 6025 3700 6025
+Wire Wire Line
+	3950 5325 3950 4550
+Wire Wire Line
+	3950 4550 4450 4550
+Text Label 4100 4250 0    40   ~ 0
+RSTb
 $EndSCHEMATC
