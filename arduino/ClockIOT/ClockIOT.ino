@@ -1,7 +1,7 @@
 #include <Time.h>
 #include <Wire.h>
-#include <FastLED.h>
 #include <WiFiManager.h>
+#include <FastLED.h>
 #include <PubSubClient.h>
 #include <EEPROM.h>
 #include <EEPROMAnything.h>
@@ -118,7 +118,7 @@ void set_timezone_from_ip(){
     String(WiFi.localIP()[2]) + String('.') + 
     String(WiFi.localIP()[3]) + String('&') +
     String("macaddress=") + WiFi.macAddress() + String('&') + 
-    String("type=ClockIOT");
+    String("dev_type=ClockIOT");
   Serial.println(url);
   http.begin(url);
   
@@ -990,7 +990,7 @@ void wifi_setup(){
 // Web Socket Server stuff
 WebSocketsServer webSocket = WebSocketsServer(81);
 
-void hexdump(const void *mem, uint32_t len, uint8_t cols = 16) {
+void hexdump(const void *mem, uint32_t len, uint8_t cols) {
 	const uint8_t* src = (const uint8_t*) mem;
 	Serial.printf("\n[HEXDUMP] Address: 0x%08X len: 0x%X (%d)", (ptrdiff_t)src, len, len);
 	for(uint32_t i = 0; i < len; i++) {
@@ -1060,7 +1060,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
     break;
   case WStype_BIN:
     Serial.printf("[%u] get binary length: %u\n", num, length);
-    hexdump(ws_payload, length);
+    hexdump(ws_payload, length, 16);
     
     // send message to client
     // webSocket.sendBIN(num, ws_payload, length);

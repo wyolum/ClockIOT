@@ -17,11 +17,12 @@ ws.settimeout(1)
 
 def hello():
     print ("hello")
+
 def send_msg(msg):
     port = '81'
     ESP32_IP = esp32_ip.get()
     ip_str = 'ws://%s:%s/' % (ESP32_IP, port)
-    # print(ip_str)
+    print(ip_str)
     try:
         ws.connect(ip_str)
     except:
