@@ -40,6 +40,7 @@ struct config_t{
   byte mqtt_ip[4];
   bool flip_display;
   uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
+  uint8_t solid_color_rgb[3];
 } config;
 
 
@@ -228,11 +229,12 @@ void Plain_display_time(uint32_t last_tm, uint32_t tm){
 
 Display *CurrentDisplay_p;
 Display PlainDisplay = {Plain_init, Plain_display_time, String("Plain"), 0};
-Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 1};
 Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 2};
+Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 1};
+Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 1};
 
-const uint8_t N_DISPLAY = 3;
-Display Displays[N_DISPLAY] = {PlainDisplay, WordDropDisplay, TheMatrixDisplay};
+const uint8_t N_DISPLAY = 4;
+Display Displays[N_DISPLAY] = {PlainDisplay, WordDropDisplay, TheMatrixDisplay, SolidColorDisplay};
 
 /*
 Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 3};
@@ -646,6 +648,19 @@ void rainbow_slow() {
   uint32_t current_time = Now();
   int count = ((current_time % 300) * 255) / 300;
   rainbow_cycle(count);
+}
+
+void SolidColor_init(){
+}
+void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
+  
+  
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+				  config.solid_color_rgb[1],
+				  config.solid_color_rgb[2]));
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(last_tm, mask);  
+  apply_mask(mask);
 }
 
 // end Displays
