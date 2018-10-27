@@ -132,7 +132,7 @@ void set_timezone_from_ip(){
     Serial.printf("[HTTP] GET... code: %d\n", httpCode);
     
     // file found at server
-    String findme = String("offset_seconds");
+    //String findme = String("offset_seconds");
     if(httpCode == HTTP_CODE_OK) {
       String payload = http.getString();
       Serial.print("payload:");
@@ -1389,6 +1389,62 @@ uint32_t Now(){
   return out;
 }
 
+void tobytes(const char *frm, byte *_to, int len){
+  for(int ii = 0; ii < len; ii++){
+    _to[ii] = frm[ii];
+  }
+}
+
+void tochars(const char *frm, char *_to, int len){
+  for(int ii = 0; ii < len; ii++){
+    _to[ii] = frm[ii];
+  }
+  _to[len] = 0;
+}
+
+#define SERMAXLEN 100
+char ser_msg[SERMAXLEN + 1];
+uint8_t ser_msg_len = 0;
+void serial_loop(){/// allow same msgs as mqtt
+  String ser_str, topic, payload;
+  int start, stop;
+  char topic_c_str[101];
+  byte payload_bytes[100];
+  
+  //  msg format: topic//payload.  Example: "clockiot/timezone_offset//-14400"
+  
+  while(Serial.available() && ser_msg_len < SERMAXLEN){
+    ser_msg[ser_msg_len++] = Serial.read();
+  }
+  if(ser_msg_len > 0){
+    ser_str = String(ser_msg);
+    start = ser_str.indexOf("clockiot");
+    if(start >= 0){
+      stop = ser_str.indexOf("//", start);
+      if(stop < 0){
+	stop = ser_str.length();
+      }
+      else{
+      }
+      topic = ser_str.substring(start, stop);
+      if(stop == ser_str.length()){
+      }
+      else{
+	stop += 2; // skip slashes "//"
+      }
+      payload = ser_str.substring(stop, ser_str.length());
+      tochars(topic.c_str(), topic_c_str, topic.length());
+      tobytes(payload.c_str(), payload_bytes, payload.length());
+      mqtt_callback(topic_c_str, payload_bytes, payload.length());      
+    }
+  }
+  // clear msg
+  for(int ii=0; ii < ser_msg_len + 1; ii++){
+    ser_msg[ii] = 0;
+  }
+  ser_msg_len = 0;
+}
+
 void  interact_loop(){
   if (use_mqtt()){
     mqtt_client.loop();
@@ -1397,6 +1453,7 @@ void  interact_loop(){
     webSocket.loop();
   }
   button_loop();
+  serial_loop();
 }
 
 void loop(){
