@@ -234,7 +234,7 @@ Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The 
 Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 1};
 
 const uint8_t N_DISPLAY = 4;
-Display Displays[N_DISPLAY] = {PlainDisplay, WordDropDisplay, TheMatrixDisplay, SolidColorDisplay};
+Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, WordDropDisplay, SolidColorDisplay};
 
 /*
 Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 3};
@@ -667,8 +667,16 @@ void rainbow_slow() {
 void SolidColor_init(){
 }
 void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
-  
-  
+  if(last_tm != tm){
+    wipe_around(false);
+    apply_mask(mask);
+    fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+				    config.solid_color_rgb[1],
+				    config.solid_color_rgb[2]));
+    wipe_around(true);
+  faceplates[faceplate_idx].maskTime(last_tm, mask);  
+
+  }
   fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
 				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
@@ -1320,6 +1328,10 @@ void button_setup(){
       saveSettings();
     }
   }
+  else if(enter){
+    set_brightness(4);
+    Serial.println("Low power mode");
+  }
 }
 
 uint32_t last_pressed = 0;
@@ -1370,6 +1382,7 @@ void setup(){
 
   EEPROM.begin(1024);
   loadSettings();
+  
   //config.use_wifi = false; // Debug
 
   Serial.println("Settings");

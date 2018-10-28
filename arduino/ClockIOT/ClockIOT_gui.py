@@ -87,11 +87,12 @@ for localip in localips:
     if localip and localip not in have:
         ip = localip["localip"]
         t = localip["dev_type"]
-        esp32_ip.set(ip)
-        b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
-                                variable=esp32_ip, value=ip)
-        b.pack(anchor=tkinter.W)
-        have.append(localip)
+        if t == 'ClockIOT':
+            esp32_ip.set(ip)
+            b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
+                                    variable=esp32_ip, value=ip)
+            b.pack(anchor=tkinter.W)
+            have.append(localip)
     
 
 frame = tkinter.Frame(root)
