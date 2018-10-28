@@ -575,7 +575,10 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
     }
     for(int ii = 0; ii < NUM_LEDS; ii++){
       if(have[ii]){
-	leds[ii] = CRGB::Blue;
+	//leds[ii] = CRGB::Blue;
+	leds[ii] = CRGB(config.solid_color_rgb[0],
+			config.solid_color_rgb[1],
+			config.solid_color_rgb[2]);
       }
     }
     FastLED.show();
@@ -603,13 +606,21 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
     TheMatrix_drop(last_tm_inc, tm_inc);
   }
   else if((last_tm_inc != tm_inc) || (last_orientation != config.flip_display)){
-    fill_blue();
-    fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(tm, mask);  
-    apply_mask(mask);
-    apply_mask(mask);
-    last_orientation = config.flip_display;
+    //fill_blue();
+    //fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+    //config.solid_color_rgb[1],
+    //config.solid_color_rgb[2]));
+    //fillMask(mask, false);
+    //faceplates[faceplate_idx].maskTime(tm, mask);  
+    //apply_mask(mask);
+    //last_orientation = config.flip_display;
   }
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+				  config.solid_color_rgb[1],
+				  config.solid_color_rgb[2]));
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(tm, mask);  
+  apply_mask(mask);
 }
 
 void rainbow_cycle(int count){
@@ -923,6 +934,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     config.solid_color_rgb[0] = hh2dd((char*)payload);
     config.solid_color_rgb[1] = hh2dd((char*)payload + 2);
     config.solid_color_rgb[2] = hh2dd((char*)payload + 4);
+    saveSettings();
   }
   else if(strcmp(subtopic, "set_time") == 0){
     // payload: ascii unix time
