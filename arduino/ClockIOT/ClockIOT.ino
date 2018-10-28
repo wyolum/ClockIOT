@@ -557,7 +557,10 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 
     for(int ii = 0; ii < NUM_LEDS; ii++){
       if(have[ii]){
-	leds[ii] = CRGB::Blue;
+	//leds[ii] = CRGB::Blue;
+	leds[ii] = CRGB(config.solid_color_rgb[0],
+			config.solid_color_rgb[1],
+			config.solid_color_rgb[2]);
       }
     }
     FastLED.show();
