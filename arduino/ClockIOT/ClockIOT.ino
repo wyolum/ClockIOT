@@ -838,44 +838,65 @@ uint16_t XY( uint8_t x, uint8_t y){
   return out;
 }
 
-void mqtt_callback(char* topic, byte* payload, unsigned int length) {
+uint8_t hex2dig(char h){
+  uint8_t d = 0;
+  if('0' <= h && h <= '9'){
+    d = (uint8_t)(h - '0');
+  }
+  else if('a' <= h && h <= 'f'){
+    d = (uint8_t)(10 + h - 'a');
+  }
+  else if('A' <= h && h <= 'F'){
+    d = (uint8_t)(10 + h - 'A');
+  }
+  return d;
+}
+
+uint8_t hh2dd(char *hh){
+  return hex2dig(hh[0]) * 16 + hex2dig(hh[1]);
+}
+
+void handle_msg(char* topic, byte* payload, unsigned int length) {
   bool handled = false;
-  char str_payload[length + 1]; 
- for(int i = 0; i < length; i++){
+  char str_payload[length + 1];
+  char *subtopic = topic + 9;
+
+  // copy bytes to normal char array
+  for(int i = 0; i < length; i++){
     str_payload[i] = payload[i];
   }
   str_payload[length] = 0;
   
-  Serial.print("mqtt msg\n  topic:");
-  Serial.println(topic + 9);
+  Serial.print("msg\n  subtopic:");
+  Serial.println(subtopic);
   Serial.print("  payload:");
   Serial.println(str_payload);
   
-  if(strcmp(topic + 9, "timezone_offset") == 0){
+  if(strcmp(subtopic, "timezone_offset") == 0){
     Serial.println("Change timezone!!");
     set_timezone_offset(String(str_payload).toInt());
   }
-  if(strcmp(topic + 9, "add_to_timezone") == 0){
+  else if(strcmp(subtopic, "add_to_timezone") == 0){
     Serial.println("Add to timezone!");
     add_to_timezone(String(str_payload).toInt());
   }
-  if(strcmp(topic + 9, "display_idx") == 0){
+  else if(strcmp(subtopic, "display_idx") == 0){
     Serial.println("Change display_idx!!");
     set_display(String(str_payload).toInt());
   }
-  if(strcmp(topic + 9, "next_display") == 0){
+  else if(strcmp(subtopic, "next_display") == 0){
     Serial.println("Increment display!!");
     next_display();
   }
-  if(strcmp(topic + 9, "brighter") == 0){
+  else if(strcmp(subtopic, "brighter") == 0){
     Serial.println("Increment brigtness!!");
     brighter();
   }
-  if(strcmp(topic + 9, "dimmer") == 0){
+  else if(strcmp(subtopic, "dimmer") == 0){
     Serial.println("Decrement brigtness!!");
     dimmer();
   }
-  if(strcmp(topic + 9, "flip_display") == 0){
+  else if(strcmp(subtopic, "flip_display") == 0){
     if(config.flip_display){
       config.flip_display = false;
     }
@@ -886,7 +907,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     Serial.println(config.flip_display);
     saveSettings();
   }
-  if(strcmp(topic + 9, "mqtt_ip") == 0){
+  else if(strcmp(subtopic, "mqtt_ip") == 0){
     Serial.println("Update mqtt_ip address!!");
     byte tmp_ip[4];
     if(ip_from_str(str_payload, tmp_ip)){
@@ -897,6 +918,22 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
       mqtt_setup();
     }
   }
+  else if(strcmp(subtopic, "set_rgb") == 0 && length == 6){
+    // payload: rrggbb lowercase html color code example "ff0000" is RED
+    config.solid_color_rgb[0] = hh2dd((char*)payload);
+    config.solid_color_rgb[1] = hh2dd((char*)payload + 2);
+    config.solid_color_rgb[2] = hh2dd((char*)payload + 4);
+  }
+  else if(strcmp(subtopic, "set_time") == 0){
+    // payload: ascii unix time
+  }
+  else if(strcmp(subtopic, "notify") == 0){
+    // payload: ascii notification
+  }
+}
+
+void handle_mqtt_msg(char* topic, byte* payload, unsigned int length){
+  handle_msg(topic, payload, length);
 }
 
 bool ip_from_str(char* str, byte* ip){
@@ -972,7 +1009,7 @@ void mqtt_setup(){
   //uint8_t server[4] = {192, 168, 1, 159};
   //uint8_t server[4] = {10, 10, 10, 2};
   mqtt_client.setServer(config.mqtt_ip, 1883);
-  mqtt_client.setCallback(mqtt_callback);
+  mqtt_client.setCallback(handle_mqtt_msg);
   mqtt_connect();
   Serial.println("USE MQTT!!");
 }
@@ -1065,7 +1102,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
     }
     payload[length - stop] = 0;
     
-    mqtt_callback(topic, payload, length - stop);
+    handle_msg(topic, payload, length - stop);
     
     // send message to client
     //webSocket.sendTXT(num, "message here");
@@ -1450,7 +1487,7 @@ void serial_loop(){/// allow same msgs as mqtt
       payload = ser_str.substring(stop, ser_str.length());
       tochars(topic.c_str(), topic_c_str, topic.length());
       tobytes(payload.c_str(), payload_bytes, payload.length());
-      mqtt_callback(topic_c_str, payload_bytes, payload.length());      
+      handle_msg(topic_c_str, payload_bytes, payload.length());      
     }
   }
   // clear msg
