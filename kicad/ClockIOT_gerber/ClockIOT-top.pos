@@ -1,5 +1,5 @@
-### Module positions - created on Mon Oct 22 00:09:06 2018 ###
-### Printed by Pcbnew version kicad 5.0.1-33cea8e~67~ubuntu16.04.1
+### Module positions - created on Tue Oct 30 17:21:06 2018 ###
+### Printed by Pcbnew version kicad 5.0.1-33cea8e~68~ubuntu16.04.1
 ## Unit = mm, Angle = deg.
 ## Side : top
 # Ref     Val                 Package                           PosX       PosY       Rot  Side
@@ -25,7 +25,7 @@ C18       22uF/25V            c_2917                         72.5170   -24.7650 
 C19       1nF                 c_0805                         81.2800   -23.4950    0.0000  top
 C20       1nF                 c_0805                          2.5400   -10.7950    0.0000  top
 C21       1nF                 c_0805                         81.2800    -6.3500    0.0000  top
-C22       100nF               c_0805                        131.4450   -29.2100  270.0000  top
+C22       100nF               c_0805                        133.4350   -29.3350   90.0000  top
 C23       10uF/25V            c_2917                         30.3590   -33.8350   90.0000  top
 C24       100nF               c_0805                         26.0350   -31.1150    0.0000  top
 C25       10uF/25V            c_2917                         35.3590   -33.8350   90.0000  top
@@ -59,7 +59,7 @@ R8        4K7                 r_0805                         22.8600   -31.1150 
 R9        4K7                 r_0805                         19.6850   -31.1150   90.0000  top
 R10       10k                 r_0805                         66.0400   -12.7000   90.0000  top
 R11       10k                 r_0805                         50.8000   -12.7000   90.0000  top
-R12       10k                 r_0805                         50.8000    -3.8100    0.0000  top
+R12       10k                 r_0805                         41.9100    -3.8100    0.0000  top
 R13       10k                 r_0805                        121.2850    -3.8100    0.0000  top
 R14       10k                 r_0805                         35.5600   -19.9390  270.0000  top
 R16       470R                r_0805                          5.4610   -10.7950   90.0000  top
