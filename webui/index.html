@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ClockIOT GUI Test</title>
+    <script src="modal.js" charset="utf-8"></script>
+    <script src="clockiot.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <select id="clockList">
+          <option value="" selected>--Select your ClockIOT--</option>
+        </select>
+      </div>
+      <div id="intensityButtons">
+        <button type="button" id="brighterButton" class="wsButton" value="brighter">
+          Brighter
+        </button>
+        <button type="button" id="dimmerButton" class="wsButton" value="dimmer">
+          Dim lights
+        </button>
+      </div>
+      <div id="displayButtons">
+        <button type="button" id="flipDisplay" class="wsButton" value="flip_display">
+          Flip Display
+        </button>
+        <button type="button" id="nextButton" class="wsButton" value="next_display">
+          Next Pattern
+        </button>
+      </div>
+      <div id="displaySwitcher">
+        <select id="displayList"></select>
+        <button id="changeDisplay">Set Display</button>
+      </div>
+    </div>
+    <div id="timezoneModal" class="modal">
+      <div class="modalContent">
+        <span class="close">&times</span>
+        <p>Some text</p>
+      </div>
+    </div>
+  </body>
+</html>
