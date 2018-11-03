@@ -1137,9 +1137,21 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
     payload[length - stop] = 0;
     
     handle_msg(topic, payload, length - stop);
-    
-    // send message to client
-    //webSocket.sendTXT(num, "message here");
+
+    if (strcmp(topic, "clockiot/get_displays") == 0) {
+	// send display names to client
+      String display_names = String("{\"displays\":[");
+      for(int ii=0; ii < N_DISPLAY; ii++){
+	display_names = display_names + String("\"") + String(Displays[ii].name)  + String("\"");
+	if(ii < N_DISPLAY - 1){
+	  display_names = display_names + String(",");
+	}
+      }
+      display_names = display_names + String("]}");
+      
+      webSocket.sendTXT(num, display_names.c_str());
+	Serial.println("Display names requested");
+      }
     
     // send data to all connected clients
     // webSocket.broadcastTXT("message here");

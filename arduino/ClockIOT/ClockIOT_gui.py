@@ -31,10 +31,15 @@ def send_msg(msg):
         return
     ws.send(msg)
     greeting1 = ws.recv()
-    # greeting2 = ws.recv()
+    try:
+        response = ws.recv()
+        print (response)
+    except:
+        response = None
     result = ws.close()
-    print(f"< {greeting1}")
-    # print(f"< {greeting2}")
+    print(greeting1)
+    return response
+
 def brighter():
     send_msg('clockiot/brighter')
 def dimmer():
@@ -51,6 +56,9 @@ def flip_display():
     
 def next_display():
     send_msg('clockiot/next_display')
+
+def get_displays():
+    send_msg('clockiot/get_displays')
     
 
 menubar = tkinter.Menu(root)
@@ -101,6 +109,7 @@ tkinter.Button(frame, text="Brighter", command=brighter).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Dimmer", command=dimmer).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Flip", command=flip_display).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Next", command=next_display).pack(side=tkinter.LEFT)
+tkinter.Button(frame, text="Get Displays", command=get_displays).pack(side=tkinter.LEFT)
 frame.pack()
 
 mqtt_ip = []
