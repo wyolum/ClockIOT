@@ -8,13 +8,13 @@ pi = 3.14159
 
 if __name__ == "__main__":
     
-    im = Image.new("RGB", (300,300))
+    im = Image.new("RGB", (1000,1000))
     radius = min(im.size)/2.0
     centre = im.size[0]/2, im.size[1]/2
     pix = im.load()
 
-    for r in range(120, 150):
-        for theta_deg in arange(0, 360, .15):
+    for r in range(450, 500):
+        for theta_deg in arange(0, 360, .05):
             theta = theta_deg * pi / 180.
             x = r * cos(theta) + centre[0]; y = r * sin(theta) + centre[1]
             rx = x - centre[0]

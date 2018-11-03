@@ -41,6 +41,7 @@ struct config_t{
   bool flip_display;
   uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
   uint8_t solid_color_rgb[3];
+  bool use_ntp_time;
 } config;
 
 bool force_update = false;
@@ -849,7 +850,7 @@ void fillMask(bool* mask, bool b, int start, int stop){
 }
 
 void loadSettings(){
-  EEPROM_readAnything(0, config);  
+  EEPROM_readAnything(0, config);
 }
 
 void saveSettings(){
@@ -963,6 +964,8 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     uint32_t tm = String(str_payload).toInt();
     ds3231_clock.set(tm);
     config.use_ip_timezone = false;
+    config.use_ntp_time = false;
+    saveSettings();
   }
   else if(strcmp(subtopic, "notify") == 0){
     // payload: ascii notification
@@ -1150,7 +1153,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
 	  display_names = display_names + String(",");
 	}
       }
-      display_names = display_names + String("]}");
+      display_names = display_names + String("],\"display_idx\":\"") + String(config.display_idx) + String("\"}");
       
       webSocket.sendTXT(num, display_names.c_str());
       Serial.println("Display names requested");
@@ -1246,11 +1249,11 @@ void test_ds3231(){
   delay(1500);
   int second = ds3231_clock.now();
   if(second <= first){
-    Serial.println("RCT Failed");
+    Serial.println("RTC Failed");
     bigX();
   }
   else{
-    Serial.println("RCT Passed");
+    Serial.println("RTC Passed");
   }
 }
 
@@ -1268,11 +1271,12 @@ void factory_reset(){
   config.mqtt_ip[3] = 255;
   config.flip_display = 255;
   config.last_tz_lookup = 0;
+  config.use_ntp_time = true;
   saveSettings();
   
-  Serial.println("Hit reset again to complete");
   test_leds();
   test_ds3231();
+  Serial.println("Hit reset again to complete");
 
   delay(1000);
   while(1) delay(100);
@@ -1344,12 +1348,13 @@ void button_setup(){
     factory_reset();
   }
   else if(mode){ // mode configures stand alone
-    if(config.use_wifi){ // toggle use_wifi
-      button_set_time(); // if(mode) body
+    if(config.use_ntp_time){ // toggle using internet time
+      button_set_time();
+      config.use_ntp_time = false;
       saveSettings();
     }
     else{
-      config.use_wifi = true;
+      config.use_ntp_time = true;
       saveSettings();
     }
   }
@@ -1407,6 +1412,10 @@ void setup(){
 
   EEPROM.begin(1024);
   loadSettings();
+  if(config.display_idx == 255){
+    config.display_idx = 0;
+    saveSettings();
+  }
   
   //config.use_wifi = false; // Debug
 
@@ -1417,15 +1426,14 @@ void setup(){
   Serial.print("display_idx:");Serial.println(config.display_idx);
   Serial.print("factory_reset:");Serial.println(config.factory_reset);
   Serial.print("use_wifi:");Serial.println(config.use_wifi);
+  Serial.print("use_ntp_time:");Serial.println(config.use_ntp_time);
   Serial.print("mqtt_ip:");
   for(int i = 0; i< 4; i++){
     Serial.print(config.mqtt_ip[i]);
     Serial.print(", ");
   }
   Serial.println();
-  if(config.factory_reset){
-    factory_reset();
-  }
+
   led_setup(); // set up leds first so buttons can affect display if needed
   
   CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
@@ -1462,10 +1470,12 @@ void setup(){
   //CurrentDisplay_p->init();
   //while(1)delay(100);
   if(config.use_wifi){
-    ntp_clock.setup(&timeClient);
-    ntp_clock.setOffset(config.timezone);
-    ds3231_clock.set(ntp_clock.now());
-    doomsday_clock.setup(&ntp_clock, &ds3231_clock);
+    if(config.use_ntp_time){
+      ntp_clock.setup(&timeClient);
+      ntp_clock.setOffset(config.timezone);
+      ds3231_clock.set(ntp_clock.now());
+      doomsday_clock.setup(&ntp_clock, &ds3231_clock);
+    }
     if(config.use_ip_timezone){
       set_timezone_from_ip();
     }
@@ -1476,19 +1486,26 @@ void setup(){
   Serial.print("config.use_ip_timezone: ");
   Serial.println((bool)config.use_ip_timezone);
   Serial.println("setup() complete");
+  config.factory_reset = false;
+  saveSettings();
 }
 
 uint32_t Now(){
   uint32_t out;
   
   if(config.use_wifi){
-    out = doomsday_clock.now();
-    if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
-      if(hour(out) == 3){
-	if(out - config.last_tz_lookup > 3601){
-	  set_timezone_from_ip();
+    if(config.use_ntp_time){
+      out = doomsday_clock.now();
+      if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
+	if(hour(out) == 3){
+	  if(out - config.last_tz_lookup > 3601){
+	    set_timezone_from_ip();
+	  }
 	}
       }
+    }
+    else{
+      out = ds3231_clock.now();
     }
   }
   else{
@@ -1600,22 +1617,24 @@ void loop(){
   delay(1000);
   */
   if(config.use_wifi){
-    if(doomsday_clock.seconds() == 0 and millis() < 1){
-      Serial.print("Doomsday Time:");
-      Serial.print(doomsday_clock.year());
-      Serial.print("/");
-      Serial.print(doomsday_clock.month());
-      Serial.print("/");
-      Serial.print(doomsday_clock.day());
-      Serial.print(" ");
-      if(doomsday_clock.hours() < 10)Serial.print('0');
-      Serial.print(doomsday_clock.hours());
-      Serial.print(":");
-      if(doomsday_clock.minutes() < 10)Serial.print('0');
-      Serial.print(doomsday_clock.minutes());
-      Serial.print(":");
-      if(doomsday_clock.seconds() < 10)Serial.print('0');
-      Serial.println(doomsday_clock.seconds());
+    if(config.use_ntp_time){
+      if(doomsday_clock.seconds() == 0 and millis() < 1){
+	Serial.print("Doomsday Time:");
+	Serial.print(doomsday_clock.year());
+	Serial.print("/");
+	Serial.print(doomsday_clock.month());
+	Serial.print("/");
+	Serial.print(doomsday_clock.day());
+	Serial.print(" ");
+	if(doomsday_clock.hours() < 10)Serial.print('0');
+	Serial.print(doomsday_clock.hours());
+	Serial.print(":");
+	if(doomsday_clock.minutes() < 10)Serial.print('0');
+	Serial.print(doomsday_clock.minutes());
+	Serial.print(":");
+	if(doomsday_clock.seconds() < 10)Serial.print('0');
+	Serial.println(doomsday_clock.seconds());
+      }
     }
   }
   last_time = current_time;
