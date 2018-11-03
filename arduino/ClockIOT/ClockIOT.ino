@@ -43,6 +43,7 @@ struct config_t{
   uint8_t solid_color_rgb[3];
 } config;
 
+bool force_update = false;
 
 //const bool ON = true;
 //const bool OFF = !ON;
@@ -189,17 +190,21 @@ void wipe_around(bool val){
   cx = 8;
   cy = 4;
   
-  fillMask(wipe, !val);
+  fillMask(wipe, !val); // 
   while (theta < 3.14 + dtheta){
     for(row=0; row < MatrixHeight; row++){
       for(col=0; col < MatrixWidth; col++){
 	if(atan2(row - cy, col - cx) < theta){
-	  setPixelMask(wipe, row, col, val);
+	  setPixelMask(wipe, row, col, val); // set wedge to val
 	}
       }
     }
-    logical_or(NUM_LEDS, wipe, mask, tmp);
-    //rainbow_slow();
+    if(val){
+      logical_or(NUM_LEDS, wipe, mask, tmp);
+    }
+    else{
+      logical_and(NUM_LEDS, wipe, mask, tmp);
+    }
     apply_mask(tmp);
     FastLED.show();
     theta += dtheta;
@@ -216,9 +221,18 @@ typedef struct{
 } Display;
 
 void Plain_init(){
-  uint32_t current_time = Now();
-  last_time = current_time;
-  blend_to_rainbow();
+  return;
+  while(1){
+    fill_blue();
+    fillMask(mask, ON);
+    wipe_around(ON);
+    Serial.println("HERE");
+    delay(500);
+
+    wipe_around(OFF);
+    FastLED.show();
+    delay(500);
+  }
 }
 void Plain_display_time(uint32_t last_tm, uint32_t tm){
   fillMask(mask, OFF);
@@ -229,9 +243,9 @@ void Plain_display_time(uint32_t last_tm, uint32_t tm){
 
 Display *CurrentDisplay_p;
 Display PlainDisplay = {Plain_init, Plain_display_time, String("Plain"), 0};
-Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 2};
-Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 1};
-Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 1};
+Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 1};
+Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 2};
+Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 3};
 
 const uint8_t N_DISPLAY = 4;
 Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, WordDropDisplay, SolidColorDisplay};
@@ -313,15 +327,12 @@ void setWordMask(bool *mask, uint8_t* word, bool b){
 }
 
 
-bool last_orientation;
-
 void WordDrop_init(){
   uint32_t current_time = Now();
   last_time = current_time;
   fillMask(mask, OFF);
   faceplates[faceplate_idx].maskTime(current_time, mask);
   blend_to_rainbow();
-  last_orientation = config.flip_display;
 }
 
 void word_drop_in(uint16_t time_inc){
@@ -592,12 +603,12 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 void TheMatrix_init(){
   uint32_t current_time = Now();
   last_time = current_time;
-  blend_to_blue();
-  fill_blue();
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+				  config.solid_color_rgb[1],
+				  config.solid_color_rgb[2]));
   fillMask(mask, false);
   faceplates[faceplate_idx].maskTime(current_time, mask);  
   apply_mask(mask);
-  last_orientation = config.flip_display;
 }
 
 void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
@@ -608,22 +619,26 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
   if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
     TheMatrix_drop(last_tm_inc, tm_inc);
   }
-  else if((last_tm_inc != tm_inc) || (last_orientation != config.flip_display)){
-    //fill_blue();
-    //fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
-    //config.solid_color_rgb[1],
-    //config.solid_color_rgb[2]));
-    //fillMask(mask, false);
-    //faceplates[faceplate_idx].maskTime(tm, mask);  
-    //apply_mask(mask);
-    //last_orientation = config.flip_display;
+  else if((last_tm_inc != tm_inc) ||
+	  (force_update)
+	  ){
+    force_update = false;
+    /* only update when needed? what about color updates?*/
+    fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+				    config.solid_color_rgb[1],
+				    config.solid_color_rgb[2]));
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(tm, mask);  
+    apply_mask(mask);
   }
+  /* // just do it every cycle?
   fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
 				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
   fillMask(mask, false);
   faceplates[faceplate_idx].maskTime(tm, mask);  
   apply_mask(mask);
+  */
 }
 
 void rainbow_cycle(int count){
@@ -667,22 +682,15 @@ void rainbow_slow() {
 void SolidColor_init(){
 }
 void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
-  if(last_tm != tm){
-    wipe_around(false);
-    apply_mask(mask);
+  if(last_tm != tm || force_update){
+    force_update = false;
     fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
 				    config.solid_color_rgb[1],
-				    config.solid_color_rgb[2]));
-    wipe_around(true);
-  faceplates[faceplate_idx].maskTime(last_tm, mask);  
-
-  }
-  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
-				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
-  fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(last_tm, mask);  
-  apply_mask(mask);
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(last_tm, mask);  
+    apply_mask(mask);
+  }
 }
 
 // end Displays
@@ -754,13 +762,14 @@ void brighter(){
 
 void set_display(uint8_t display_idx){
   config.display_idx = display_idx % N_DISPLAY;
-  ChangeDisplay(&Displays[display_idx % N_DISPLAY]);
+  ChangeDisplay(&Displays[config.display_idx % N_DISPLAY]);
   saveSettings();
 }
 void next_display(){
   config.display_idx = (config.display_idx + 1) % N_DISPLAY;
-  ChangeDisplay(&Displays[config.display_idx]);
+  ChangeDisplay(&Displays[config.display_idx % N_DISPLAY]);
   saveSettings();
+  Serial.print("Display #"); Serial.println(config.display_idx);
 }
 
 void add_to_timezone(int32_t offset){ 
@@ -895,7 +904,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
   Serial.println(str_payload);
   
   if(strcmp(subtopic, "timezone_offset") == 0){
-    Serial.println("Change timezone!!");
+    Serial.println("Change timezone.");
     set_timezone_offset(String(str_payload).toInt());
   }
   else if(strcmp(subtopic, "add_to_timezone") == 0){
@@ -903,19 +912,19 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     add_to_timezone(String(str_payload).toInt());
   }
   else if(strcmp(subtopic, "display_idx") == 0){
-    Serial.println("Change display_idx!!");
+    Serial.println("Change display_idx.");
     set_display(String(str_payload).toInt());
   }
   else if(strcmp(subtopic, "next_display") == 0){
-    Serial.println("Increment display!!");
+    Serial.println("Increment display.");
     next_display();
   }
   else if(strcmp(subtopic, "brighter") == 0){
-    Serial.println("Increment brigtness!!");
+    Serial.println("Increment brigtness.");
     brighter();
   }
   else if(strcmp(subtopic, "dimmer") == 0){
-    Serial.println("Decrement brigtness!!");
+    Serial.println("Decrement brigtness.");
     dimmer();
   }
   else if(strcmp(subtopic, "flip_display") == 0){
@@ -927,10 +936,11 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     }      
     Serial.print("Flip Display:");
     Serial.println(config.flip_display);
+    force_update = true;
     saveSettings();
   }
   else if(strcmp(subtopic, "mqtt_ip") == 0){
-    Serial.println("Update mqtt_ip address!!");
+    Serial.println("Update mqtt_ip address.");
     byte tmp_ip[4];
     if(ip_from_str(str_payload, tmp_ip)){
       for(int i=0; i<4; i++){
@@ -945,6 +955,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     config.solid_color_rgb[0] = hh2dd((char*)payload);
     config.solid_color_rgb[1] = hh2dd((char*)payload + 2);
     config.solid_color_rgb[2] = hh2dd((char*)payload + 4);
+    force_update = true;
     saveSettings();
   }
   else if(strcmp(subtopic, "set_time") == 0){
@@ -1034,7 +1045,7 @@ void mqtt_setup(){
   mqtt_client.setServer(config.mqtt_ip, 1883);
   mqtt_client.setCallback(handle_mqtt_msg);
   mqtt_connect();
-  Serial.println("USE MQTT!!");
+  Serial.println("USE MQTT");
 }
 
 void led_setup(){
@@ -1229,7 +1240,7 @@ void test_ds3231(){
 }
 
 void factory_reset(){
-  Serial.println("Factory RESET!!");
+  Serial.println("Factory RESET");
   config.timezone = 255; //?
   config.brightness = 8;
   config.display_idx = 255;
@@ -1399,7 +1410,7 @@ void setup(){
   }
   Serial.println();
   led_setup(); // set up leds first so buttons can affect display if needed
-
+  
   CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
   
   for(int ii = 0; ii < num_faceplates; ii++){

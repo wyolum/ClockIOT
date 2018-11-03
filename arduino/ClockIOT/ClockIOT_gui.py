@@ -5,6 +5,7 @@ import asyncio
 import websocket
 import glob
 import re
+import time
 
 root = tkinter.Tk()
 
@@ -75,8 +76,9 @@ menubar.add_cascade(label="Tools", menu=toolsmenu)
 
 # display the menu
 root.config(menu=menubar)
-
-page = urllib.request.urlopen('http://www.wyolum.com/utc_offset/get_localips.py')
+url = 'http://www.wyolum.com/utc_offset/get_localips.py?%d' % int(time.time())
+print (url)
+page = urllib.request.urlopen(url)
 txt = page.read().decode('utf-8')
 localips = json.loads(txt)['localips']
 
@@ -87,12 +89,11 @@ for localip in localips:
     if localip and localip not in have:
         ip = localip["localip"]
         t = localip["dev_type"]
-        if t == 'ClockIOT':
-            esp32_ip.set(ip)
-            b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
-                                    variable=esp32_ip, value=ip)
-            b.pack(anchor=tkinter.W)
-            have.append(localip)
+        esp32_ip.set(ip)
+        b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
+                                variable=esp32_ip, value=ip)
+        b.pack(anchor=tkinter.W)
+        have.append(localip)
     
 
 frame = tkinter.Frame(root)
