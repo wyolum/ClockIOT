@@ -959,7 +959,10 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     saveSettings();
   }
   else if(strcmp(subtopic, "set_time") == 0){
-    // payload: ascii unix time
+    // set DS3231, turn off internet time
+    uint32_t tm = String(str_payload).toInt();
+    ds3231_clock.set(tm);
+    config.use_ip_timezone = false;
   }
   else if(strcmp(subtopic, "notify") == 0){
     // payload: ascii notification
@@ -1150,7 +1153,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
       display_names = display_names + String("]}");
       
       webSocket.sendTXT(num, display_names.c_str());
-	Serial.println("Display names requested");
+      Serial.println("Display names requested");
       }
     
     // send data to all connected clients
@@ -1342,7 +1345,6 @@ void button_setup(){
   }
   else if(mode){ // mode configures stand alone
     if(config.use_wifi){ // toggle use_wifi
-      config.use_wifi = false;
       button_set_time(); // if(mode) body
       saveSettings();
     }
@@ -1421,6 +1423,9 @@ void setup(){
     Serial.print(", ");
   }
   Serial.println();
+  if(config.factory_reset){
+    factory_reset();
+  }
   led_setup(); // set up leds first so buttons can affect display if needed
   
   CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
