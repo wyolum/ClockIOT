@@ -247,9 +247,12 @@ Display PlainDisplay = {Plain_init, Plain_display_time, String("Plain"), 0};
 Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 1};
 Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 2};
 Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 3};
+Display CloudDisplay = {Cloud_init, Cloud_display_time, String("Cloud"), 4};
+Display FireDisplay = {Fire_init, Fire_display_time, String("Fire"), 5};
 
-const uint8_t N_DISPLAY = 4;
-Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, WordDropDisplay, SolidColorDisplay};
+const uint8_t N_DISPLAY = 6;
+Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, WordDropDisplay, SolidColorDisplay,
+			       CloudDisplay, FireDisplay};
 
 /*
 Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 3};
@@ -313,6 +316,9 @@ void fill_green(){
 }
 void fill_blue(){
   fill_solid(leds, NUM_LEDS, CRGB::Blue);
+}
+void fill_white(){
+  fill_solid(leds, NUM_LEDS, CRGB::White);
 }
 void fill_black(){
   fill_solid(leds, NUM_LEDS, CRGB::Black);
@@ -694,6 +700,38 @@ void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
   }
 }
 
+void Cloud_init(){
+}
+void cloudNoise(void);
+void Cloud_display_time(uint32_t last_tm, uint32_t tm){
+  /*
+  fill_white();
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(last_tm, mask);  
+  apply_mask(mask, CRGB::Blue)
+  */
+  EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
+    cloudNoise();
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(last_tm, mask);  
+    apply_mask(mask);
+  }
+  /*
+  */
+}
+
+void Fire_init(){
+}
+void fireNoise2(void);
+void Fire_display_time(uint32_t last_tm, uint32_t tm){
+  EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
+    fireNoise2();
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(last_tm, mask);  
+    apply_mask(mask);
+  }
+}
+
 // end Displays
 //********************************************************************************
 
@@ -838,6 +876,14 @@ void apply_mask(bool* mask){
     }
   }
 }
+void apply_mask(bool* mask, CRGB color){
+  uint16_t b, k;
+  for(uint16_t i=0; i < NUM_LEDS; i++){
+    if(!mask[i]){
+      leds[i] = color;
+    }
+  }
+}
 
 void fillMask(bool* mask, bool b){
   fillMask(mask, b, 0, NUM_LEDS);
@@ -966,6 +1012,23 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     config.use_ip_timezone = false;
     config.use_ntp_time = false;
     saveSettings();
+  }
+  else if(strcmp(subtopic, "use_ntp") == 0){
+    if(!config.use_ntp_time){
+      Serial.println("Use NTP time service.");
+      // turn ON internet time
+      config.use_ip_timezone = true;
+      config.use_wifi = true;
+      config.use_ntp_time = true;
+
+      ntp_clock.setup(&timeClient);
+      ntp_clock.setOffset(config.timezone);
+      doomsday_clock.setup(&ntp_clock, &ds3231_clock);
+      saveSettings();
+    }
+    else{
+      Serial.println("Already using NTP time service.");
+    }
   }
   else if(strcmp(subtopic, "notify") == 0){
     // payload: ascii notification
@@ -1639,3 +1702,4 @@ void loop(){
   }
   last_time = current_time;
 }
+#include "Noise.h"

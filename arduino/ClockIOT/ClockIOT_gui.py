@@ -60,6 +60,9 @@ def next_display():
 def set_time():
     send_msg('clockiot/set_time//0')
 
+def use_ntp():
+    send_msg('clockiot/use_ntp')
+
 def set_display_idx():
     send_msg('clockiot/display_idx//0')
 def get_displays():
@@ -117,6 +120,7 @@ tkinter.Button(frame, text="Next", command=next_display).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Get Displays", command=get_displays).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Set Display", command=set_display_idx).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Set Time", command=set_time).pack(side=tkinter.LEFT)
+tkinter.Button(frame, text="Use NTP", command=use_ntp).pack(side=tkinter.LEFT)
 frame.pack()
 
 mqtt_ip = []
