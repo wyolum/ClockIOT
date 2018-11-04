@@ -112,11 +112,59 @@ document.addEventListener('DOMContentLoaded', () => {
     sendMessage('display_idx', displayID);
   }
 
+  function getBrowserOffset() {
+    var offset = new Date().getTimezoneOffset();
+    return -offset / 60;
+  }
+
+  function generateTimezoneList() {
+    // grab elements
+    var map = document.querySelector('#timezone-map');
+    var list = document.querySelector('#timezone-list');
+    var offsetField = document.querySelector('#offset-field');
+    var confirmButton = document.querySelector('#changeTimezone');
+
+    var firstElement = new Option('Browser Timezone', '')
+    firstElement.dataset.offset = getBrowserOffset();
+    list.add(firstElement);
+
+    for (let area of map.areas) {
+      let timezone = area.dataset.timezone;
+      let offset = area.dataset.offset;
+      let option = new Option(timezone, timezone);
+      option.dataset.offset = offset;
+
+      list.add(option);
+    }
+
+    function transferOffsetToField(offset) {
+      // offset is optional
+      offsetField.value = offset || list.selectedOptions[0].dataset.offset;
+    }
+
+    list.addEventListener('change', transferOffsetToField);
+
+    function timezoneChangeHandler(timezoneName, countryName, offset) {
+      transferOffsetToField(offset);
+    }
+    window.timezoneChangeHandler = timezoneChangeHandler;
+
+    confirmButton.addEventListener('click', event => {
+      if (typeof offsetField.value === 'undefined') return false;
+
+      // convert UTC offset from hours to seconds
+      var secondOffset = ((parseInt(offsetField.value) * 60) * 60);
+      sendMessage('timezone_offset', secondOffset);
+    });
+
+    transferOffsetToField();
+  }
+  generateTimezoneList();
+
+
   // modals
   var timezoneModal = new Modal('#timezoneModal');
   var colorModal = new Modal('#colorPickerModal');
-
-
 
   function createListeners() {
     function clockListListener(event) {
@@ -150,4 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     colorButton.addEventListener('click', colorModal.open);
   }
   createListeners();
+
+
 });
