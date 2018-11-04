@@ -30,10 +30,12 @@
 .modalContent {
   /* modal box */
   background-color: #fefefe;
-  margin: 15% auto;
+  height: 90%;
+  width: 90%;
+  margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  overflow: auto;
 }
 
 .close {
@@ -52,7 +54,7 @@
 
 /* fadein animation */
 .fadein {
-  animation: 1s ease-in 0s fadein;
+  animation: 0.3s ease-in 0s fadein;
 }
 
 @keyframes fadein {
@@ -67,7 +69,7 @@
 
 /* fadeout animation */
 .fadeout {
-  animation: 1s ease-in 0s fadeout;
+  animation: 0.3s ease-in 0s fadeout;
 }
 
 @keyframes fadeout {
@@ -78,4 +80,8 @@
   to {
     opacity: 0.0;
   }
+}
+
+.hidden {
+  display: none;
 }

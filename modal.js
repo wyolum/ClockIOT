@@ -6,7 +6,6 @@ class Modal {
     this.modal = document.querySelector(modalSelector)
     var closeButton = document.querySelector(`${modalSelector} .close`);
 
-    this.modal.classList.add('hidden');
 
     closeButton.addEventListener('click', (event) => {
       this.close();
@@ -34,6 +33,9 @@ class Modal {
     }
 
     this.modal.addEventListener('animationend', animationListener, false);
+
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
   }
 
   open() {
