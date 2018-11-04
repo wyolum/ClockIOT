@@ -48,10 +48,11 @@
     <div id="timezoneModal" class="modal">
       <div class="modalContent container">
         <div style="display: inline-block; width: 100%;">
+          Make sure offset/timezone is correct
           <span class="close">&times</span>
         </div>
         <div id="timezone-picker">
-          <img id="timezone-image" src="timezonepicker/images/blue-marble-1000.jpg" width="1000" height="500" usemap="#timezone-map" >
+          <img id="timezone-image" src="timezonepicker/images/gray-800.png" width="800" height="400" usemap="#timezone-map" >
           <img class="timezone-pin" src="timezonepicker/images/pin.png" style="padding-top: 4px;">
           <map name="timezone-map" id="timezone-map">
             <area data-timezone="Africa/Abidjan" data-country="CI" data-pin="489,235" data-offset="0" shape="poly" coords="483,236,479,238,479,234,476,232,476,229,478,228,477,226,479,227,477,222,483,220,483,222,486,221,488,223,491,222,493,227,491,232,492,236,483,236">
@@ -507,8 +508,14 @@
             <area data-timezone="Pacific/Wallis" data-country="WF" data-pin="11,287" data-offset="12" shape="rect" coords="0,295,16,282">
           </map>
         </div>
+        <div id="manual-timezone-picker">
+          <label for="timezone-list">Timezone</label>
+          <select id="timezone-list"></select>
+          <label for="offset-field">UTC Offset</label>
+          <input id="offset-field" type="text" />
+          <button id="changeTimezone">Change Timezone</button>
+        </div>
       </div>
-
     </div>
     <div id="colorPickerModal" class="modal">
       <div class="modalContent">
@@ -516,17 +523,16 @@
         <p>Some text</p>
       </div>
     </div>
-    <input type="text" id="test"></input>
   </body>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script src="./timezonepicker/lib/jquery.maphilight.min.js" charset="utf-8"></script>
   <script src="./timezonepicker/lib/jquery.timezone-picker.min.js" charset="utf-8"></script>
   <script type="text/javascript">
   $('document').ready(function() {
-    console.log('initializing timezone picker');
     $('#timezone-image').timezonePicker({
-      target: '#test'
+      changeHandler: window.timezoneChangeHandler,
+      target: "#timezone-list"
     });
-  })
+  });
   </script>
 </html>
