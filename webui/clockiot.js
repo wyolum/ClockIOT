@@ -112,6 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
     sendMessage('display_idx', displayID);
   }
 
+  // modals
+  var timezoneModal = new Modal('#timezoneModal');
+  var colorModal = new Modal('#colorPickerModal');
+
+
+
   function createListeners() {
     function clockListListener(event) {
       changeClock(event.target.value);
@@ -137,6 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
       setDisplay(displayIndex);
     })
 
+    let timezoneButton = document.querySelector('#timezoneButton');
+    let colorButton = document.querySelector('#colorButton');
+
+    timezoneButton.addEventListener('click', timezoneModal.open);
+    colorButton.addEventListener('click', colorModal.open);
   }
   createListeners();
 });
