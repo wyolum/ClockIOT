@@ -75,6 +75,12 @@ uint32_t last_time;
 
 //********************************************************************************
 // Displays
+
+void my_show(){
+  FastLED.show();
+  interact_loop();
+}
+
 typedef void (*Init)();
 typedef void (*DisplayTime)(uint32_t last_tm, uint32_t tm);
 
@@ -207,7 +213,7 @@ void wipe_around(bool val){
       logical_and(NUM_LEDS, wipe, mask, tmp);
     }
     apply_mask(tmp);
-    FastLED.show();
+    my_show();
     theta += dtheta;
     delay(10);
   }
@@ -231,7 +237,7 @@ void Plain_init(){
     delay(500);
 
     wipe_around(OFF);
-    FastLED.show();
+    my_show();
     delay(500);
   }
 }
@@ -249,10 +255,11 @@ Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The 
 Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 3};
 Display CloudDisplay = {Cloud_init, Cloud_display_time, String("Cloud"), 4};
 Display FireDisplay = {Fire_init, Fire_display_time, String("Fire"), 5};
+Display GlitchDisplay = {Glitch_init, Glitch_display_time, String("Glitch"), 6};
 
-const uint8_t N_DISPLAY = 6;
+const uint8_t N_DISPLAY = 7;
 Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, WordDropDisplay, SolidColorDisplay,
-			       CloudDisplay, FireDisplay};
+			       CloudDisplay, FireDisplay, GlitchDisplay};
 
 /*
 Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 3};
@@ -279,7 +286,7 @@ void blend_to_rainbow(){
 	}
       }
     }
-    FastLED.show();
+    my_show();
     delay(1);
   }
 }
@@ -291,7 +298,7 @@ void blend_to_color(CRGB color){
 	nblend(leds[ii], color, 1);
       }
     }
-    FastLED.show();
+    my_show();
     delay(1);
   }
 }
@@ -368,7 +375,7 @@ void word_drop_in(uint16_t time_inc){
 	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
 	  rainbow_slow();
 	  apply_mask(tmp_mask);
-	  FastLED.show();
+	  my_show();
 	  delay(25);
 	}
 	setWordMask(mask, word, true);
@@ -379,7 +386,7 @@ void word_drop_in(uint16_t time_inc){
 	  
 	  rainbow_slow();
 	  apply_mask(tmp_mask);
-	  FastLED.show();
+	  my_show();
 	  delay(25);
 	}
       }
@@ -414,7 +421,7 @@ void word_drop_out(uint16_t time_inc){
 	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
 	  rainbow_slow();
 	  apply_mask(tmp_mask);
-	  FastLED.show();
+	  my_show();
 	  delay(25);
 	}
 	setWordMask(mask, word, false);
@@ -425,7 +432,7 @@ void word_drop_out(uint16_t time_inc){
 	  
 	  rainbow_slow();
 	  apply_mask(tmp_mask);
-	  FastLED.show();
+	  my_show();
 	  delay(25);
 	}
       }
@@ -491,13 +498,13 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 
   faceplates[faceplate_idx].maskTime(last_tm_inc * 300, mask);
   faceplates[faceplate_idx].maskTime(current_tm_inc * 300, wipe);
-  fill_green();
+  blend_to_green();
+  //fill_green();
   apply_mask(mask);
-  FastLED.show();
+  my_show();
     
   for(i=0; i < MatrixWidth; i++){
     for(j=0; j < MatrixHeight; j++){
-      interact_loop();
       if(leds[XY(i, j)].red > 0 ||
 	 leds[XY(i, j)].green > 0 ||
 	 leds[XY(i, j)].blue > 0){
@@ -514,18 +521,16 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   delay(10);
   for(j = 0; j < 255 * 3; j++){
     for(i=0; i < NUM_LEDS; i++){
-      interact_loop();
       leds[i].red   = blend8(leds[i].red, 0, 1);
       leds[i].green = blend8(leds[i].green, 255, 1);
       leds[i].blue  = blend8(leds[i].blue, 0, 1);
     }
     apply_mask(mask);
-    FastLED.show();
+    my_show();
     delay(5);
   }
 
   for(i = n_drop; i < n_need; i++){/// add enough drops to complete
-    interact_loop();
     cols[i] = random(0, MatrixWidth);
     rows[i] = -random(0, MatrixHeight);
     n_drop++;
@@ -537,7 +542,6 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
     //  while(millis() < end){
     fadeToBlackBy(leds, NUM_LEDS, 75);
     for(i = 0; i < n_drop; i++){
-      interact_loop();
       if(millis() > end && wipe[XY(cols[i], rows[i])]){
 	if(random(0, 3) == 0){
 	  have[XY(cols[i], rows[i])] = true;
@@ -581,14 +585,13 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 			config.solid_color_rgb[2]);
       }
     }
-    FastLED.show();
+    my_show();
     delay(75);
   }
   for(int ii=0; ii< MatrixHeight * 10; ii++){
     //  while(millis() < end){
     fadeToBlackBy(leds, NUM_LEDS, 75);
     for(i = 0; i < n_drop; i++){
-      interact_loop();
       rows[i]++;
       if(0 <= rows[i] && rows[i] <  MatrixHeight){
 	leds[XY(cols[i], rows[i])] = color;
@@ -602,7 +605,7 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 			config.solid_color_rgb[2]);
       }
     }
-    FastLED.show();
+    my_show();
     delay(75);
   }
 }
@@ -703,6 +706,37 @@ void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
 void Cloud_init(){
 }
 void cloudNoise(void);
+void Cloud_transition(uint32_t last_tm, uint32_t tm){
+  // bring fire up!
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(last_tm, mask);
+  for(int mask_to=0; mask_to<16; mask_to++){
+    for(int row=0; row < 8; row++){
+      setPixelMask(mask, row, mask_to, true);
+    }
+    for(int ii=0; ii<3; ii++){
+      cloudNoise();
+      apply_mask(mask);
+      my_show();
+      delay(40);
+    }
+  }
+  
+  fillMask(mask, true);
+  // bring fire out!
+  for(int fill_to=0; fill_to<16; fill_to++){
+    for(int row=0; row < 8; row++){
+      setPixelMask(mask, row, fill_to, false);
+    }
+    faceplates[faceplate_idx].maskTime(tm, mask);
+    for(int ii=0; ii<3; ii++){
+      cloudNoise();
+      apply_mask(mask);
+      my_show();
+      delay(40);
+    }
+  }
+}
 void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   /*
   fill_white();
@@ -710,6 +744,9 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   faceplates[faceplate_idx].maskTime(last_tm, mask);  
   apply_mask(mask, CRGB::Blue)
   */
+  if(last_tm / 300 != tm / 300){
+    Cloud_transition(last_tm, tm);
+  }
   EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
     cloudNoise();
     fillMask(mask, false);
@@ -719,15 +756,74 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   /*
   */
 }
-
 void Fire_init(){
 }
+void fireNoise(void);
 void fireNoise2(void);
+void Fire_transition(uint32_t last_tm, uint32_t tm){
+  // bring fire up!
+  fillMask(mask, false);
+  faceplates[faceplate_idx].maskTime(last_tm, mask);
+  for(int mask_to=7; mask_to>=0; mask_to--){
+    for(int col=0; col < 16; col++){
+      setPixelMask(mask, mask_to, col, true);
+    }
+    for(int ii=0; ii<3; ii++){
+      fireNoise2();
+      apply_mask(mask);
+      my_show();
+      delay(40);
+    }
+  }
+  
+  fillMask(mask, true);
+  // bring fire out!
+  for(int fill_to=7; fill_to>=0; fill_to--){
+    for(int col=0; col < 16; col++){
+      setPixelMask(mask, fill_to, col, false);
+    }
+    faceplates[faceplate_idx].maskTime(tm, mask);
+    for(int ii=0; ii<3; ii++){
+      fireNoise2();
+      apply_mask(mask);
+      my_show();
+      delay(40);
+    }
+  }
+}
 void Fire_display_time(uint32_t last_tm, uint32_t tm){
+  if(last_tm/300 != tm/300){
+    Fire_transition(last_tm, tm);
+    Serial.print(last_tm);
+    Serial.print(" ");
+    Serial.println(tm);
+  }
   EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
     fireNoise2();
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(last_tm, mask);  
+    faceplates[faceplate_idx].maskTime(tm, mask);  
+    apply_mask(mask);
+  }
+}
+
+void Glitch_init(){
+}
+uint8_t gHue = 0; // rotating "base color" used by many of the patterns
+void rainbow(){
+  // FastLED's built-in rainbow generator
+  fill_rainbow( leds, NUM_LEDS, gHue++, 255 / NUM_LEDS);
+}
+void addGlitch( uint8_t chanceOfGlitch){
+  if ( random8() < chanceOfGlitch) {
+    leds[ random16(NUM_LEDS) ] += CRGB::White;
+  }
+}
+void Glitch_display_time(uint32_t last_tm, uint32_t tm){
+  EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
+    rainbow();
+    addGlitch(80);
+    fillMask(mask, false);
+    faceplates[faceplate_idx].maskTime(tm, mask);  
     apply_mask(mask);
   }
 }
@@ -1123,7 +1219,7 @@ void led_setup(){
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
-  FastLED.show();
+  my_show();
 }
 
 void wifi_setup(){
@@ -1271,29 +1367,29 @@ void test_leds(){
   
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Red;
-    FastLED.show();
+    my_show();
     delay(10);
   }
   delay(100);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Green;
-    FastLED.show();
+    my_show();
     delay(10);
   }
   delay(100);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Blue;
-    FastLED.show();
+    my_show();
     delay(10);
   }
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::White;
-    FastLED.show();
+    my_show();
     delay(10);
   }
   delay(1000);
   fill_black();
-  FastLED.show();
+  my_show();
 }
 
 void bigX(){
@@ -1303,7 +1399,7 @@ void bigX(){
     setPixel(i, 2 * i + 1, CRGB::Red);
     setPixel(7 - i, 2 * i, CRGB::Red);
   }
-  FastLED.show();
+  my_show();
   Serial.println("Big X");
   while(1) delay(100);
 }
@@ -1391,7 +1487,7 @@ void button_set_time(){
     for(int min = 0; min < (current_time % 300)/60; min++){
       setPixel(min, 15, CRGB::Green);
     }
-    FastLED.show();
+    my_show();
   }
 }
 
@@ -1515,10 +1611,10 @@ void setup(){
 
   wipe_around(ON);
   display_bitmap_rgb(logo_rgb);
-  FastLED.show();  
+  my_show();  
   wipe_around(OFF);
   display_bitmap_rgb(logo_rgb);
-  FastLED.show();
+  my_show();
   if(config.use_wifi){
     wifi_setup();
   }
@@ -1561,8 +1657,10 @@ uint32_t Now(){
       out = doomsday_clock.now();
       if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
 	if(hour(out) == 3){
-	  if(out - config.last_tz_lookup > 3601){
-	    set_timezone_from_ip();
+	  if(minute(out) > 1){ 
+	    if(out - config.last_tz_lookup > 3601){
+	      set_timezone_from_ip();
+	    }
 	  }
 	}
       }
@@ -1651,7 +1749,7 @@ void loop(){
   interact_loop();
   
   CurrentDisplay_p->display_time(last_time, current_time);
-  FastLED.show();
+  my_show();
 
   /*
   Serial.print("NTP Time:");

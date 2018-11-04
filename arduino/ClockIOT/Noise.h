@@ -153,7 +153,7 @@ void cloudNoise() {
   noisespeedx = -2;
   noisespeedy = 0;
   noisespeedz = 0;
-  noisescale = 24;
+  noisescale = 10;//noisescale = 24;
   colorLoop = 0;
   drawNoise(CloudColors_p);
 }
