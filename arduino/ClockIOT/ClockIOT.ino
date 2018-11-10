@@ -714,7 +714,7 @@ void Cloud_transition(uint32_t last_tm, uint32_t tm){
     for(int row=0; row < 8; row++){
       setPixelMask(mask, row, mask_to, true);
     }
-    for(int ii=0; ii<3; ii++){
+    for(int ii=0; ii<1; ii++){
       cloudNoise();
       apply_mask(mask);
       my_show();
@@ -729,7 +729,7 @@ void Cloud_transition(uint32_t last_tm, uint32_t tm){
       setPixelMask(mask, row, fill_to, false);
     }
     faceplates[faceplate_idx].maskTime(tm, mask);
-    for(int ii=0; ii<3; ii++){
+    for(int ii=0; ii<1; ii++){
       cloudNoise();
       apply_mask(mask);
       my_show();
@@ -750,7 +750,7 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
     cloudNoise();
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(last_tm, mask);  
+    faceplates[faceplate_idx].maskTime(tm, mask);  
     apply_mask(mask);
   }
   /*
@@ -768,7 +768,7 @@ void Fire_transition(uint32_t last_tm, uint32_t tm){
     for(int col=0; col < 16; col++){
       setPixelMask(mask, mask_to, col, true);
     }
-    for(int ii=0; ii<3; ii++){
+    for(int ii=0; ii<1; ii++){
       fireNoise2();
       apply_mask(mask);
       my_show();
@@ -783,7 +783,7 @@ void Fire_transition(uint32_t last_tm, uint32_t tm){
       setPixelMask(mask, fill_to, col, false);
     }
     faceplates[faceplate_idx].maskTime(tm, mask);
-    for(int ii=0; ii<3; ii++){
+    for(int ii=0; ii<1; ii++){
       fireNoise2();
       apply_mask(mask);
       my_show();
@@ -798,7 +798,7 @@ void Fire_display_time(uint32_t last_tm, uint32_t tm){
     Serial.print(" ");
     Serial.println(tm);
   }
-  EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
+  EVERY_N_MILLISECONDS(40){// prevent moving too fast!
     fireNoise2();
     fillMask(mask, false);
     faceplates[faceplate_idx].maskTime(tm, mask);  
@@ -819,7 +819,7 @@ void addGlitch( uint8_t chanceOfGlitch){
   }
 }
 void Glitch_display_time(uint32_t last_tm, uint32_t tm){
-  EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
+  EVERY_N_MILLISECONDS(40){// prevent moving too fast!
     rainbow();
     addGlitch(80);
     fillMask(mask, false);
@@ -918,6 +918,7 @@ void add_to_timezone(int32_t offset){
 
 void set_timezone_offset(int32_t offset){
   config.timezone = offset % 86400;
+  config.use_ip_timezone = false; // time zone manually changed... ignore internate timezone
   saveSettings();
   if(config.use_wifi){
     ntp_clock.setOffset(config.timezone);
@@ -1030,6 +1031,8 @@ uint8_t hh2dd(char *hh){
   return hex2dig(hh[0]) * 16 + hex2dig(hh[1]);
 }
 
+bool force_timezone_from_ip = false;
+
 void handle_msg(char* topic, byte* payload, unsigned int length) {
   bool handled = false;
   char str_payload[length + 1];
@@ -1048,7 +1051,15 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
   
   if(strcmp(subtopic, "timezone_offset") == 0){
     Serial.println("Change timezone.");
-    set_timezone_offset(String(str_payload).toInt());
+    if(strcmp(str_payload, "IP") == 0){
+      config.use_ip_timezone = true;
+      force_timezone_from_ip = true;
+      saveSettings();
+    }
+    else{
+      String s = String(str_payload);
+      set_timezone_offset(s.toInt());
+    }
   }
   else if(strcmp(subtopic, "add_to_timezone") == 0){
     Serial.println("Add to timezone!");
@@ -1732,6 +1743,10 @@ void serial_loop(){/// allow same msgs as mqtt
 }
 
 void  interact_loop(){
+  if(force_timezone_from_ip){
+    force_timezone_from_ip = false;
+    set_timezone_from_ip();
+  }
   if (use_mqtt()){
     mqtt_client.loop();
   }

@@ -19,6 +19,22 @@ ws.settimeout(1)
 def hello():
     print ("hello")
 
+def tap():
+    port = '81'
+    ESP32_IP = esp32_ip.get()
+    ip_str = 'ws://%s:%s/' % (ESP32_IP, port)
+    print (ip_str, end=' ')
+    out = False
+    for i in range(3):
+        try:
+            ws.connect(ip_str)
+            out = True
+            break
+        except:
+            pass
+    print (out)
+    return out
+    
 def send_msg(msg):
     port = '81'
     ESP32_IP = esp32_ip.get()
@@ -28,7 +44,7 @@ def send_msg(msg):
         ws.connect(ip_str)
     except:
         print("FAILED")
-        return
+        return 
     ws.send(msg)
     greeting1 = ws.recv()
     try:
@@ -101,15 +117,17 @@ localips = json.loads(txt)['localips']
 esp32_ip = tkinter.StringVar()
 
 have = []
+print ('Searching for ClockIOTs')
 for localip in localips:
     if localip and localip not in have:
         ip = localip["localip"]
         t = localip["dev_type"]
         esp32_ip.set(ip)
-        b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
-                                variable=esp32_ip, value=ip)
-        b.pack(anchor=tkinter.W)
         have.append(localip)
+        if tap():
+            b = tkinter.Radiobutton(root, text="%s-%s" % (ip, t),
+                                    variable=esp32_ip, value=ip)
+            b.pack(anchor=tkinter.W)
     
 
 frame = tkinter.Frame(root)
