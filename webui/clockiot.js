@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       offsetField.value = offset || list.selectedOptions[0].dataset.offset;
     }
 
-    list.addEventListener('change', transferOffsetToField);
+    list.addEventListener('change', () => {transferOffsetToField()});
 
     function timezoneChangeHandler(timezoneName, countryName, offset) {
       transferOffsetToField(offset);
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.timezoneChangeHandler = timezoneChangeHandler;
 
     confirmButton.addEventListener('click', event => {
-      if (typeof offsetField.value === 'undefined') return false;
+      if (parseInt(offsetField).toString() === 'NaN') return false;
 
       // convert UTC offset from hours to seconds
       var secondOffset = ((parseInt(offsetField.value) * 60) * 60);
