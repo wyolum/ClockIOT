@@ -44,6 +44,34 @@ struct config_t{
   bool use_ntp_time;
 } config;
 
+void print_config(){
+  Serial.println("config:");
+  Serial.print("    timezone:"); Serial.println(config.timezone);
+  Serial.print("    brightness:"); Serial.println(config.brightness);
+  Serial.print("    display_idx:"); Serial.println(config.display_idx);
+  Serial.print("    factory_reset:"); Serial.println(config.factory_reset);
+  Serial.print("    use_wifi:"); Serial.println(config.use_wifi);
+  Serial.print("    use_ip_timezone:"); Serial.println(config.use_ip_timezone);
+  Serial.print("    mqtt_ip:");
+  for(int ii = 0; ii < 4; ii++){
+    if (ii > 0){
+      Serial.print(".");
+    }
+    Serial.print(config.mqtt_ip[ii]);
+  }
+  Serial.println();
+  Serial.print("    flip_display:"); Serial.println(config.flip_display);
+  Serial.print("    last_tz_lookup:"); Serial.println(config.last_tz_lookup);
+  Serial.print("    solid_color_rgb:");
+  for(int ii = 0; ii < 3; ii++){
+    if (ii > 0){
+      Serial.print(".");
+    }
+    Serial.print(config.solid_color_rgb[ii]);
+  }
+  Serial.println();
+  Serial.print("    use_ntp_time:"); Serial.println(config.use_ntp_time);
+}
 bool force_update = false;
 
 //const bool ON = true;
@@ -918,7 +946,6 @@ void add_to_timezone(int32_t offset){
 
 void set_timezone_offset(int32_t offset){
   config.timezone = offset % 86400;
-  config.use_ip_timezone = false; // time zone manually changed... ignore internate timezone
   saveSettings();
   if(config.use_wifi){
     ntp_clock.setOffset(config.timezone);
@@ -1055,6 +1082,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
       config.use_ip_timezone = true;
       force_timezone_from_ip = true;
       saveSettings();
+      print_config();
     }
     else{
       String s = String(str_payload);
@@ -1582,27 +1610,14 @@ void setup(){
 
   EEPROM.begin(1024);
   loadSettings();
+  print_config();
+  
   if(config.display_idx == 255){
     config.display_idx = 0;
     saveSettings();
   }
   
   //config.use_wifi = false; // Debug
-
-  Serial.println("Settings");
-  Serial.print("timezone:");Serial.println(config.timezone);
-  Serial.print("use IP timezone:");Serial.println(config.use_ip_timezone);
-  Serial.print("brightness:");Serial.println(config.brightness);
-  Serial.print("display_idx:");Serial.println(config.display_idx);
-  Serial.print("factory_reset:");Serial.println(config.factory_reset);
-  Serial.print("use_wifi:");Serial.println(config.use_wifi);
-  Serial.print("use_ntp_time:");Serial.println(config.use_ntp_time);
-  Serial.print("mqtt_ip:");
-  for(int i = 0; i< 4; i++){
-    Serial.print(config.mqtt_ip[i]);
-    Serial.print(", ");
-  }
-  Serial.println();
 
   led_setup(); // set up leds first so buttons can affect display if needed
   
