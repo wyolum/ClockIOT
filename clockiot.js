@@ -124,9 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
     var offsetField = document.querySelector('#offset-field');
     var confirmButton = document.querySelector('#changeTimezone');
 
-    var firstElement = new Option('Browser Timezone', '')
-    firstElement.dataset.offset = getBrowserOffset();
-    list.add(firstElement);
+    var ipTimeChoice = new Option('Auto Detect Timezone');
+    ipTimeChoice.dataset.offset = 'AUTO';
+    list.add(ipTimeChoice);
+
+    var browserTimeChoice = new Option('Browser Timezone', '')
+    browserTimeChoice.dataset.offset = getBrowserOffset();
+    list.add(browserTimeChoice);
+
 
     for (let area of map.areas) {
       let timezone = area.dataset.timezone;
@@ -150,10 +155,21 @@ document.addEventListener('DOMContentLoaded', () => {
     window.timezoneChangeHandler = timezoneChangeHandler;
 
     confirmButton.addEventListener('click', event => {
-      if (parseInt(offsetField).toString() === 'NaN') return false;
+      // if setting timezone to use ip, ignore any numbered offset
+      if (offsetField.value === 'AUTO' || offsetField.value === 'IP') {
+        sendMessage('timezone_offset', 'IP');
+        return;
+      }
+
+      var offset = Number(offsetField.value);
+      if (offset.toString() === 'NaN') {
+        console.error('Invalid offset ' + offset);
+        alert('Invalid offset');
+        return false;
+      }
 
       // convert UTC offset from hours to seconds
-      var secondOffset = ((parseInt(offsetField.value) * 60) * 60);
+      var secondOffset = ((offset * 60) * 60);
       sendMessage('timezone_offset', secondOffset);
     });
 
