@@ -1087,6 +1087,9 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     else{
       String s = String(str_payload);
       set_timezone_offset(s.toInt());
+      config.use_ip_timezone = false;
+      saveSettings();
+      print_config();
     }
   }
   else if(strcmp(subtopic, "add_to_timezone") == 0){
