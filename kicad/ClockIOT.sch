@@ -6,8 +6,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 12
 Title "ClockIOT"
-Date "2018-10-30"
-Rev "rev 3"
+Date "2018-11-14"
+Rev "rev 4"
 Comp "www.wyolum.com"
 Comment1 "https://github.com/wyolum/ClockIOT"
 Comment2 ""
@@ -741,8 +741,6 @@ Wire Wire Line
 Wire Wire Line
 	8475 6050 8875 6050
 Wire Wire Line
-	10125 6050 9725 6050
-Wire Wire Line
 	9725 6200 10350 6200
 Wire Wire Line
 	8475 5350 8875 5350
@@ -1239,18 +1237,6 @@ Text Label 5425 1475 0    40   ~ 0
 DTR
 Text Label 4025 2525 2    40   ~ 0
 CLK_IN
-$Comp
-L ClockIOT:Conn_01x02 P2
-U 1 1 5A479D4B
-P 10550 6225
-F 0 "P2" H 10625 6250 40  0000 L CNN
-F 1 "OUT_CLK_DAT" H 10625 6175 40  0000 L CNN
-F 2 "ClockIOT_libs:Pin_Header_Straight_1x02" H 10550 6225 60  0001 C CNN
-F 3 "" H 10550 6225 60  0000 C CNN
-F 4 "Value" H 10550 6225 50  0001 C CNN "manf#"
-	1    10550 6225
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	10350 6200 10350 6225
 Wire Wire Line
@@ -1856,4 +1842,42 @@ Text Label 2075 2325 2    40   ~ 0
 IO25
 Text Label 2075 2425 2    40   ~ 0
 IO26
+$Comp
+L ClockIOT:Conn_01x03 P2
+U 1 1 5BF0A281
+P 10550 6225
+F 0 "P2" H 10675 6100 40  0000 C CNN
+F 1 "OUT_CLK_DAT" H 10825 6175 40  0000 C CNN
+F 2 "ClockIOT_libs:Pin_Header_Straight_1x03" H 10550 6225 50  0001 C CNN
+F 3 "~" H 10550 6225 50  0001 C CNN
+	1    10550 6225
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10350 6050 10350 6125
+Wire Wire Line
+	9725 6050 10350 6050
+$Comp
+L ClockIOT:Conn_01x03 P4
+U 1 1 5BF32694
+P 10750 675
+F 0 "P4" H 10875 550 40  0000 C CNN
+F 1 "IN_CLK_DAT" H 11025 625 40  0000 C CNN
+F 2 "ClockIOT_libs:Pin_Header_Straight_1x03" H 10750 675 50  0001 C CNN
+F 3 "~" H 10750 675 50  0001 C CNN
+	1    10750 675 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10350 675  10550 675 
+Wire Wire Line
+	10550 775  10350 775 
+Text Label 10350 575  2    40   ~ 0
+GND
+Wire Wire Line
+	10550 575  10350 575 
+Text Label 10350 675  2    40   ~ 0
+DAT_IN
+Text Label 10350 775  2    40   ~ 0
+CLK_IN
 $EndSCHEMATC

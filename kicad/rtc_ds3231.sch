@@ -6,8 +6,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 11 12
 Title "ClockIOT"
-Date "2018-10-30"
-Rev "rev 3"
+Date "2018-11-14"
+Rev "rev 4"
 Comp "www.wyolum.com"
 Comment1 "https://github.com/wyolum/ClockIOT"
 Comment2 ""
