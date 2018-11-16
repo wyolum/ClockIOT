@@ -18,7 +18,6 @@ class Modal {
     // set up animation listener
 
     function animationListener(event) {
-      console.log(event);
       switch (event.animationName) {
         case 'fadein':
           event.target.classList.remove('fadein');
