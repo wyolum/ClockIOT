@@ -42,6 +42,7 @@ struct config_t{
   uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
   uint8_t solid_color_rgb[3];
   bool use_ntp_time;
+  bool wifi_reset;
 } config;
 
 void print_config(){
@@ -71,6 +72,7 @@ void print_config(){
   }
   Serial.println();
   Serial.print("    use_ntp_time:"); Serial.println(config.use_ntp_time);
+  Serial.print("    wifi_reset:"); Serial.println(config.wifi_reset);
 }
 bool force_update = false;
 
@@ -1265,8 +1267,8 @@ void led_setup(){
 }
 
 void wifi_setup(){
-  if(config.factory_reset){
-    config.factory_reset = false;
+  if(config.wifi_reset){
+    config.wifi_reset = false;
     saveSettings();
     wifiManager.startConfigPortal("KLOK");
   }
@@ -1409,29 +1411,29 @@ void test_leds(){
   
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Red;
-    my_show();
+    FastLED.show();
     delay(10);
   }
   delay(100);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Green;
-    my_show();
+    FastLED.show();
     delay(10);
   }
   delay(100);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Blue;
-    my_show();
+    FastLED.show();
     delay(10);
   }
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::White;
-    my_show();
+    FastLED.show();
     delay(10);
   }
   delay(1000);
   fill_black();
-  my_show();
+  FastLED.show();
 }
 
 void bigX(){
@@ -1463,24 +1465,29 @@ void factory_reset(){
   config.timezone = 255; //?
   config.brightness = 8;
   config.display_idx = 255;
-  config.factory_reset = 255;
   config.use_wifi = 255;
   config.use_ip_timezone = 255;
   config.mqtt_ip[0] = 255;
   config.mqtt_ip[1] = 255;
   config.mqtt_ip[2] = 255;
   config.mqtt_ip[3] = 255;
+  config.solid_color_rgb[0] = 0;
+  config.solid_color_rgb[1] = 0;
+  config.solid_color_rgb[2] = 255;
   config.flip_display = 255;
   config.last_tz_lookup = 0;
   config.use_ntp_time = true;
+  config.wifi_reset = true;
+  config.factory_reset = false;
   saveSettings();
-  
+  Serial.println("XXXX???");
+  print_config();
   test_leds();
   test_ds3231();
-  Serial.println("Hit reset again to complete");
-
   delay(1000);
-  while(1) delay(100);
+
+  Serial.println("Factory reset complete");
+  ESP.restart();
 }
 
 void button_set_time(){
@@ -1614,15 +1621,18 @@ void setup(){
   EEPROM.begin(1024);
   loadSettings();
   print_config();
-  
+
+  led_setup(); // set up leds first so buttons can affect display if needed
+
+  if(config.factory_reset){// do factory reset on first on
+    factory_reset();
+  }
   if(config.display_idx == 255){
     config.display_idx = 0;
     saveSettings();
   }
   
   //config.use_wifi = false; // Debug
-
-  led_setup(); // set up leds first so buttons can affect display if needed
   
   CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
   
@@ -1674,8 +1684,7 @@ void setup(){
   Serial.print("config.use_ip_timezone: ");
   Serial.println((bool)config.use_ip_timezone);
   Serial.println("setup() complete");
-  config.factory_reset = false;
-  saveSettings();
+  print_config();
 }
 
 uint32_t Now(){
