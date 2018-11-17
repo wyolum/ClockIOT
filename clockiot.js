@@ -50,7 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     url = `ws://${ip}:81/`;
-    clockSocket = new WebSocket(url);
+    try {
+      clockSocket = new WebSocket(url);
+    } catch(error) {
+      if (error.code === DOMException.SECURITY_ERR && location.protocol === 'https:') {
+        location.protocol = 'http:';
+        console.error('Browsers require websockets to be secure on https pages. Redirecting...');
+      }
+    }
 
     clockSocket.onopen = () => {
       console.log('Clock IP changed to ' + ip);
