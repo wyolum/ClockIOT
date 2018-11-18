@@ -386,6 +386,6 @@ uint32_t irish_v1_minute_leds[] = {
 uint32_t irish_v1_minutes_hack[] = {
 };
 
-static Faceplate irish_v1(irish_v1_words, irish_v1_displays, irish_v1_minute_leds, irish_v1_minutes_hack);
+static Faceplate irish_v1(irish_v1_words, irish_v1_displays, irish_v1_minute_leds, irish_v1_minutes_hack, "Irish_v1");
 
 #endif

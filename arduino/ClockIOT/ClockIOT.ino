@@ -22,10 +22,12 @@
 #include "dutch_v1.h"
 #include "french_v1.h"
 #include "german_v3.h"
+#include "german_v5.h"
 #include "hebrew_v1.h"
+#include "hungarian_v1.h"
 #include "hungarian_v2.h"
-#include "irish_v1.h"
 #include "italian_v1.h"
+#include "english_v2.h"
 #include "english_v3.h"
 #include "spanish_v1.h"
 
@@ -43,6 +45,7 @@ struct config_t{
   uint8_t solid_color_rgb[3];
   bool use_ntp_time;
   bool wifi_reset;
+  uint8_t faceplate_idx;
 } config;
 
 void print_config(){
@@ -73,6 +76,7 @@ void print_config(){
   Serial.println();
   Serial.print("    use_ntp_time:"); Serial.println(config.use_ntp_time);
   Serial.print("    wifi_reset:"); Serial.println(config.wifi_reset);
+  Serial.print("    faceplate_idx:"); Serial.println(config.faceplate_idx);
 }
 bool force_update = false;
 
@@ -120,16 +124,28 @@ DoomsdayClock doomsday_clock;
 
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
-Faceplate faceplates[] = {
-  english_v3,
+Faceplate Faceplates[] = {
+  dutch_v1,
+  english_v2, // AM/PM w/ minutes hack
+  english_v3, // in the morning etc.
+  
+  french_v1,
+  german_v3, 
+  german_v5, // minutes hack
+
+  hebrew_v1,
+  hungarian_v1, // 
+  hungarian_v2, // minutes hack
+
+  italian_v1,
   spanish_v1,
-  //hungarian_v2,
 };
-uint8_t num_faceplates = 2;
-uint8_t faceplate_idx = 0;
+
+uint8_t N_FACEPLATE = 11;
+uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
-Klok klok(faceplates[0], timeClient);
+Klok klok(Faceplates[0], timeClient);
 
 String jsonLookup(String s, String name){
   int start = s.indexOf(name) + name.length() + 3;
@@ -273,7 +289,7 @@ void Plain_init(){
 }
 void Plain_display_time(uint32_t last_tm, uint32_t tm){
   fillMask(mask, OFF);
-  faceplates[faceplate_idx].maskTime(tm, mask);
+  Faceplates[config.faceplate_idx].maskTime(tm, mask);
   rainbow_fast();
   apply_mask(mask);
 }
@@ -375,7 +391,7 @@ void WordDrop_init(){
   uint32_t current_time = Now();
   last_time = current_time;
   fillMask(mask, OFF);
-  faceplates[faceplate_idx].maskTime(current_time, mask);
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);
   blend_to_rainbow();
 }
 
@@ -384,7 +400,7 @@ void word_drop_in(uint16_t time_inc){
   uint8_t word[3];  // start columm, start row, length of the current word
   bool tmp_mask[NUM_LEDS];
   uint8_t tmp_word[3];
-  uint8_t n_byte_per_display = faceplates[faceplate_idx].displays[0];
+  uint8_t n_byte_per_display = Faceplates[config.faceplate_idx % N_FACEPLATE].displays[0];
   
   fillMask(mask, false);
   fillMask(wipe, false);
@@ -392,10 +408,10 @@ void word_drop_in(uint16_t time_inc){
   
   for(uint8_t j = 0; j < n_byte_per_display; j++){ // j is a byte index 
     // read the state for the next set of 8 words
-    bits = pgm_read_byte(faceplates[faceplate_idx].displays + 1 + (time_inc * n_byte_per_display) + j);
+    bits = pgm_read_byte(Faceplates[config.faceplate_idx % N_FACEPLATE].displays + 1 + (time_inc * n_byte_per_display) + j);
     for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
       if((bits >> k) & 1){                              // check to see if word is on or off
-	faceplates[faceplate_idx].getword(j * 8 + k, word);                       // if on, read location and length
+	Faceplates[config.faceplate_idx % N_FACEPLATE].getword(j * 8 + k, word);                       // if on, read location and length
 	tmp_word[0] = word[0];
 	tmp_word[1] = word[1];
 	tmp_word[2] = word[2];
@@ -428,7 +444,7 @@ void word_drop_out(uint16_t time_inc){
   uint8_t word[3];  // start columm, start row, length of the current word
   bool tmp_mask[NUM_LEDS];
   uint8_t tmp_word[3];
-  uint8_t n_byte_per_display = faceplates[faceplate_idx].displays[0];
+  uint8_t n_byte_per_display = Faceplates[config.faceplate_idx % N_FACEPLATE].displays[0];
   
   //fillMask(mask, false);
   //fillMask(wipe, false);
@@ -438,10 +454,10 @@ void word_drop_out(uint16_t time_inc){
   
   for(uint8_t j = 0; j < n_byte_per_display; j++){ // j is a byte index 
     // read the state for the next set of 8 words
-    bits = pgm_read_byte(faceplates[faceplate_idx].displays + 1 + (time_inc * n_byte_per_display) + j);
+    bits = pgm_read_byte(Faceplates[config.faceplate_idx % N_FACEPLATE].displays + 1 + (time_inc * n_byte_per_display) + j);
     for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
       if((bits >> k) & 1){                              // check to see if word is on or off
-	faceplates[faceplate_idx].getword(j * 8 + k, word);                       // if on, read location and length
+	Faceplates[config.faceplate_idx % N_FACEPLATE].getword(j * 8 + k, word);                       // if on, read location and length
 	tmp_word[0] = word[0];
 	tmp_word[1] = word[1];
 	tmp_word[2] = word[2];
@@ -486,7 +502,7 @@ void word_drop(uint16_t last_time_inc, uint16_t time_inc){
   fillMask(tmp_d, false);
   
   // read display for next time incement
-  faceplates[faceplate_idx].maskTime(time_inc * 300, mask);
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(time_inc * 300, mask);
   
   // clear rainbow to reveal the time
   //wipe_off_left();
@@ -502,7 +518,7 @@ void WordDrop_display_time(uint32_t last_tm, uint32_t next_tm){
   }
   rainbow_slow();
   fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(next_tm, mask);  
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(next_tm, mask);  
   apply_mask(mask);
 }
 
@@ -526,8 +542,8 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 
   // set masks to appropriate times
 
-  faceplates[faceplate_idx].maskTime(last_tm_inc * 300, mask);
-  faceplates[faceplate_idx].maskTime(current_tm_inc * 300, wipe);
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm_inc * 300, mask);
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_tm_inc * 300, wipe);
   blend_to_green();
   //fill_green();
   apply_mask(mask);
@@ -647,7 +663,7 @@ void TheMatrix_init(){
 				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
   fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(current_time, mask);  
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);  
   apply_mask(mask);
 }
 
@@ -659,16 +675,13 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
   if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
     TheMatrix_drop(last_tm_inc, tm_inc);
   }
-  else if((last_tm_inc != tm_inc) ||
-	  (force_update)
-	  ){
-    force_update = false;
+  else{
     /* only update when needed? what about color updates?*/
     fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
 				    config.solid_color_rgb[1],
 				    config.solid_color_rgb[2]));
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(tm, mask);  
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
     apply_mask(mask);
   }
   /* // just do it every cycle?
@@ -676,7 +689,7 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
 				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
   fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(tm, mask);  
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
   apply_mask(mask);
   */
 }
@@ -728,7 +741,7 @@ void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
 				    config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(last_tm, mask);  
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);  
     apply_mask(mask);
   }
 }
@@ -739,7 +752,7 @@ void cloudNoise(void);
 void Cloud_transition(uint32_t last_tm, uint32_t tm){
   // bring fire up!
   fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(last_tm, mask);
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);
   for(int mask_to=0; mask_to<16; mask_to++){
     for(int row=0; row < 8; row++){
       setPixelMask(mask, row, mask_to, true);
@@ -758,7 +771,7 @@ void Cloud_transition(uint32_t last_tm, uint32_t tm){
     for(int row=0; row < 8; row++){
       setPixelMask(mask, row, fill_to, false);
     }
-    faceplates[faceplate_idx].maskTime(tm, mask);
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);
     for(int ii=0; ii<1; ii++){
       cloudNoise();
       apply_mask(mask);
@@ -771,7 +784,7 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   /*
   fill_white();
   fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(last_tm, mask);  
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);  
   apply_mask(mask, CRGB::Blue)
   */
   if(last_tm / 300 != tm / 300){
@@ -780,7 +793,7 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
     cloudNoise();
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(tm, mask);  
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
     apply_mask(mask);
   }
   /*
@@ -793,7 +806,7 @@ void fireNoise2(void);
 void Fire_transition(uint32_t last_tm, uint32_t tm){
   // bring fire up!
   fillMask(mask, false);
-  faceplates[faceplate_idx].maskTime(last_tm, mask);
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);
   for(int mask_to=7; mask_to>=0; mask_to--){
     for(int col=0; col < 16; col++){
       setPixelMask(mask, mask_to, col, true);
@@ -812,7 +825,7 @@ void Fire_transition(uint32_t last_tm, uint32_t tm){
     for(int col=0; col < 16; col++){
       setPixelMask(mask, fill_to, col, false);
     }
-    faceplates[faceplate_idx].maskTime(tm, mask);
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);
     for(int ii=0; ii<1; ii++){
       fireNoise2();
       apply_mask(mask);
@@ -831,7 +844,7 @@ void Fire_display_time(uint32_t last_tm, uint32_t tm){
   EVERY_N_MILLISECONDS(40){// prevent moving too fast!
     fireNoise2();
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(tm, mask);  
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
     apply_mask(mask);
   }
 }
@@ -853,7 +866,7 @@ void Glitch_display_time(uint32_t last_tm, uint32_t tm){
     rainbow();
     addGlitch(80);
     fillMask(mask, false);
-    faceplates[faceplate_idx].maskTime(tm, mask);  
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
     apply_mask(mask);
   }
 }
@@ -925,6 +938,13 @@ void brighter(){
   set_brightness(b);
 }
 
+void set_faceplate(uint8_t faceplate_idx){
+  config.faceplate_idx = faceplate_idx % N_FACEPLATE;
+  Serial.print("Changing Faceplate to ");
+  Serial.println(Faceplates[config.faceplate_idx].name);
+  //ChangeFaceplate(&Faceplates[config.faceplate_idx % N_FACEPLATE]);// no action required
+  saveSettings();
+}
 void set_display(uint8_t display_idx){
   config.display_idx = display_idx % N_DISPLAY;
   ChangeDisplay(&Displays[config.display_idx % N_DISPLAY]);
@@ -1101,6 +1121,10 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
   else if(strcmp(subtopic, "display_idx") == 0){
     Serial.println("Change display_idx.");
     set_display(String(str_payload).toInt());
+  }
+  else if(strcmp(subtopic, "faceplate_idx") == 0){
+    Serial.println("Change faceplate_idx.");
+    set_faceplate(String(str_payload).toInt());
   }
   else if(strcmp(subtopic, "next_display") == 0){
     Serial.println("Increment display.");
@@ -1364,6 +1388,23 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
     
     // send data to all connected clients
     // webSocket.broadcastTXT("message here");
+    if (strcmp(topic, "clockiot/get_faceplates") == 0) {
+	// send faceplate names to client
+      String faceplate_names = String("{\"faceplates\":[");
+      for(int ii=0; ii < N_FACEPLATE; ii++){
+	faceplate_names = faceplate_names + String("\"") + String(Faceplates[ii].name)  + String("\"");
+	if(ii < N_FACEPLATE - 1){
+	  faceplate_names = faceplate_names + String(",");
+	}
+      }
+      faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
+      
+      webSocket.sendTXT(num, faceplate_names.c_str());
+      Serial.println("Faceplate names requested");
+      }
+    
+    // send data to all connected clients
+    // webSocket.broadcastTXT("message here");
     break;
   case WStype_BIN:
     Serial.printf("[%u] get binary length: %u\n", num, length);
@@ -1478,9 +1519,9 @@ void factory_reset(){
   config.last_tz_lookup = 0;
   config.use_ntp_time = true;
   config.wifi_reset = true;
+  config.faceplate_idx = DEFAULT_FACEPLATE_IDX;
   config.factory_reset = false;
   saveSettings();
-  Serial.println("XXXX???");
   print_config();
   test_leds();
   test_ds3231();
@@ -1531,7 +1572,7 @@ void button_set_time(){
       fill_green();
     }
     fillMask(mask, OFF);
-    faceplates[faceplate_idx].maskTime(current_time, mask);
+    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);
     apply_mask(mask);
     for(int min = 0; min < (current_time % 300)/60; min++){
       setPixel(min, 15, CRGB::Green);
@@ -1623,7 +1664,6 @@ void setup(){
   print_config();
 
   led_setup(); // set up leds first so buttons can affect display if needed
-
   if(config.factory_reset){// do factory reset on first on
     factory_reset();
   }
@@ -1635,10 +1675,24 @@ void setup(){
   //config.use_wifi = false; // Debug
   
   CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
-  
-  for(int ii = 0; ii < num_faceplates; ii++){
-    faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
+  Serial.println("{\"faceplates\":");
+  for(int ii = 0; ii < N_FACEPLATE; ii++){
+    Serial.print("    ");
+    Serial.print(ii);
+    Serial.print(" : \"");
+    Serial.print(Faceplates[ii].name);
+    Serial.print("\"");
+    if(ii < N_FACEPLATE - 1){
+      Serial.print(",");
+    }
+    Serial.println();
+    Faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
   }
+  Serial.println("}");
+  if (config.faceplate_idx >= N_FACEPLATE){
+    set_faceplate(DEFAULT_FACEPLATE_IDX);
+  }
+  Serial.println("faceplates setup()!");
 
   // logo
   if( config.brightness == 0 || config.brightness == 255){
@@ -1684,7 +1738,6 @@ void setup(){
   Serial.print("config.use_ip_timezone: ");
   Serial.println((bool)config.use_ip_timezone);
   Serial.println("setup() complete");
-  print_config();
 }
 
 uint32_t Now(){

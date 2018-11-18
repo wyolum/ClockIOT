@@ -83,6 +83,14 @@ def set_display_idx():
     send_msg('clockiot/display_idx//0')
 def get_displays():
     send_msg('clockiot/get_displays')
+
+faceplate_idx = 0
+def set_faceplate_idx():
+    global faceplate_idx
+    faceplate_idx += 1
+    send_msg('clockiot/faceplate_idx//%d' % faceplate_idx)
+def get_faceplates():
+    send_msg('clockiot/get_faceplates')
     
 
 menubar = tkinter.Menu(root)
@@ -137,6 +145,8 @@ tkinter.Button(frame, text="Flip", command=flip_display).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Next", command=next_display).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Get Displays", command=get_displays).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Set Display", command=set_display_idx).pack(side=tkinter.LEFT)
+tkinter.Button(frame, text="Get Faceplates", command=get_faceplates).pack(side=tkinter.LEFT)
+tkinter.Button(frame, text="Set Faceplate", command=set_faceplate_idx).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Set Time", command=set_time).pack(side=tkinter.LEFT)
 tkinter.Button(frame, text="Use NTP", command=use_ntp).pack(side=tkinter.LEFT)
 frame.pack()
