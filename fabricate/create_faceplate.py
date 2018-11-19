@@ -1,4 +1,5 @@
  # -*- coding: latin-1 -*-
+from __future__ import print_function
 import string
 from string import *
 from random import choice
