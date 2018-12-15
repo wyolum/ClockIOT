@@ -90,6 +90,8 @@ def readwtf(csvfile, n_row=8, n_col=16):
     assert ''.join(ss.getCell('U3').lower().split()) == 'length'
     
     letters = ss.getRegion('C2:R9')
+    letters = [[c.lower() for c in row] for row in letters]
+    
     print('\n'.join([''.join(l) for l in letters]))
     rows = list(map(int, ss.getRegion('V1:*1')[0]))
     n_word = len(rows)

@@ -201,13 +201,18 @@ void set_timezone_from_ip(){
       }
       int offset = hours * 3600 + minutes * 60;
 
-      Serial.print("timezone_offset String:");
-      Serial.println(offset_str);
-      Serial.print("timezone_offset:");
-      Serial.println(offset);
-      set_timezone_offset(offset);
-      config.last_tz_lookup = Now();
-      saveSettings();
+      if(config.use_ip_timezone){
+	Serial.print("timezone_offset String:");
+	Serial.println(offset_str);
+	Serial.print("timezone_offset:");
+	Serial.println(offset);
+	set_timezone_offset(offset);
+	config.last_tz_lookup = Now();
+	saveSettings();
+      }
+      else{
+	Serial.println("Using previously selected timezone");
+      }
     }
     else{
       Serial.println("No timezone found");
@@ -1728,9 +1733,8 @@ void setup(){
       ds3231_clock.set(ntp_clock.now());
       doomsday_clock.setup(&ntp_clock, &ds3231_clock);
     }
-    if(config.use_ip_timezone){
-      set_timezone_from_ip();
-    }
+    set_timezone_from_ip();
+    
     websocket_setup();
   }
   Serial.print("config.timezone: ");

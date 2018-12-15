@@ -1,4 +1,4 @@
- # -*- coding: latin-1 -*-
+ # -*- coding: utf-8 -*-
 from __future__ import print_function
 import string
 from string import *
@@ -60,14 +60,14 @@ vingt-cinqtdemie
 dusmatinduzsoiru
 '''
 german_v3 = '''
-esxistrf�nfzehny
+esxistrfünfzehny
 dreiviertelwyoam
 zwanzigyvorcnach
 nhalbdeinsfzweio
-dreitviersf�nfdp
+dreitviersfünfdp
 sechsasiebenhlum
 cachtaneunbzehnj
-oelflzw�lfamyuhr
+oelflzwölfamyuhr
 '''
 german_v3 = '''
 esxistrfunfzehny
@@ -97,7 +97,37 @@ CUATRONCEGMENOSY
 ECINCODIEZCUARTO
 VEINTEVENTICINCO
 MEDIAPUNTOJDEILA
-MA�ANATARDENOCHE'''
+MAÑANATARDENOCHE'''
+
+itialian_v1 = '''
+SONOÉLELUNASETTE
+TRÉQUATTROTTOSEI
+NOVEUNDICIDODICI
+DIECINQUEDUEVENI
+MENOGUNVQUARTOZT
+VENTIDIECINQUEOR
+MEZZOGDILMATTINA
+SERABMEZZANOTTEV'''
+
+hungarian_v1 = '''
+délutánéjféleste
+háromnegyedtizen
+egykettőháromhat
+négyöthétnyolchs
+kilencotízmóraug
+múltlvansleszwöt
+tízxperccelmúlva
+percenhbelülugzd'''
+
+hungarian_v2 = '''
+éjjeldélutáneste
+háromnegyedéjfél
+tizenegykettőhat
+négyöthétnyolchs
+kilencotízmhárom
+óratmúltvanslesz
+ötxperccelcmúlva
+oooooooooooooooo'''
 
 class Image:
     def __init__(self, filename, x, y, w=None, h=None):
@@ -567,21 +597,29 @@ if __name__ == '__main__':
     font = 'Ubuntu-Regular'
     font = 'JosefinSans-Regular'
     font = 'DroidSans'
+    font = 'TC_LaserSans'
+    font = 'StardosStencil-Regular'
     assert add_font(font)
     fontsize=30
     styles = {'english_v3': english_v3,
               'french_v2': french_v2,
               'german_v3': german_v3,
               'dutch_v1': dutch_v1,
-              'spanish_v1':spanish_v1
+              'spanish_v1':spanish_v1,
+              'itialian_v1':itialian_v1,
+              'hungarian_v1': hungarian_v1,
+              'hungarian_v2': hungarian_v2,
     }
     cases = {'lower': lower,
              'upper': upper}
     style = 'french_v2'
-    style = 'english_v3'
     style = 'german_v3'
     style = 'dutch_v1'
+    style = 'itialian_v1'
     style = 'spanish_v1'
+    style = 'hungarian_v1'
+    style = 'hungarian_v2'
+    style = 'english_v3'
     
     case = 'lower'
 
