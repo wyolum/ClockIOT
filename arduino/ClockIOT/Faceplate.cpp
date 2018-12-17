@@ -1,5 +1,5 @@
 #include "Faceplate.h"
-#include <arduino.h>
+#include <Arduino.h>
 
 Faceplate::Faceplate(){
 }
@@ -78,5 +78,3 @@ void Faceplate::getword(int i, uint8_t* out){
   out[1] = words[3 * i + 2];
   out[2] = words[3 * i + 3];
 }
-
-
