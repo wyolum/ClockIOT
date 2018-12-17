@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setLanguage(faceplateID) {
-    sendMessage('get_faceplates', faceplateID);
+    sendMessage('faceplate_idx', faceplateID);
   }
 
   function getBrowserOffset() {
