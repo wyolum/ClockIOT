@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clockSocket.onopen = () => {
       console.log('Clock IP changed to ' + ip);
       generateDisplayList();
+      generateLanguageList();
     }
 
     clockSocket.onmessage = (message) => {
@@ -71,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if(typeof data.displays !== 'undefined') {
         generateDisplayList(data.displays, data.display_idx);
         return;
+      } else if (typeof data.faceplates !== 'undefined') {
+        generateLanguageList(data.faceplates, data.faceplate_idx);
       }
     };
 
@@ -102,6 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
       sendMessage('get_displays');
       return;
     }
+
+    activeDisplay = parseInt(activeDisplay);
+
     var listElement = document.querySelector('#displayList');
     while(listElement.length > 0) {
       // clear list
@@ -110,13 +116,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let [id, name] of displays.entries()) {
       let selected = (id === activeDisplay);
-      let option = new Option(name, id, selected);
+      let option = new Option(name, id, selected, selected);
       listElement.add(option);
     }
   }
 
   function setDisplay(displayID) {
     sendMessage('display_idx', displayID);
+  }
+
+  function generateLanguageList(languages, activeLanguage) {
+    if (typeof languages === 'undefined') {
+      sendMessage('get_faceplates');
+      return;
+    }
+
+    activeLanguage = parseInt(activeLanguage);
+
+    var listElement = document.querySelector('#languageList');
+    while(listElement.length > 0) {
+      // clear list
+      listElement.remove(0);
+    }
+
+    for (let [id, name] of languages.entries()) {
+      let selected = (id === activeLanguage);
+      let option = new Option(name, id, selected, selected);
+      listElement.add(option);
+    }
+  }
+
+  function setLanguage(faceplateID) {
+    sendMessage('get_faceplates', faceplateID);
   }
 
   function getBrowserOffset() {
@@ -184,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   generateTimezoneList();
 
-
   // modals
   var timezoneModal = new Modal('#timezoneModal');
   var colorModal = new Modal('#colorPickerModal');
@@ -213,6 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let displayIndex = displayList.selectedIndex;
       setDisplay(displayIndex);
     })
+
+    function languageListener(event) {
+      setLanguage(event.target.value);
+    }
+
+    let languageList = document.querySelector('#languageList');
+    languageList.addEventListener('change', languageListener);
 
     let timezoneButton = document.querySelector('#timezoneButton');
     let colorButton = document.querySelector('#colorButton');
