@@ -67,5 +67,5 @@ def make_wtf(letters, sentences, index, filename, author='unknown', licence="CC 
     for i in range(len(letters) // 16 + 1):
         layout.append(list(letters[i * 16: (i + 1) * 16]))
     ss.putRegion('C2', layout)
-    open(filename, 'w').write(ss.toString().encode('utf-8'))
+    open(filename, 'w').write(ss.toString())
     print('wrote', filename)

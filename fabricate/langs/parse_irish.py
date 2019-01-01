@@ -277,3 +277,4 @@ pcolormesh(A)
 # show()
 for w in porder:
     print(w)
+show()

@@ -101,7 +101,7 @@ def readwtf(csvfile, n_row=8, n_col=16):
     assert len(words) == len(rows), '%s != %s' % (len(words), len(rows))
     bitmap = zeros((288, n_word), int)
     dat = ss.getRegion('V6:*294')
-    printit = False
+    printit = True
     for i in range(288):
         if printit:
             print('%02d:%02d' % (i / 12, (5 * i) % 60), end=' ')

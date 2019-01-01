@@ -2,6 +2,7 @@ import string
 import io
 import csv
 
+string.uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 class Spreadsheet:
     def __init__(self, lines=None):
         ''' lines is a list of lists'''

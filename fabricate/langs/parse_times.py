@@ -1,9 +1,9 @@
 import make_wtf
 import random
-times = open("Irish_v5.txt").read().decode('utf-8').splitlines()
-# times = open("english.txt").read().splitlines()
-# Peter_order = open("Irish_v5_porder.txt").read().decode('utf-8').split()
-# print ''.join(Peter_order)
+
+txtfn = "English_v3.txt"
+times = open(txtfn).read().splitlines()
+
 sentences = [l[5:].split() for l in times]
 
 
@@ -70,11 +70,11 @@ for l in sentences:
             print()
 # order = 'it is half twenty - quarter ten five to past eleven ten nine eight seven six five four three two one twelve in the evening morning at in the afternoon midnight'.split()
 ##### TEST
-letters = open("Irish_v1.txt").read().decode('utf-8')
+letters = open(txtfn).read()
 letters = ''.join(letters.splitlines())
 
 index = index_sentences(letters, sentences) 
-make_wtf.make_wtf(letters, sentences, index, filename="Irish_v1.wtf")
+make_wtf.make_wtf(letters, sentences, index, filename='junk.wtf')
 here
 ##### TEST
 

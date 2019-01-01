@@ -129,6 +129,16 @@ kilencotízmhárom
 ötxperccelcmúlva
 oooooooooooooooo'''
 
+inthisreality = '''\
+inrthistreality:
+twoneleveninesix
+fiveighthreefour
+sevententwelvesl
+tenfifteenoclock
+twentythirtyfive
+fortysfiftynampm
+oooomewgrahearth'''
+
 class Image:
     def __init__(self, filename, x, y, w=None, h=None):
         self.filename = filename
@@ -597,10 +607,11 @@ if __name__ == '__main__':
     font = 'Ubuntu-Regular'
     font = 'JosefinSans-Regular'
     font = 'DroidSans'
-    font = 'TC_LaserSans'
     font = 'StardosStencil-Regular'
+    font = 'TC_LaserSans'
     assert add_font(font)
     fontsize=30
+    fontsize=28
     styles = {'english_v3': english_v3,
               'french_v2': french_v2,
               'german_v3': german_v3,
@@ -609,6 +620,7 @@ if __name__ == '__main__':
               'itialian_v1':itialian_v1,
               'hungarian_v1': hungarian_v1,
               'hungarian_v2': hungarian_v2,
+              'inthisreality': inthisreality,
     }
     cases = {'lower': lower,
              'upper': upper}
@@ -620,15 +632,15 @@ if __name__ == '__main__':
     style = 'hungarian_v1'
     style = 'hungarian_v2'
     style = 'english_v3'
-    
-    case = 'lower'
+    style = 'inthisreality'
+    case = 'upper'
 
     if not add_font(font):
         raise ValueError("cant load font %s" % font)
     create_faceplate('%s_%s_%s_v2' % (style, font, case), styles[style], cases[case], font, fontsize, 
                      reverse=True,
                      color=None,
-                     baffles=True)
+                     baffles=False)
     if False: ## test a single font
         add_font('plantin', 'fonts/CustomerFonts/plantin.ttf')
         create_faceplate('eng_plantin_lower_v3', english_v3, lower, 'plantin', fontsize, False,

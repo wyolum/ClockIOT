@@ -1,6 +1,6 @@
 import random
-times = open("Irish_v5.txt").read().decode('utf-8').splitlines()
-# times = open("english.txt").read().splitlines()
+# times = open("Irish_v5.txt").read().decode('utf-8').splitlines()
+times = open("English_v3.txt").read().splitlines()
 # Peter_order = open("Irish_v5_porder.txt").read().decode('utf-8').split()
 # print ''.join(Peter_order)
 sentences = [l[5:].split() for l in times]
@@ -64,7 +64,7 @@ while i < len(order_cp):
     ## see if later word can replace earlier word and still be valid
     if validate(''.join(order_cp), sentences):
         pass
-    else: ## not valid, put word back wher it was
+    else: ## not valid, put word back where it was
         order_cp.insert(i, w)
         i += 1
 
@@ -206,7 +206,13 @@ n = len(porder)
 orig = porder[:]
 best_score = final_score(porder)
 init_score = best_score
-best_layout = layout(add_space(crunch(porder), sentences), ignore=True)
+letters = crunch(porder)
+letters = 'itdisptentwenty-fivejhalfquarterpastobtwoneightathreelevensixtenfourfiveseveninetwelvelatminfthemidnightmorningjafternoonevening'''
+
+
+best_layout = layout(add_space(letters, sentences), ignore=True)
+print ('0123456789012345')
+print(best_layout)
 solutions = set()
 for k in range(50):
     min_score = final_score(porder)
