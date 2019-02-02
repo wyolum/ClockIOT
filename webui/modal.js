@@ -2,10 +2,29 @@
 class Modal {
   constructor(modalSelector) {
     // modalSelector should be a css query string that refers
-    // to the base modal element
+    // to a div
+    // build the modal
     this.modal = document.querySelector(modalSelector)
-    var closeButton = document.querySelector(`${modalSelector} .close`);
+    this.modal.classList.add('modal');
 
+    var container = document.createElement('div');
+    container.classList.add('modalContent', 'container');
+
+    var closeContainer = document.createElement('div');
+    closeContainer.style = 'display: inline-block; width: 100%;';
+    container.appendChild(closeContainer);
+
+    var closeButton = document.createElement('span');
+    closeButton.classList.add('close');
+    closeButton.innerHTML = '&times;';
+    closeContainer.appendChild(closeButton);
+
+    var modalContent = document.createElement('div');
+    modalContent.innerHTML = this.modal.innerHTML;
+    container.appendChild(modalContent);
+
+    this.modal.innerHTML = '';
+    this.modal.appendChild(container);
 
     closeButton.addEventListener('click', (event) => {
       this.close();
@@ -33,6 +52,7 @@ class Modal {
 
     this.modal.addEventListener('animationend', animationListener, false);
 
+
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
   }
@@ -44,5 +64,15 @@ class Modal {
 
   close() {
     this.modal.classList.add('fadeout');
+  }
+
+  openButton() {
+    // returns a button that opens modal
+    var button = document.createElement('button');
+    button.addEventListener('click', (event) => {
+      this.open();
+    });
+    button.innerText = 'Open Modal';
+    return button;
   }
 }
