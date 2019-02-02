@@ -138,6 +138,16 @@ tenfifteenoclock
 twentythirtyfive
 fortysfiftynampm
 oooomewgrahearth'''
+inthisreality2 = '''\
+inathiszreality2
+itqismewsshearth
+tenquartertwenty
+cdbguthirty-five
+pastiltwelvewk..
+oneleveninepvy..
+twothreefourfive
+sixseveneightenz
+'''
 
 class Image:
     def __init__(self, filename, x, y, w=None, h=None):
@@ -620,8 +630,9 @@ if __name__ == '__main__':
               'itialian_v1':itialian_v1,
               'hungarian_v1': hungarian_v1,
               'hungarian_v2': hungarian_v2,
-              'inthisreality': inthisreality,
-    }
+              'inthisreality': inthisreality, 
+              'inthisreality2': inthisreality2,
+   }
     cases = {'lower': lower,
              'upper': upper}
     style = 'french_v2'
@@ -633,7 +644,9 @@ if __name__ == '__main__':
     style = 'hungarian_v2'
     style = 'english_v3'
     style = 'inthisreality'
+    style = 'inthisreality2'
     case = 'upper'
+    case = 'lower'
 
     if not add_font(font):
         raise ValueError("cant load font %s" % font)

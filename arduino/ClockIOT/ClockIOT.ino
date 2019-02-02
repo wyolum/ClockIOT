@@ -31,6 +31,7 @@
 #include "english_v3.h"
 #include "spanish_v1.h"
 #include "inthisreality.h"
+#include "inthisreality2.h"
 
 #include "config.h"
 struct config_t{
@@ -142,9 +143,10 @@ Faceplate Faceplates[] = {
   spanish_v1,
 
   inthisreality,
+  inthisreality2,
 };
 
-uint8_t N_FACEPLATE = 12;
+uint8_t N_FACEPLATE = 13;
 uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
@@ -550,12 +552,12 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 
   // set masks to appropriate times
 
-  blend_to_green();
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm_inc * 300, mask);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_tm_inc * 300, wipe);
-  //fill_green();
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm_inc * 300 + 4 * 60, mask);
   apply_mask(mask);
   my_show();
+  blend_to_green();
+  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_tm_inc * 300, wipe);
+  //fill_green();
     
   for(i=0; i < MatrixWidth; i++){
     for(j=0; j < MatrixHeight; j++){
