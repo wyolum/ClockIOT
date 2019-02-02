@@ -216,8 +216,19 @@ document.addEventListener('DOMContentLoaded', () => {
   generateTimezoneList();
 
   // modals
+  var buttonDiv = document.querySelector('#modalToggles');
+
   var timezoneModal = new Modal('#timezoneModal');
+  var timezoneButton = timezoneModal.openButton();
+  timezoneButton.id =  'timezoneButton';
+  timezoneButton.innerText = 'Select Timezone';
+  buttonDiv.appendChild(timezoneButton);
+
   var colorModal = new Modal('#colorPickerModal');
+  var colorButton = colorModal.openButton();
+  colorButton.id = 'colorButton';
+  colorButton.innerText = 'Select Color';
+  buttonDiv.appendChild(colorButton);
 
   function createListeners() {
     function clockListListener(event) {
@@ -250,12 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let languageList = document.querySelector('#languageList');
     languageList.addEventListener('change', languageListener);
-
-    let timezoneButton = document.querySelector('#timezoneButton');
-    let colorButton = document.querySelector('#colorButton');
-
-    timezoneButton.addEventListener('click', timezoneModal.open);
-    colorButton.addEventListener('click', colorModal.open);
   }
   createListeners();
 

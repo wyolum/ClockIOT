@@ -22,6 +22,7 @@
   top: 0;
   width: 100%;
   height: 100%;
+  padding: 30px;
   overflow: auto;
   background-color: rgb(0,0,0); // fallback color;
   background-color: rgba(0,0,0,0.4);
@@ -30,8 +31,8 @@
 .modalContent {
   /* modal box */
   background-color: #fefefe;
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
