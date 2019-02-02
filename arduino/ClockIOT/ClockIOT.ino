@@ -141,10 +141,10 @@ Faceplate Faceplates[] = {
   italian_v1,
   spanish_v1,
 
-  inthisreality,
+//  inthisreality,
 };
 
-uint8_t N_FACEPLATE = 12;
+uint8_t N_FACEPLATE = 11;
 uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
@@ -1404,7 +1404,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
 	if(ii < N_FACEPLATE - 1){
 	  faceplate_names = faceplate_names + String(",");
 	}
+ Serial.println(faceplate_names);
       }
+      Serial.println(faceplate_names);
       faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
       
       webSocket.sendTXT(num, faceplate_names.c_str());
