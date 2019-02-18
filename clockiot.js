@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // unread messages flag
   var unreadMessage = false;
 
+  var options = {
+    // options object
+    developerMode: false
+  }
+
   async function refreshDropdown() {
     // get clock list from api
     var clockList = await fetch('https://www.wyolum.com/utc_offset/get_localips.py')
@@ -139,11 +144,25 @@ document.addEventListener('DOMContentLoaded', () => {
       listElement.remove(0);
     }
 
-    for (let [id, name] of languages.entries()) {
+    window.languages = languages
+    window.activeLanguage = activeLanguage
+    for (let [id, dirtyName] of languages.entries()) {
+      let name = cleanName(dirtyName); // Remove version number from name
       let selected = (id === activeLanguage);
       let option = new Option(name, id, selected, selected);
-      listElement.add(option);
+      let nextName = cleanName(languages[id+1]);
+      if(options.developerMode || selected || name !== nextName) {
+        // only use latest version of faceplate unless developerMode true
+        // or it's already selected
+        listElement.add(option);
+      }
     }
+  }
+
+  function cleanName(name) {
+    // turn name from English_V3 into English
+    if (typeof name === 'undefined') return ''; // for last item
+    return name.match(/^(.*)_V\d$/)[1];
   }
 
   function setLanguage(faceplateID) {
@@ -248,19 +267,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let displayList = document.querySelector('#displayList');
-    let changeDisplay = document.querySelector('#changeDisplay');
 
-    changeDisplay.addEventListener('click', (event) => {
+    displayList.addEventListener('change', (event) => {
       let displayIndex = displayList.selectedIndex;
       setDisplay(displayIndex);
     })
 
-    function languageListener(event) {
-      setLanguage(event.target.value);
-    }
-
     let languageList = document.querySelector('#languageList');
-    languageList.addEventListener('change', languageListener);
+    languageList.addEventListener('change', (event) => {
+      setLanguage(event.target.value);
+    });
   }
   createListeners();
 
