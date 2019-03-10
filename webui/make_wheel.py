@@ -7,7 +7,7 @@ R = S // 2
 
 
 def wheel(theta):
-    ''' 
+    '''
     Input a value 0 to 255 to get a color value.
     The colours are a transition r - g - b - back to r.
     '''
@@ -49,7 +49,7 @@ t = arctan2(y, x)
 c = wheel(t)
 alpha = ones(len(c), uint8) * 255
 alpha[r > R] = 0
-alpha[r < 2 * R / 3] = 0
+alpha[r < 2 * R / 4.5] = 0
 rgba = dstack([c[:,0], c[:,1], c[:,2], alpha])
 rgba = rgba.reshape((S, S, 4))
 im = Image.fromarray(rgba, 'RGBA')
@@ -58,4 +58,3 @@ im.save(png)
 print('Wrote', png)
 
 im.show()
-
