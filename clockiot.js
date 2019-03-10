@@ -5,11 +5,38 @@ document.addEventListener('DOMContentLoaded', () => {
   var clockSocket;
   // unread messages flag
   var unreadMessage = false;
+  // connection state
+  /* none
+   * loading
+   * error
+   * connected
+  */
 
   var options = {
     // options object
-    developerMode: false
+    showFaceplateVersions: false
   }
+
+  function loadingState(state) {
+    // change loading state
+    var loadingSpinner = document.querySelector('#loadingSpinner');
+    var controls = document.querySelector('#controls');
+    switch (state) {
+      case 'none':
+        loadingSpinner.style.display = 'none';
+        controls.classList.add('hidden');
+        break;
+      case 'loading':
+        loadingSpinner.style.display = 'inline-block';
+        controls.classList.add('hidden');
+        break;
+      case 'connected':
+        loadingSpinner.style.display = 'none';
+        controls.classList.remove('hidden');
+        break;
+    }
+  }
+  loadingState('none');
 
   async function refreshDropdown() {
     // get clock list from api
@@ -49,6 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function changeClock(ip) {
+    if (ip === '') {
+      // Choose a ClockIOT option
+      clockSocket.close();
+      loadingState('none');
+      return;
+    }
     if (clockSocket instanceof WebSocket) {
       // if previous websocket open, close it
       clockSocket.close();
@@ -56,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     url = `ws://${ip}:81/`;
     try {
+      loadingState('loading');
       clockSocket = new WebSocket(url);
     } catch(error) {
       if (error.code === DOMException.SECURITY_ERR && location.protocol === 'https:') {
@@ -124,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let option = new Option(name, id, selected, selected);
       listElement.add(option);
     }
+    loadingState('connected');
   }
 
   function setDisplay(displayID) {
@@ -147,12 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.languages = languages
     window.activeLanguage = activeLanguage
     for (let [id, dirtyName] of languages.entries()) {
-      let name = cleanName(dirtyName); // Remove version number from name
+      // clean version numbers off of languages
+      let name = options.showFaceplateVersions ? dirtyName : cleanName(dirtyName);
       let selected = (id === activeLanguage);
       let option = new Option(name, id, selected, selected);
       let nextName = cleanName(languages[id+1]);
-      if(options.developerMode || selected || name !== nextName) {
-        // only use latest version of faceplate unless developerMode true
+      if(options.showFaceplateVersions || selected || name !== nextName) {
+        // only use latest version of faceplate unless showFaceplateVersions true
         // or it's already selected
         listElement.add(option);
       }

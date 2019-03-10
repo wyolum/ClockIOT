@@ -11,11 +11,10 @@ class Modal {
     container.classList.add('modalContent', 'container');
 
     var closeContainer = document.createElement('div');
-    closeContainer.style = 'display: inline-block; width: 100%;';
+    closeContainer.classList.add('close');
     container.appendChild(closeContainer);
 
     var closeButton = document.createElement('span');
-    closeButton.classList.add('close');
     closeButton.innerHTML = '&times;';
     closeContainer.appendChild(closeButton);
 
