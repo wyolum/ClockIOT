@@ -285,6 +285,9 @@ document.addEventListener('DOMContentLoaded', () => {
   colorButton.innerText = 'Select Color';
   buttonDiv.appendChild(colorButton);
 
+  // color picker
+  var colorPicker = new ColorPicker(document.querySelector('#colorPicker'));
+
   function createListeners() {
     function clockListListener(event) {
       changeClock(event.target.value);
@@ -313,6 +316,23 @@ document.addEventListener('DOMContentLoaded', () => {
     languageList.addEventListener('change', (event) => {
       setLanguage(event.target.value);
     });
+
+    function pickerListener(event) {
+      var color = event.detail.color;
+      console.log(color);
+      var output;
+      switch (event.type) {
+        case 'click':
+          output = document.querySelector('#colorPickerTest').children[1];
+          break;
+        case 'mousemove':
+          output = document.querySelector('#colorPickerTest').children[0];
+          break;
+      }
+      output.style.backgroundColor = color;
+    }
+    colorPicker.addEventListener('click', pickerListener);
+    colorPicker.addEventListener('mousemove', pickerListener);
   }
   createListeners();
 
