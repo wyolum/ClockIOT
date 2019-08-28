@@ -174,7 +174,9 @@ void set_timezone_from_ip(){
     String("macaddress=") + WiFi.macAddress() + String('&') + 
     String("dev_type=ClockIOT    ");
   Serial.println(url);
-  http.begin(url);
+  //http.begin(String("https://www.wyolum.com/utc_offset/utc_offset.py"));
+  //http.begin("https://www.wyolum.com/utc_offset/utc_offset.py?refresh=1341&localip=192.168.7.95&macaddress=30:AE:A4:0C:E7:54&dev_type=ClockIOT");
+  http.begin(url.c_str());
   
   Serial.print("[HTTP] GET...\n");
   // start connection and send HTTP header
