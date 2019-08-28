@@ -30,12 +30,12 @@
 #include "english_v2.h"
 #include "english_v3.h"
 #include "spanish_v1.h"
-<<<<<<< HEAD
+#include "vegas.h"
+
 #include "inthisreality.h"
 #include "inthisreality2.h"
-=======
+
 // #include "inthisreality.h"
->>>>>>> 1429d953fd12901b8ed99942763cdaa3b6415209
 
 #include "config.h"
 struct config_t{
@@ -98,6 +98,7 @@ CRGB leds[NUM_LEDS];
 
 WiFiClient espClient;
 PubSubClient mqtt_client(espClient);
+void  interact_loop();
 
 #ifdef CLOCKIOT
 #define DATA_PIN     4
@@ -145,19 +146,13 @@ Faceplate Faceplates[] = {
 
   italian_v1,
   spanish_v1,
-
-<<<<<<< HEAD
+  vegas,
   inthisreality,
   inthisreality2,
 };
 
-uint8_t N_FACEPLATE = 13;
-=======
-//  inthisreality,
-};
+uint8_t N_FACEPLATE = 14;
 
-uint8_t N_FACEPLATE = 11;
->>>>>>> 1429d953fd12901b8ed99942763cdaa3b6415209
 uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
