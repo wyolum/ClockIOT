@@ -8,8 +8,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiMulti.h>
-
 #include <HTTPClient.h>
+#include <credentials.h>
 
 #define USE_SERIAL Serial
 
@@ -29,7 +29,7 @@ void setup() {
         delay(1000);
     }
 
-    wifiMulti.addAP("foobar", "spamspamspamspam");
+    wifiMulti.addAP(ssid, password);
 
 }
 
