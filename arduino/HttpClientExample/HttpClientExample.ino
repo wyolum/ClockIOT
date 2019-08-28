@@ -29,7 +29,7 @@ void setup() {
         delay(1000);
     }
 
-    wifiMulti.addAP("FiOS-8CNIM", "nine612ale9745iowa");
+    wifiMulti.addAP("foobar", "spamspamspamspam");
 
 }
 
@@ -70,7 +70,7 @@ void loop() {
         // configure traged server and url
         //http.begin("https://www.howsmyssl.com/a/check", ca); //HTTPS
         // http.begin("http://example.com/index.html"); //HTTP
-	http.begin("https://timezoneapi.io/api/ip");
+	http.begin("https://wyolum.com/utc_offset/utc_offset.py");
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
         int httpCode = http.GET();
@@ -81,13 +81,13 @@ void loop() {
             USE_SERIAL.printf("[HTTP] GET... code: %d\n", httpCode);
 
             // file found at server
-	    String findme = String("offset_seconds");
+	    String findme = String("utc_offset");
             if(httpCode == HTTP_CODE_OK) {
                 String payload = http.getString();
                 USE_SERIAL.println(payload);
 		int start = payload.indexOf(findme) + findme.length() + 3;
 		int stop = payload.indexOf('"', start);
-		int offset = jsonLookup(payload, String("offset_seconds")).toInt();
+		int offset = jsonLookup(payload, String("utc_offset")).toInt();
 		String dst_str = jsonLookup(payload, String("dst"));
 		bool dst = dst_str.equals("true");
 		USE_SERIAL.print(offset);
