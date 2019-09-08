@@ -31,12 +31,14 @@ class DummyClock : public Clock{
 class NTPClock : public Clock{
  public:
   NTPClock();
+  uint32_t offset_seconds;
   bool set(uint32_t _t);  
   bool isCurrent();
   void setup(NTPClient *_timeClient);
   void setOffset(int32_t offset_seconds);
   NTPClient *timeClient;
   uint32_t now();
+  uint32_t gmt();
   bool update();
 };
 
@@ -51,13 +53,14 @@ class DS3231Clock : public Clock{
 
 class DoomsdayClock : public Clock{
  public:
-  Clock *master;
+  NTPClock *master;
   Clock *backup;
 
   DoomsdayClock();
   bool set(uint32_t _t);
-  void setup(Clock* _master, Clock* _backup);
+  void setup(NTPClock* _master, Clock* _backup);
   uint32_t now();
+  uint32_t gmt();
 };
 
 #endif

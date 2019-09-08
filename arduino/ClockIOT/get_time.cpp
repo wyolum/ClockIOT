@@ -47,6 +47,7 @@ void NTPClock::setup(NTPClient *_timeClient){
   this->timeClient->begin();
 }
 void NTPClock::setOffset(int32_t offset_seconds){
+  this->offset_seconds = offset_seconds;
   this->timeClient->setTimeOffset(offset_seconds);
 }
 
@@ -59,6 +60,10 @@ bool NTPClock::isCurrent(){
 
 uint32_t NTPClock::now(){
   this->update();
+  return this->timeClient->getEpochTime();
+}
+uint32_t NTPClock::gmt(){
+  this->now() - this->offset_seconds;
   return this->timeClient->getEpochTime();
 }
 
@@ -97,7 +102,7 @@ bool DS3231Clock::set(uint32_t t){
 
 DoomsdayClock::DoomsdayClock(){
 }
-void DoomsdayClock::setup(Clock *_master, Clock *_backup){
+void DoomsdayClock::setup(NTPClock *_master, Clock *_backup){
   this->master = _master;
   this->backup = _backup;
 }
@@ -155,4 +160,7 @@ uint32_t DoomsdayClock::now(){
     out = backup->now();
   }
   return out;
+}
+uint32_t DoomsdayClock::gmt(){
+  return master->gmt();
 }

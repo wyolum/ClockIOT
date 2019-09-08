@@ -172,11 +172,11 @@ void set_timezone_from_ip(){
     String(WiFi.localIP()[2]) + String('.') + 
     String(WiFi.localIP()[3]) + String('&') +
     String("macaddress=") + WiFi.macAddress() + String('&') + 
-    String("dev_type=ClockIOT    ");
+    String("dev_type=ClockIOT");
   Serial.println(url);
+  http.begin(url);
   //http.begin(String("https://www.wyolum.com/utc_offset/utc_offset.py"));
   //http.begin("https://www.wyolum.com/utc_offset/utc_offset.py?refresh=1341&localip=192.168.7.95&macaddress=30:AE:A4:0C:E7:54&dev_type=ClockIOT");
-  http.begin(url.c_str());
   
   Serial.print("[HTTP] GET...\n");
   // start connection and send HTTP header
@@ -814,6 +814,8 @@ void splash(){
   my_show();
 }
 void led_setup(){
+  //FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER,DATA_RATE_MHZ(1)>(leds, NUM_LEDS); // slow down datarate to fix panel issues? (nope)
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
@@ -1103,7 +1105,6 @@ void display_time(uint32_t last_time, uint32_t current_time){
 
 }
 
-
 void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
@@ -1131,8 +1132,8 @@ void loop(){
   */
   if(config.use_wifi){
     if(config.use_ntp_time){
-      if(ntp_clock.seconds() == 0 and millis() < 10000){
-	Serial.print("Doomsday Time:");
+      if(ntp_clock.seconds() == 0 && millis() < 10000){// print every minute
+	Serial.print("The time is:");
 	Serial.print(ntp_clock.year());
 	Serial.print("/");
 	Serial.print(ntp_clock.month());

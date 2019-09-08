@@ -218,7 +218,7 @@ void set_timezone_from_ip(){
 	Serial.print("timezone_offset:");
 	Serial.println(offset);
 	set_timezone_offset(offset);
-	config.last_tz_lookup = Now();
+	config.last_tz_lookup = doomsday_clock.gmt();
 	saveSettings();
       }
       else{
@@ -1412,7 +1412,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
 	if(ii < N_FACEPLATE - 1){
 	  faceplate_names = faceplate_names + String(",");
 	}
- Serial.println(faceplate_names);
+	//Serial.println(faceplate_names);
       }
       Serial.println(faceplate_names);
       faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
@@ -1759,14 +1759,14 @@ void setup(){
 
 uint32_t Now(){
   uint32_t out;
-  
+
   if(config.use_wifi){
     if(config.use_ntp_time){
       out = doomsday_clock.now();
       if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
 	if(hour(out) == 3){
 	  if(minute(out) > 1){ 
-	    if(out - config.last_tz_lookup > 3601){
+	    if(doomsday_clock.gmt() - config.last_tz_lookup > 3601){
 	      set_timezone_from_ip();
 	    }
 	  }
