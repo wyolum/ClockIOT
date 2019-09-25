@@ -35,8 +35,6 @@
 #include "inthisreality.h"
 #include "inthisreality2.h"
 
-// #include "inthisreality.h"
-
 #include "config.h"
 struct config_t{
   int timezone;
