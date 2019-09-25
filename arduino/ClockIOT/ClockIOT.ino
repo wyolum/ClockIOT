@@ -1302,6 +1302,8 @@ void led_setup(){
   FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
+  test_leds();
+  
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   my_show();
 }
@@ -1465,30 +1467,41 @@ byte read_buttons(bool *enter_p, bool *inc_p, bool *decr_p, bool *mode_p){
   return state;
 }
 
+void shuffle(int *array, size_t n){
+    if (n > 1) 
+    {
+        size_t i;
+        for (i = 0; i < n - 1; i++) 
+        {
+          size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
+          int t = array[j];
+          array[j] = array[i];
+          array[i] = t;
+        }
+    }
+}
+
 void test_leds(){
   int i;
   
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Red;
-    FastLED.show();
-    delay(10);
   }
-  delay(100);
+  FastLED.show();
+  delay(200);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Green;
     FastLED.show();
-    delay(10);
   }
-  delay(100);
+  delay(200);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::Blue;
     FastLED.show();
-    delay(10);
   }
+  delay(200);
   for(i=0; i < NUM_LEDS; i++){
     leds[i] = CRGB::White;
     FastLED.show();
-    delay(10);
   }
   delay(1000);
   fill_black();
