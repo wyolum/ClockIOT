@@ -1481,25 +1481,37 @@ void shuffle(int *array, size_t n){
 
 void test_leds(){
   int i;
+
+  int order[NUM_LEDS];
+  for(i=0; i< NUM_LEDS; i++){
+    order[i] = i;
+  }
+  shuffle(order, NUM_LEDS);
   
   for(i=0; i < NUM_LEDS; i++){
-    leds[i] = CRGB::Red;
+    leds[order[i]] = CRGB::Red;
   }
   FastLED.show();
   delay(200);
+  shuffle(order, NUM_LEDS);
   for(i=0; i < NUM_LEDS; i++){
-    leds[i] = CRGB::Green;
+    leds[order[i]] = CRGB::Green;
     FastLED.show();
+    delay(10);
   }
   delay(200);
+  shuffle(order, NUM_LEDS);
   for(i=0; i < NUM_LEDS; i++){
-    leds[i] = CRGB::Blue;
+    leds[order[i]] = CRGB::Blue;
     FastLED.show();
+    delay(10);
   }
   delay(200);
+  shuffle(order, NUM_LEDS);
   for(i=0; i < NUM_LEDS; i++){
-    leds[i] = CRGB::White;
+    leds[order[i]] = CRGB::White;
     FastLED.show();
+    delay(10);
   }
   delay(1000);
   fill_black();
