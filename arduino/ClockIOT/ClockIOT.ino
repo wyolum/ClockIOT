@@ -1786,10 +1786,13 @@ uint32_t Now(){
   if(config.use_wifi){
     if(config.use_ntp_time){
       out = doomsday_clock.now();
-      if(weekday(out) == 0){ // refresh utc offset sunday between 3 and 4 AM
+      if(weekday(out) == 1){ // refresh utc offset sunday between 3:02 and 3:59 AM
 	if(hour(out) == 3){
 	  if(minute(out) > 1){ 
 	    if(doomsday_clock.gmt() - config.last_tz_lookup > 3601){
+	      Serial.print(" Check DST!! ");
+	      Serial.print(hour(out));Serial.print(":");
+	      Serial.print(minute(out));Serial.print("\n");
 	      set_timezone_from_ip();
 	    }
 	  }
