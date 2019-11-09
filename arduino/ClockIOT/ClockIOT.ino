@@ -1789,7 +1789,7 @@ uint32_t Now(){
       if(weekday(out) == 1){ // refresh utc offset sunday between 3:02 and 3:59 AM
 	if(hour(out) == 3){
 	  if(minute(out) > 1){ 
-	    if(doomsday_clock.gmt() - config.last_tz_lookup > 3601){
+	    if(doomsday_clock.gmt() - config.last_tz_lookup > 86400 -2 * 60){// at most one update per day
 	      Serial.print(" Check DST!! ");
 	      Serial.print(hour(out));Serial.print(":");
 	      Serial.print(minute(out));Serial.print("\n");
