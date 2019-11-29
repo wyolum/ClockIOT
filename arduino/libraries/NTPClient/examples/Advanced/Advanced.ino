@@ -5,9 +5,8 @@
 //#include <WiFi101.h> // for WiFi 101 shield or MKR1000
 #include <WiFiUdp.h>
 
-#include <credentials.h>
-//const char *ssid     = "<SSID>";
-//const char *password = "<PASSWORD>";
+const char *ssid     = "<SSID>";
+const char *password = "<PASSWORD>";
 
 WiFiUDP ntpUDP;
 
@@ -31,7 +30,7 @@ void setup(){
 
 void loop() {
   timeClient.update();
-  
+
   Serial.println(timeClient.getFormattedTime());
 
   delay(1000);
