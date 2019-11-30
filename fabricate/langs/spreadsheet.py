@@ -1,6 +1,7 @@
 import string
 import io
 import csv
+from numpy import nan, inf
 
 string.uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 class Spreadsheet:

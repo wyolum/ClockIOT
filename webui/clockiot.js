@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function refreshDropdown() {
     // get clock list from api
-    var clockList = await fetch('https://www.wyolum.com/utc_offset/get_localips.py')
+    var clockList = await fetch('http://www.wyolum.com/utc_offset/get_localips.py')
     .then(response => {
       return response.json();
     }).

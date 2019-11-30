@@ -8,6 +8,7 @@ import sys
 import csv
 # from scipy import *
 from numpy import *
+from read_wtf import *
 
 update_step = 300 ## numnber of seconds between frames
 hold_ms = 10    ## number of ms to hold each frame
@@ -77,136 +78,6 @@ class Spreadsheet:
         return out
         
     
-def readwtf(csvfile, n_row=8, n_col=16):
-    f = csv.reader(open(csvfile))
-    lines = list(f)
-    ss = Spreadsheet(lines)
-    ## check WTF
-    assert ss.parsecell('C2')[0] == 1
-    assert ss.parsecell('C2')[1] == 2
-    assert ss.getRegion('C1')[0][0] == '0'
-    assert ''.join(ss.getCell('U1').lower().split()) == 'startrow'
-    assert ''.join(ss.getCell('U2').lower().split()) == 'startcol'
-    assert ''.join(ss.getCell('U3').lower().split()) == 'length'
-    
-    letters = ss.getRegion('C2:R9')
-    letters = [[c.lower() for c in row] for row in letters]
-    
-    print('\n'.join([''.join(l) for l in letters]))
-    rows = list(map(int, ss.getRegion('V1:*1')[0]))
-    n_word = len(rows)
-    cols = list(map(int, ss.getRegion('V2:*2')[0]))
-    lens = list(map(int, ss.getRegion('V3:*3')[0]))
-    words = ss.getRegion('V4:*4')[0][:n_word]
-    assert len(words) == len(rows), '%s != %s' % (len(words), len(rows))
-    bitmap = zeros((288, n_word), int)
-    dat = ss.getRegion('V6:*294')
-    printit = True
-    for i in range(288):
-        if printit:
-            print('%02d:%02d' % (i / 12, (5 * i) % 60), end=' ')
-        for j in range(n_word):
-            if (j < len(dat[i]) and
-                dat[i][j] is not None and 
-                dat[i][j].strip() != ''):
-                if printit:
-                    print(words[j], end=' ')
-                bitmap[i, j] = 1
-        if printit:
-            print()
-    n_min_led = int(ss.getCell('V294'))
-    n_min_state = int(ss.getCell('X294'))
-    if n_min_led > 0:
-        min_rows = list(map(int, ss.getRegion('V295:*296')[0][:n_min_led]))
-        min_cols = list(map(int, ss.getRegion('V296:*296')[0][:n_min_led]))
-        i, j = ss.parsecell('V297')
-        cells = ss._getRegion(i, j, n_min_state, n_min_led)
-        min_bitmap = zeros((n_min_state, n_min_led), int)
-        for i in range(n_min_state):
-            if i < len(cells):
-                l = cells[i]
-            else:
-                break
-            for j in range(n_min_led):
-                if j < len(l):
-                    c = l[j]
-                    if c is not None and c.strip() != '':
-                        min_bitmap[i, j] = 1
-                else:
-                    break
-    else:
-        min_rows = []
-        min_cols = []
-        n_min_led = 0
-        n_min_state = 0
-        min_bitmap = None
-    author = ss.getCell('B20')
-    email = ss.getCell('B21')
-    licence = ss.getCell('B22')
-    desc = ss.getCell('B23')
-    return {'letters': letters,
-            'data':bitmap, 
-            'rows':rows,
-            'cols':cols,
-            'lens':lens,
-            'words':words,
-            'min_rows':min_rows,
-            'min_cols':min_cols,
-            'n_min_led': n_min_led,
-            'n_min_state': n_min_state,
-            'min_bitmap': min_bitmap,
-            'author':author,
-            'email':email,
-            'licence':licence,
-            'desc':desc,
-            'filename':csvfile,
-            }
-
-def readcsv(csvfile, n_row=8):
-    f = csv.reader(open(csvfile))
-    letters = [next(f) for i in range(n_row)]
-    rows = next(f)
-    cols = next(f)
-    lens = next(f)
-    words = f.next()[1:]
-    n_word = len(words)
-    bitmap = zeros((288, n_word), int)
-    for i in range(288):
-        l = next(f)
-        for j, c in enumerate(l[1:]):
-            if c:
-                bitmap[i, j] = 1
-    minutes_hack = list(f)
-    if len(minutes_hack):
-        min_rows = list(map(int, minutes_hack[0][1:]))
-        min_cols = list(map(int, minutes_hack[1][1:]))
-        n_min_led = min([len(min_rows),len(min_cols)])
-        n_min_state = len(minutes_hack) - 2
-        min_bitmap = zeros((n_min_state, n_min_led), int)
-        for i, l in enumerate(minutes_hack[2:]):
-            for j, v in enumerate(l[1:]):
-                if v.strip() != '':
-                    min_bitmap[i, j] = 1
-        
-    else:
-        min_rows = []
-        min_cols = []
-        n_min_led = 0
-        n_min_state = 0
-        min_bitmap = None
-    return {'letters': letters,
-            'data':bitmap, 
-            'rows':list(map(int, rows[1:])),
-            'cols':list(map(int, cols[1:])),
-            'lens':list(map(int, lens[1:])),
-            'words':words[1:],
-            'min_rows':min_rows,
-            'min_cols':min_cols,
-            'n_min_led': n_min_led,
-            'n_min_state': n_min_state,
-            'min_bitmap': min_bitmap,
-            }
-
 def bitmap(csvfile):
     data = readwtf(csvfile)
     import pylab as pl
@@ -255,7 +126,7 @@ def tohtml(rgb):
     r, g, b = rgb
     return '#%02x%02x%02x' % (r, g, b)
 
-class ClockTHREEjr:
+class ClockIOT:
     def __init__(self, wtf, font=('Orbitron', 20), save_images=False, dt=300, bg_color="#000000"):
         # def simulate(csvfile, font=('Kranky', 20)):
         self.display_second = 86400 #  - 300 * 4
@@ -288,7 +159,7 @@ class ClockTHREEjr:
 
         tk = Tk()
         tk.tk_setPalette(self.bg_color)
-        tk.title('ClockTHREEjr')
+        tk.title('ClockIOT')
         self.r = Frame(tk, background=self.bg_color)
         self.can = Canvas(self.r, width=9*my_inch, height=9*my_inch)
         self.can.bind("<Button-3>", self.time_forward)
@@ -509,7 +380,7 @@ class ClockTHREEjr:
                                         int(x) + int(w) + 10, int(y) + int(h) + 30)).save(fn)
                     elif not os.path.exists(fn): ## linux
                         print(fn)
-                        os.system('import -window ClockTHREEjr %s' % fn)
+                        os.system('import -window ClockIOT %s' % fn)
                     if time5 == 288:
                         self.save_images = False
                     ## use convert to create animated gifs I.E.
@@ -612,7 +483,7 @@ def cconvert(filename, n_row=8, outfilename=None):
 #define %s_H''' % (name.upper(), name.upper()), file=outfile)
 
     print('/*', file=outfile)
-    print(' * ClockTHREEjr faceplate file.', file=outfile)
+    print(' * ClockIOT faceplate file.', file=outfile)
     print(' * Autogenerated from %s' % os.path.split(filename)[1], file=outfile)
     print(' * ', file=outfile)
     print(' *      Author:', data['author'], file=outfile)
@@ -730,7 +601,7 @@ if __name__ == '__main__':
         dt = 300
 
     fontsize = int(my_inch / 25. * 10)
-    ClockTHREEjr(fn, (fontname, fontsize), save_images=save_images, dt=dt)
+    ClockIOT(fn, (fontname, fontsize), save_images=save_images, dt=dt)
     # bitmap(fn)
     # cconvert(fn, (fontname, 20), 'bad.h')
     # timelist(fn)

@@ -321,5 +321,5 @@ static uint32_t vegas_minute_leds[] = {
 };
 static uint32_t vegas_minutes_hack[] = {
 };
-static Faceplate vegas(vegas_words, vegas_displays, vegas_minute_leds, vegas_minutes_hack, "Vegas");
+static Faceplate vegas(vegas_words, vegas_displays, vegas_minute_leds, vegas_minutes_hack, "Vegas_V1");
 #endif

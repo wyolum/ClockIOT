@@ -31,9 +31,7 @@
 #include "english_v3.h"
 #include "spanish_v1.h"
 #include "vegas.h"
-
-#include "inthisreality.h"
-#include "inthisreality2.h"
+#include "armenian_v1.h"
 
 #include "config.h"
 struct config_t{
@@ -130,26 +128,25 @@ DoomsdayClock doomsday_clock;
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
 Faceplate Faceplates[] = {
+  armenian_v1,
   dutch_v1,
-  english_v2, // AM/PM w/ minutes hack
+  //english_v2, // AM/PM w/ minutes hack
   english_v3, // in the morning etc.
   
   french_v1,
   german_v3, 
-  german_v5, // minutes hack
+  //german_v5, // minutes hack
 
   hebrew_v1,
   hungarian_v1, // 
-  hungarian_v2, // minutes hack
+  //hungarian_v2, // minutes hack
 
   italian_v1,
   spanish_v1,
   vegas,
-  inthisreality,
-  inthisreality2,
 };
 
-uint8_t N_FACEPLATE = 14;
+uint8_t N_FACEPLATE = 10;
 
 uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
@@ -1211,6 +1208,9 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
   else if(strcmp(subtopic, "notify") == 0){
     // payload: ascii notification
   }
+  else if(strcmp(subtopic, "get_faceplates") == 0){
+    Serial.println(get_faceplate_json());
+  }
 }
 
 void handle_mqtt_msg(char* topic, byte* payload, unsigned int length){
@@ -1337,7 +1337,19 @@ void hexdump(const void *mem, uint32_t len, uint8_t cols) {
 	}
 	Serial.printf("\n");
 }
+String get_faceplate_json(){
+  String faceplate_names = String("{\"faceplates\":[");
+  for(int ii=0; ii < N_FACEPLATE; ii++){
+    faceplate_names = faceplate_names + String("\"") + String(Faceplates[ii].name)  + String("\"");
+    if(ii < N_FACEPLATE - 1){
+      faceplate_names = faceplate_names + String(",");
+    }
+    //Serial.println(faceplate_names);
+  }
+  faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
 
+  return faceplate_names;
+}
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t length) {
   char topic_payload[length + 1];
   String str_topic_payload;
@@ -1406,16 +1418,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t len
     // webSocket.broadcastTXT("message here");
     if (strcmp(topic, "clockiot/get_faceplates") == 0) {
 	// send faceplate names to client
-      String faceplate_names = String("{\"faceplates\":[");
-      for(int ii=0; ii < N_FACEPLATE; ii++){
-	faceplate_names = faceplate_names + String("\"") + String(Faceplates[ii].name)  + String("\"");
-	if(ii < N_FACEPLATE - 1){
-	  faceplate_names = faceplate_names + String(",");
-	}
-	//Serial.println(faceplate_names);
-      }
-      Serial.println(faceplate_names);
-      faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
+      String faceplate_names = get_faceplate_json();
       
       webSocket.sendTXT(num, faceplate_names.c_str());
       Serial.println("Faceplate names requested");

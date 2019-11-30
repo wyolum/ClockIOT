@@ -20,7 +20,8 @@ import glob
 import os
 import os.path
 import sys
-
+sys.path.append('langs')
+import read_wtf
 from cnc import *
 from baffles import *
 
@@ -619,9 +620,12 @@ if __name__ == '__main__':
     font = 'DroidSans'
     font = 'StardosStencil-Regular'
     font = 'TC_LaserSans'
+    font = 'Arial-AMU-Regular-8891'
     assert add_font(font)
     fontsize=30
     fontsize=28
+
+    armenian_v1 = read_wtf.readwtf('langs/armenian_v1.wtf', printit=False)['letters']
     styles = {'english_v3': english_v3,
               'french_v2': french_v2,
               'german_v3': german_v3,
@@ -632,6 +636,7 @@ if __name__ == '__main__':
               'hungarian_v2': hungarian_v2,
               'inthisreality': inthisreality, 
               'inthisreality2': inthisreality2,
+              'armenian_v1':armenian_v1,
    }
     cases = {'lower': lower,
              'upper': upper}
@@ -645,6 +650,7 @@ if __name__ == '__main__':
     style = 'english_v3'
     style = 'inthisreality'
     style = 'inthisreality2'
+    style = 'armenian_v1'
     case = 'upper'
     case = 'lower'
 
