@@ -20,7 +20,8 @@ void setup() {
       // FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);
       // FastLED.addLeds<WS2812, DATA_PIN, RGB>(leds, NUM_LEDS);
       // FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
-  	  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+      FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
+  	  // FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
       // FastLED.addLeds<APA104, DATA_PIN, RGB>(leds, NUM_LEDS);
       // FastLED.addLeds<UCS1903, DATA_PIN, RGB>(leds, NUM_LEDS);
       // FastLED.addLeds<UCS1903B, DATA_PIN, RGB>(leds, NUM_LEDS);
@@ -44,11 +45,13 @@ void setup() {
 
 void loop() { 
   // Turn the LED on, then pause
-  leds[0] = CRGB::Red;
+  // leds[0] = CRGB::Red;
+  leds[0] = CRGB(128, 0, 0); // individual RGB values, range from 0 to 255
   FastLED.show();
   delay(500);
   // Now turn the LED off, then pause
-  leds[0] = CRGB::Black;
+  // leds[0] = CRGB::Black;
+  leds[0] = CRGB(0, 0, 0); // individual RGB values, range from 0 to 255
   FastLED.show();
   delay(500);
 }
