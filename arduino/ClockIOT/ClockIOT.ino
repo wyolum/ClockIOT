@@ -82,8 +82,8 @@ void print_config(){
 }
 bool force_update = false;
 
-//const bool ON = true;
-//const bool OFF = !ON;
+const bool ON = true;
+const bool OFF = !ON;
 
 // How many leds are in the strip?
 const uint8_t N_BOARD = 2;

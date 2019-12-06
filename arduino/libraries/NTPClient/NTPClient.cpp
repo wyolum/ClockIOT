@@ -21,6 +21,9 @@
 
 #include "NTPClient.h"
 
+NTPClient::NTPClient() {
+}
+
 NTPClient::NTPClient(UDP& udp) {
   this->_udp            = &udp;
 }

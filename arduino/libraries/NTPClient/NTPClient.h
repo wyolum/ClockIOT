@@ -9,7 +9,7 @@
 #define NTP_DEFAULT_LOCAL_PORT 1337
 
 class NTPClient {
-  private:
+  public:
     UDP*          _udp;
     bool          _udpSetup       = false;
 
@@ -27,6 +27,7 @@ class NTPClient {
     void          sendNTPPacket();
 
   public:
+    NTPClient();
     NTPClient(UDP& udp);
     NTPClient(UDP& udp, long timeOffset);
     NTPClient(UDP& udp, const char* poolServerName);
