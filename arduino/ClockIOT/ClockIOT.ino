@@ -1308,7 +1308,6 @@ void led_setup(){
   FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
-  test_leds();
   
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   my_show();
@@ -1491,7 +1490,6 @@ void shuffle(int *array, size_t n){
 }
 
 void test_leds(){
-  return; // save time debugging reset issue.
   int i;
 
   int order[NUM_LEDS];
@@ -1762,6 +1760,7 @@ void setup(){
   ds3231_clock.setup();
   button_setup();
 
+  test_leds(); // resume normal start up
   wipe_around(ON);
   display_bitmap_rgb(logo_rgb);
   my_show();  
@@ -1789,7 +1788,6 @@ void setup(){
       doomsday_clock.setup(&ntp_clock, &ds3231_clock);
     }
     set_timezone_from_ip();
-    
     websocket_setup();
   }
   Serial.print("config.timezone: ");
