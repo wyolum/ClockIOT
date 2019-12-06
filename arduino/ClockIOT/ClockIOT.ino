@@ -50,6 +50,8 @@ struct config_t{
   uint8_t faceplate_idx;
 } config;
 
+bool setup_complete = false;
+
 void print_config(){
   Serial.println("config:");
   Serial.print("    timezone:"); Serial.println(config.timezone);
@@ -115,7 +117,9 @@ uint32_t last_time;
 
 void my_show(){
   FastLED.show();
-  interact_loop();
+  if(setup_complete){
+    interact_loop();
+  }
 }
 
 typedef void (*Init)();
@@ -307,8 +311,8 @@ void Plain_display_time(uint32_t last_tm, uint32_t tm){
 
 Display *CurrentDisplay_p;
 Display PlainDisplay = {Plain_init, Plain_display_time, String("Plain"), 0};
-Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 1};
-Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 2};
+Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 1};
+Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 2};
 Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 3};
 Display CloudDisplay = {Cloud_init, Cloud_display_time, String("Cloud"), 4};
 Display FireDisplay = {Fire_init, Fire_display_time, String("Fire"), 5};
@@ -403,7 +407,7 @@ void WordDrop_init(){
   last_time = current_time;
   fillMask(mask, OFF);
   Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);
-  blend_to_rainbow();
+  //blend_to_rainbow();// resets ESP32??
 }
 
 void word_drop_in(uint16_t time_inc){
@@ -958,6 +962,8 @@ void set_faceplate(uint8_t faceplate_idx){
 }
 void set_display(uint8_t display_idx){
   config.display_idx = display_idx % N_DISPLAY;
+  Serial.print("config.display_idx % N_DISPLAY:");
+  Serial.println(config.display_idx % N_DISPLAY);
   ChangeDisplay(&Displays[config.display_idx % N_DISPLAY]);
   saveSettings();
 }
@@ -965,6 +971,7 @@ void next_display(){
   config.display_idx = (config.display_idx + 1) % N_DISPLAY;
   ChangeDisplay(&Displays[config.display_idx % N_DISPLAY]);
   saveSettings();
+  Serial.print("Display id: "); Serial.println(CurrentDisplay_p->name);
   Serial.print("Display #"); Serial.println(config.display_idx);
 }
 
@@ -1186,6 +1193,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     ds3231_clock.set(tm);
     config.use_ip_timezone = false;
     config.use_ntp_time = false;
+    config.use_wifi = false;
     saveSettings();
   }
   else if(strcmp(subtopic, "use_ntp") == 0){
@@ -1483,6 +1491,7 @@ void shuffle(int *array, size_t n){
 }
 
 void test_leds(){
+  return; // save time debugging reset issue.
   int i;
 
   int order[NUM_LEDS];
@@ -1642,12 +1651,16 @@ void button_setup(){
   }
   else if(mode){ // mode configures stand alone
     if(config.use_ntp_time){ // toggle using internet time
-      button_set_time();
       config.use_ntp_time = false;
+      config.use_wifi = false;
+      config.use_ip_timezone = false;
       saveSettings();
+      button_set_time();
     }
     else{
       config.use_ntp_time = true;
+      config.use_wifi = true;
+      config.use_ip_timezone = true;
       saveSettings();
     }
   }
@@ -1674,7 +1687,6 @@ void button_loop(){
       dimmer();
     }
   }
-
   last_button_state = button_state;
 }
 // Button stuff
@@ -1704,9 +1716,13 @@ void setup(){
   Serial.println("setup() starting");
 
   EEPROM.begin(1024);
+  //for(int i = 0; i < 1024; i++){
+  //  EEPROM.write(i, 255);
+  //}
+  //EEPROM.commit();
   loadSettings();
   print_config();
-
+  
   led_setup(); // set up leds first so buttons can affect display if needed
   if(config.factory_reset){// do factory reset on first on
     factory_reset();
@@ -1780,7 +1796,9 @@ void setup(){
   Serial.println(config.timezone);
   Serial.print("config.use_ip_timezone: ");
   Serial.println((bool)config.use_ip_timezone);
+  set_display(config.display_idx % N_DISPLAY);
   Serial.println("setup() complete");
+  setup_complete = true;
 }
 
 uint32_t Now(){
@@ -1788,7 +1806,12 @@ uint32_t Now(){
 
   if(config.use_wifi){
     if(config.use_ntp_time){
-      out = doomsday_clock.now();
+      if(setup_complete){
+	out = doomsday_clock.now();
+      }
+      else{
+	out = 0;
+      }
       if(weekday(out) == 1){ // refresh utc offset sunday between 3:02 and 3:59 AM
 	if(hour(out) == 3){
 	  if(minute(out) > 1){ 
