@@ -4,11 +4,6 @@ import serial
 import serial.tools.list_ports
 
 def get_serial_ports():
-    ### mac
-    ports = glob.glob('/dev/cu.*')
-
-    ### ubuntu
-    ports += glob.glob('/dev/ttyUSB*')
     ports = serial.tools.list_ports.comports()
     return [p.device for p in ports]
 
@@ -20,11 +15,17 @@ def curry(f, *args, **kw):
 PORT = [None]
 CONNECTION = [None]
 
+def enable_buttons():
+    for row in buttons:
+        for button in row:
+            button.config(state='normal')
+        
 def select_port(port):
     PORT[0] = port
     CONNECTION[0] = serial.Serial(PORT[0], baudrate=115200, timeout=1)
     print('Port switched to "%s"' % PORT[0])
     print(CONNECTION[0])
+    enable_buttons()
     
 def noop(*args, **kw):
     pass
@@ -66,16 +67,20 @@ def set_time():
     
 tk = tkinter.Tk()
 make_menu(tk)
+buttons = []
 frame = tkinter.Frame(tk)
-tkinter.Button(frame, text='Prev', command=curry(send_cmd, 'prev_display')).pack(side=tkinter.LEFT)
-tkinter.Button(frame, text='Next', command=curry(send_cmd, 'next_display')).pack(side=tkinter.LEFT)
+buttons.append([tkinter.Button(frame, text='Prev', command=curry(send_cmd, 'prev_display'), state='disabled'),
+                tkinter.Button(frame, text='Next', command=curry(send_cmd, 'next_display'), state='disabled')])
+[b.pack(side=tkinter.LEFT) for b in buttons[-1]]
 frame.pack()
 frame = tkinter.Frame(tk)
-tkinter.Button(frame, text='Brighter', command=curry(send_cmd, 'brighter')).pack(side=tkinter.LEFT)
-tkinter.Button(frame, text='Dimmer', command=curry(send_cmd, 'dimmer')).pack(side=tkinter.LEFT)
+buttons.append([tkinter.Button(frame, text='Brighter', command=curry(send_cmd, 'brighter'), state='disabled'),
+                tkinter.Button(frame, text='Dimmer', command=curry(send_cmd, 'dimmer'), state='disabled')])
+[b.pack(side=tkinter.LEFT) for b in buttons[-1]]
 frame.pack()
 frame = tkinter.Frame(tk)
-tkinter.Button(frame, text='Set PC Time', command=set_time).pack(side=tkinter.LEFT)
-tkinter.Button(frame, text='Set NPT Time', command=curry(send_cmd, 'use_ntp')).pack(side=tkinter.LEFT)
+buttons.append([tkinter.Button(frame, text='Set PC Time', command=set_time, state='disabled'),
+                tkinter.Button(frame, text='Set NPT Time', command=curry(send_cmd, 'use_ntp'), state='disabled')])
+[b.pack(side=tkinter.LEFT) for b in buttons[-1]]
 frame.pack()
 tk.mainloop()
