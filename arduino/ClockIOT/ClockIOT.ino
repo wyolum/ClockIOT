@@ -1204,6 +1204,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
       config.use_wifi = true;
       config.use_ntp_time = true;
 
+      wifi_setup();
       ntp_clock.setup(&timeClient);
       ntp_clock.setOffset(config.timezone);
       doomsday_clock.setup(&ntp_clock, &ds3231_clock);
