@@ -155,12 +155,14 @@ uint8_t N_FACEPLATE = 10;
 uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
+//NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
+// use for china?
 Klok klok(Faceplates[0], timeClient);
 
 String jsonLookup(String s, String name){
-  int start = s.indexOf(name) + name.length() + 3;
+  name = String("\"") + name + String("\""); // add bounding quotes
+  int start = s.indexOf(name) + name.length() + 2;
   int stop = s.indexOf('"', start);
-  Serial.println(s.substring(start, stop));
   return s.substring(start, stop);
 }
 
@@ -211,6 +213,17 @@ void set_timezone_from_ip(){
       }
       int offset = hours * 3600 + minutes * 60;
 
+      String utc_str =jsonLookup(payload, String("utc"));
+      Serial.print("  UTC:"); Serial.println(utc_str);
+      Serial.print("Local:");Serial.println(utc_str.toInt() + offset);
+      ds3231_clock.set(utc_str.toInt() + offset);
+      if(doomsday_clock.master->initialized){
+	Serial.println("NTP is clock alive!");
+      }
+      else{
+	Serial.println("No NTP, fall back to DS3231");
+      }
+      Serial.println();
       if(config.use_ip_timezone){
 	Serial.print("timezone_offset String:");
 	Serial.println(offset_str);
@@ -1556,7 +1569,8 @@ void test_ds3231(){
 void factory_reset(){
   Serial.println("Factory RESET");
   config.timezone = 255; //?
-  config.brightness = 8;
+  config.brightness = 8; 
+  config.brightness = 255;  // todo: delete me!
   config.display_idx = 255;
   config.use_wifi = 255;
   config.use_ip_timezone = 255;

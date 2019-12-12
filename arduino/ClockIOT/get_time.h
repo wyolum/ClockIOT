@@ -30,6 +30,7 @@ class DummyClock : public Clock{
 
 class NTPClock : public Clock{
  public:
+  bool initialized = false;
   NTPClock();
   uint32_t offset_seconds;
   bool set(uint32_t _t);  

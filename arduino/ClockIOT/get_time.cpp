@@ -55,12 +55,21 @@ bool NTPClock::update(){
   return this->timeClient->update();
 }
 bool NTPClock::isCurrent(){
-  return millis() - this->timeClient->_lastUpdate < this->timeClient->_updateInterval;
+  bool out = false;
+  now(); // force initialization check
+  if(initialized){
+    out = millis() - this->timeClient->_lastUpdate < this->timeClient->_updateInterval;
+  }
+  return out;
 }
 
 uint32_t NTPClock::now(){
   this->update();
-  return this->timeClient->getEpochTime();
+  uint32_t out = this->timeClient->getEpochTime();
+  if(out > 10000 && out < 4294000000){
+    initialized = true;
+  }
+  return out;
 }
 uint32_t NTPClock::gmt(){
   this->now() - this->offset_seconds;
