@@ -154,9 +154,9 @@ uint8_t N_FACEPLATE = 10;
 
 uint8_t DEFAULT_FACEPLATE_IDX = 2;
 
-NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
-//NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
-// use for china?
+NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000); //Default
+//NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000); //for china?
+//NTPClient timeClient(ntpUDP, "XXX.pool.ntp.org", 0, 60000);//no NTP TEST
 Klok klok(Faceplates[0], timeClient);
 
 String jsonLookup(String s, String name){
@@ -215,8 +215,10 @@ void set_timezone_from_ip(){
 
       String utc_str =jsonLookup(payload, String("utc"));
       Serial.print("  UTC:"); Serial.println(utc_str);
-      Serial.print("Local:");Serial.println(utc_str.toInt() + offset);
-      ds3231_clock.set(utc_str.toInt() + offset);
+
+      uint32_t local = utc_str.toInt() + offset;
+      Serial.print("Local:");Serial.println(local);
+      ds3231_clock.set(local);
       if(doomsday_clock.master->initialized){
 	Serial.println("NTP is clock alive!");
       }
