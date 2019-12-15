@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error(
           "Browsers require websockets to be secure on https pages. Redirecting..."
         );
+        return;
       }
     }
 
