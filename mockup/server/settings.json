@@ -1,0 +1,27 @@
+{
+  "faceplates": [
+    "english_V3",
+    "english_V4",
+    "dutch_V1",
+    "french_V1",
+    "german_V4",
+    "german_V5",
+    "hebrew_V1",
+    "hungarian_V1",
+    "hungarian_V2",
+    "irish_V1",
+    "italian_V1",
+    "spanish_V1"
+  ],
+  "ip": "127.0.0.1",
+  "port": 81,
+  "displays": [
+    "Plain",
+    "Matrix",
+    "Word Drop",
+    "Solid Color",
+    "Cloud",
+    "Fire",
+    "Glitch"
+  ]
+}
