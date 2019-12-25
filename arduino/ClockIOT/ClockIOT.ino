@@ -12,6 +12,7 @@
 #define CLOCKIOT
 #include <MatrixMaps.h>
 #include <HTTPClient.h>
+#include <credentials.h>
 
 #include "klok.h"
 #include "textures.h"
@@ -159,16 +160,29 @@ NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000); //Default
 //NTPClient timeClient(ntpUDP, "XXX.pool.ntp.org", 0, 60000);//no NTP TEST
 Klok klok(Faceplates[0], timeClient);
 
+// return json value for name identified (or "not found")
 String jsonLookup(String s, String name){
+  String out;
+  int start, stop;
+  
   name = String("\"") + name + String("\""); // add bounding quotes
-  int start = s.indexOf(name) + name.length() + 2;
-  int stop = s.indexOf('"', start);
-  return s.substring(start, stop);
+
+  start = s.indexOf(name);
+  if(start < 0){
+    out = String("not found");
+  }
+  else{
+    start +=  name.length() + 2;
+    stop = s.indexOf('"', start);
+    out = s.substring(start, stop);
+  }
+  return out;
 }
 
 void set_timezone_from_ip(){
 
   HTTPClient http;
+  String payload;
   
   Serial.print("[HTTP] begin...\n");
   // configure traged server and url
@@ -176,7 +190,6 @@ void set_timezone_from_ip(){
   // http.begin("http://example.com/index.html"); //HTTP
 
   //http.begin("https://timezoneapi.io/api/ip");// no longer works!
-  //http.begin("https://ipapi.co/json");
   String url = String("https://www.wyolum.com/utc_offset/utc_offset.py") +
     String("?refresh=") + String(millis()) +
     String("&localip=") +
@@ -194,6 +207,19 @@ void set_timezone_from_ip(){
   int httpCode = http.GET();
   
   // httpCode will be negative on error
+  //httpCode = -1; // force error
+  if(httpCode < 0){
+    http.end();
+    url = String("https://ipapi.co/json/?key=");
+    Serial.print("Using backup url:");
+    Serial.println(url + "<SECRET KEY>");
+    http.begin(url + ipapikey);
+  
+    Serial.print("[HTTP] GET...\n");
+    // start connection and send HTTP header
+    httpCode = http.GET();
+  }
+  payload = http.getString();
   if(httpCode > 0) {
     // HTTP header has been send and Server response header has been handled
     Serial.printf("[HTTP] GET... code: %d\n", httpCode);
@@ -201,7 +227,6 @@ void set_timezone_from_ip(){
     // file found at server
     //String findme = String("offset_seconds");
     if(httpCode == HTTP_CODE_OK) {
-      String payload = http.getString();
       Serial.print("payload:");
       Serial.println(payload);
       payload.replace(" ", "");
@@ -215,10 +240,11 @@ void set_timezone_from_ip(){
 
       String utc_str =jsonLookup(payload, String("utc"));
       Serial.print("  UTC:"); Serial.println(utc_str);
-
-      uint32_t local = utc_str.toInt() + offset;
-      Serial.print("Local:");Serial.println(local);
-      ds3231_clock.set(local);
+      if(!utc_str.equals("not found")){
+	uint32_t local = utc_str.toInt() + offset;
+	Serial.print("Local:");Serial.println(local);
+	ds3231_clock.set(local);
+      }
       if(doomsday_clock.master->initialized){
 	Serial.println("NTP is clock alive!");
       }
@@ -241,6 +267,8 @@ void set_timezone_from_ip(){
     }
     else{
       Serial.println("No timezone found");
+      Serial.println("Payload:");
+      Serial.println(payload);
     }
   }
 }
