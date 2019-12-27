@@ -311,13 +311,11 @@ void maskTime(uint32_t tm, bool* mask){
   uint8_t bits;     // holds the on off state for 8 words at a time
   uint8_t word[3];  // start columm, start row, length of the current word
   int hour_inc,  min_inc;
-  uint8_t row, col;
-  
   
   hour_inc = ((tm % 86400) / 3600) % 24;
   for(uint8_t j = 0; j < N_BYTE_PER_HOUR; j++){ // j is a byte index 
     // read the state for the next set of 8 words
-    bits = HOUR_SEQ[hour_inc + j];
+    bits = HOUR_SEQ[1 + hour_inc * N_BYTE_PER_HOUR + j];
     for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
       if((bits >> k) & 1){                              // check to see if word is on or off
 	getword(j * 8 + k, HOUR_WORDS, word);                       // if on, read location and length
@@ -331,7 +329,7 @@ void maskTime(uint32_t tm, bool* mask){
   min_inc = ((tm % 86400) / 60) % 60;
   for(uint8_t j = 0; j < N_BYTE_PER_MINUTE; j++){ // j is a byte index 
     // read the state for the next set of 8 words
-    bits = MINUTE_SEQ[min_inc + j];
+    bits = MINUTE_SEQ[1 + min_inc * N_BYTE_PER_MINUTE + j];
     for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
       if((bits >> k) & 1){                              // check to see if word is on or off
 	getword(j * 8 + k, MINUTE_WORDS, word);                       // if on, read location and length
@@ -1309,6 +1307,7 @@ void test_leds(){
   
   for(i=0; i < NUM_LEDS; i++){
     leds[order[i]] = CRGB::Red;
+    FastLED.show();
   }
   FastLED.show();
   shuffle(order, NUM_LEDS);
