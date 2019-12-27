@@ -8,18 +8,18 @@
 #include <NTPClient.h>
 #include <WebSocketsServer.h>
 
-#define CHROMOGRAM
+//#define ULTIM8x16 // DullesKlok
+//#define CHROMOGRAM
+//#define CLOCKIOT
+#include "MatrixMap.h"
 #include <HTTPClient.h>
 #include <credentials.h>
 
-#include "MatrixMap.h"
-#include "klok.h"
 #include "textures.h"
 #include "logic.h"
-#include "Faceplate.h"
 #include "get_time.h"
 
-#include "english_v3.h"
+#include "english2_v1.h"
 
 #include "config.h"
 struct config_t{
@@ -76,22 +76,14 @@ const bool ON = true;
 const bool OFF = !ON;
 
 // How many leds are in the strip?
-
 bool mask[NUM_LEDS];
 bool wipe[NUM_LEDS];
 CRGB leds[NUM_LEDS];
 
-WiFiClient espClient;
-PubSubClient mqtt_client(espClient);
 void  interact_loop();
 
-#ifdef CLOCKIOT
 #define DATA_PIN     4
 #define CLK_PIN      16
-#else
-#define DATA_PIN     MOSI
-#define CLK_PIN      SCK
-#endif
 
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
@@ -118,18 +110,12 @@ DoomsdayClock doomsday_clock;
 
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
-Faceplate Faceplates[] = {
-  english_v3, // in the morning etc.
-};
-
-uint8_t N_FACEPLATE = 1;
 
 uint8_t DEFAULT_FACEPLATE_IDX = 0;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000); //Default
 //NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000); //for china?
 //NTPClient timeClient(ntpUDP, "XXX.pool.ntp.org", 0, 60000);//no NTP TEST
-Klok klok(Faceplates[0], timeClient);
 
 // return json value for name identified (or "not found")
 String jsonLookup(String s, String name){
@@ -302,13 +288,68 @@ typedef struct{
   int        id;
 } Display;
 
+void getword(int i, const char* words, uint8_t* out){
+  out[0] = words[3 * i + 1];
+  out[1] = words[3 * i + 2];
+  out[2] = words[3 * i + 3];
+}
+
+void setMask(bool* mask, uint8_t row, uint8_t col, bool val){
+  if(row >= MatrixHeight){
+  }
+  else if(col >= MatrixWidth){
+  }
+  else{
+    uint16_t pos = XY(col, row);
+    if(pos < NUM_LEDS){
+      mask[pos] = val;
+    }
+  }
+}
+
+void maskTime(uint32_t tm, bool* mask){
+  uint8_t bits;     // holds the on off state for 8 words at a time
+  uint8_t word[3];  // start columm, start row, length of the current word
+  int hour_inc,  min_inc;
+  uint8_t row, col;
+  
+  
+  hour_inc = ((tm % 86400) / 3600) % 24;
+  for(uint8_t j = 0; j < N_BYTE_PER_HOUR; j++){ // j is a byte index 
+    // read the state for the next set of 8 words
+    bits = HOUR_SEQ[hour_inc + j];
+    for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
+      if((bits >> k) & 1){                              // check to see if word is on or off
+	getword(j * 8 + k, HOUR_WORDS, word);                       // if on, read location and length
+	for(int m=word[0]; m < word[0] + word[2]; m++){ // and display it
+	  setMask(mask, word[1], m, true);
+	}
+      }
+    }
+  }
+
+  min_inc = ((tm % 86400) / 60) % 60;
+  for(uint8_t j = 0; j < N_BYTE_PER_MINUTE; j++){ // j is a byte index 
+    // read the state for the next set of 8 words
+    bits = MINUTE_SEQ[min_inc + j];
+    for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
+      if((bits >> k) & 1){                              // check to see if word is on or off
+	getword(j * 8 + k, MINUTE_WORDS, word);                       // if on, read location and length
+	for(int m=word[0]; m < word[0] + word[2]; m++){ // and display it
+	  setMask(mask, word[1], m, true);
+	}
+      }
+    }
+  }
+  //Serial.print(hour_inc);Serial.print(":"); Serial.println(min_inc);
+}
+
 void Plain_init(){
   return;
   while(1){
     fill_blue();
     fillMask(mask, ON);
     wipe_around(ON);
-    Serial.println("HERE");
     delay(500);
 
     wipe_around(OFF);
@@ -318,7 +359,7 @@ void Plain_init(){
 }
 void Plain_display_time(uint32_t last_tm, uint32_t tm){
   fillMask(mask, OFF);
-  Faceplates[config.faceplate_idx].maskTime(tm, mask);
+  maskTime(tm, mask);
   rainbow_fast();
   apply_mask(mask);
 }
@@ -326,14 +367,13 @@ void Plain_display_time(uint32_t last_tm, uint32_t tm){
 Display *CurrentDisplay_p;
 Display PlainDisplay = {Plain_init, Plain_display_time, String("Plain"), 0};
 Display TheMatrixDisplay = {TheMatrix_init, TheMatrix_display_time, String("The Matrix"), 1};
-Display WordDropDisplay = {WordDrop_init, WordDrop_display_time, String("Word Drop"), 2};
-Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 3};
-Display CloudDisplay = {Cloud_init, Cloud_display_time, String("Cloud"), 4};
-Display FireDisplay = {Fire_init, Fire_display_time, String("Fire"), 5};
-Display GlitchDisplay = {Glitch_init, Glitch_display_time, String("Glitch"), 6};
+Display SolidColorDisplay = {SolidColor_init, SolidColor_display_time, String("Solid Color"), 2};
+Display CloudDisplay = {Cloud_init, Cloud_display_time, String("Cloud"), 3};
+Display FireDisplay = {Fire_init, Fire_display_time, String("Fire"), 4};
+Display GlitchDisplay = {Glitch_init, Glitch_display_time, String("Glitch"), 5};
 
-const uint8_t N_DISPLAY = 7;
-Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, WordDropDisplay, SolidColorDisplay,
+const uint8_t N_DISPLAY = 6;
+Display Displays[N_DISPLAY] = {PlainDisplay, TheMatrixDisplay, SolidColorDisplay,
 			       CloudDisplay, FireDisplay, GlitchDisplay};
 
 /*
@@ -415,142 +455,6 @@ void setWordMask(bool *mask, uint8_t* word, bool b){
   }
 }
 
-
-void WordDrop_init(){
-  uint32_t current_time = Now();
-  last_time = current_time;
-  fillMask(mask, OFF);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);
-  //blend_to_rainbow();// resets ESP32??
-}
-
-void word_drop_in(uint16_t time_inc){
-  uint8_t bits;     // holds the on off state for 8 words at a time
-  uint8_t word[3];  // start columm, start row, length of the current word
-  bool tmp_mask[NUM_LEDS];
-  uint8_t tmp_word[3];
-  uint8_t n_byte_per_display = Faceplates[config.faceplate_idx % N_FACEPLATE].displays[0];
-  
-  fillMask(mask, false);
-  fillMask(wipe, false);
-  fillMask(tmp_mask, false);
-  
-  for(uint8_t j = 0; j < n_byte_per_display; j++){ // j is a byte index 
-    // read the state for the next set of 8 words
-    bits = pgm_read_byte(Faceplates[config.faceplate_idx % N_FACEPLATE].displays + 1 + (time_inc * n_byte_per_display) + j);
-    for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
-      if((bits >> k) & 1){                              // check to see if word is on or off
-	Faceplates[config.faceplate_idx % N_FACEPLATE].getword(j * 8 + k, word);                       // if on, read location and length
-	tmp_word[0] = word[0];
-	tmp_word[1] = word[1];
-	tmp_word[2] = word[2];
-	for(int rr = 0; rr <= word[1]; rr++){
-	  tmp_word[1] = rr;
-	  setWordMask(wipe, tmp_word, true);
-	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
-	  rainbow_slow();
-	  apply_mask(tmp_mask);
-	  my_show();
-	  delay(25);
-	}
-	setWordMask(mask, word, true);
-	for(int rr = 0; rr < word[1]; rr++){
-	  tmp_word[1] = rr;
-	  setWordMask(wipe, tmp_word, false);
-	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
-	  
-	  rainbow_slow();
-	  apply_mask(tmp_mask);
-	  my_show();
-	  delay(25);
-	}
-      }
-    }
-  }
-}
-void word_drop_out(uint16_t time_inc){
-  uint8_t bits;     // holds the on off state for 8 words at a time
-  uint8_t word[3];  // start columm, start row, length of the current word
-  bool tmp_mask[NUM_LEDS];
-  uint8_t tmp_word[3];
-  uint8_t n_byte_per_display = Faceplates[config.faceplate_idx % N_FACEPLATE].displays[0];
-  
-  //fillMask(mask, false);
-  //fillMask(wipe, false);
-  //fillMask(tmp_mask, false);
-  logical_copy(NUM_LEDS, mask, wipe);
-  logical_copy(NUM_LEDS, mask, tmp_mask);
-  
-  for(uint8_t j = 0; j < n_byte_per_display; j++){ // j is a byte index 
-    // read the state for the next set of 8 words
-    bits = pgm_read_byte(Faceplates[config.faceplate_idx % N_FACEPLATE].displays + 1 + (time_inc * n_byte_per_display) + j);
-    for(uint8_t k = 0; k < 8; k++){                     // k is a bit index
-      if((bits >> k) & 1){                              // check to see if word is on or off
-	Faceplates[config.faceplate_idx % N_FACEPLATE].getword(j * 8 + k, word);                       // if on, read location and length
-	tmp_word[0] = word[0];
-	tmp_word[1] = word[1];
-	tmp_word[2] = word[2];
-	for(int rr = word[1]; rr <= 8; rr++){
-	  tmp_word[1] = rr;
-	  setWordMask(wipe, tmp_word, true);
-	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
-	  rainbow_slow();
-	  apply_mask(tmp_mask);
-	  my_show();
-	  delay(25);
-	}
-	setWordMask(mask, word, false);
-	for(int rr = word[1]; rr <= 8; rr++){
-	  tmp_word[1] = rr;
-	  setWordMask(wipe, tmp_word, false);
-	  logical_or(NUM_LEDS, mask, wipe, tmp_mask);
-	  
-	  rainbow_slow();
-	  apply_mask(tmp_mask);
-	  my_show();
-	  delay(25);
-	}
-      }
-    }
-  }
-}
-
-void word_drop(uint16_t last_time_inc, uint16_t time_inc){
-  bool tmp_d[NUM_LEDS];
-
-  rainbow_slow();
-
-  // swipe rainbow from the left
-  //wipe_around(ON);
-  //delay(1000);
-  if(last_time_inc != 289){
-    word_drop_out(last_time_inc);
-  }
-  
-  // clear the new display
-  fillMask(tmp_d, false);
-  
-  // read display for next time incement
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(time_inc * 300, mask);
-  
-  // clear rainbow to reveal the time
-  //wipe_off_left();
-  //wipe_around(OFF);
-  word_drop_in(time_inc);
-}
-
-void WordDrop_display_time(uint32_t last_tm, uint32_t next_tm){
-  int last_tm_inc = (last_tm / 300) % 288;
-  int      tm_inc = (next_tm / 300) % 288;
-  if(last_tm_inc == tm_inc - 1 || (last_tm_inc == 287 && tm_inc == 0)){
-    word_drop(last_tm_inc, tm_inc);
-  }
-  rainbow_slow();
-  fillMask(mask, false);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(next_tm, mask);  
-  apply_mask(mask);
-}
-
 void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
   int n_drop = 0;
   int n_need = 8;
@@ -571,11 +475,11 @@ void TheMatrix_drop(uint32_t last_tm_inc, uint32_t current_tm_inc){
 
   // set masks to appropriate times
 
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm_inc * 300 + 4 * 60, mask);
+  maskTime(last_tm_inc * 300 + 4 * 60, mask);
   apply_mask(mask);
   my_show();
   blend_to_green();
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_tm_inc * 300, wipe);
+  maskTime(current_tm_inc * 300, wipe);
   //fill_green();
     
   for(i=0; i < MatrixWidth; i++){
@@ -692,7 +596,7 @@ void TheMatrix_init(){
 				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
   fillMask(mask, false);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);  
+  maskTime(current_time, mask);  
   apply_mask(mask);
 }
 
@@ -710,7 +614,7 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
 				    config.solid_color_rgb[1],
 				    config.solid_color_rgb[2]));
     fillMask(mask, false);
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
+    maskTime(tm, mask);  
     apply_mask(mask);
   }
   /* // just do it every cycle?
@@ -718,7 +622,6 @@ void TheMatrix_display_time(uint32_t last_tm, uint32_t tm){
 				  config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
   fillMask(mask, false);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
   apply_mask(mask);
   */
 }
@@ -770,7 +673,7 @@ void SolidColor_display_time(uint32_t last_tm, uint32_t tm){
 				    config.solid_color_rgb[1],
 				  config.solid_color_rgb[2]));
     fillMask(mask, false);
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);  
+    maskTime(last_tm, mask);  
     apply_mask(mask);
   }
 }
@@ -781,7 +684,7 @@ void cloudNoise(void);
 void Cloud_transition(uint32_t last_tm, uint32_t tm){
   // bring fire up!
   fillMask(mask, false);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);
+  maskTime(last_tm, mask);
   for(int mask_to=0; mask_to<16; mask_to++){
     for(int row=0; row < 8; row++){
       setPixelMask(mask, row, mask_to, true);
@@ -800,7 +703,7 @@ void Cloud_transition(uint32_t last_tm, uint32_t tm){
     for(int row=0; row < 8; row++){
       setPixelMask(mask, row, fill_to, false);
     }
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);
+    maskTime(tm, mask);
     for(int ii=0; ii<1; ii++){
       cloudNoise();
       apply_mask(mask);
@@ -813,7 +716,6 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   /*
   fill_white();
   fillMask(mask, false);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);  
   apply_mask(mask, CRGB::Blue)
   */
   if(last_tm / 300 != tm / 300){
@@ -822,7 +724,7 @@ void Cloud_display_time(uint32_t last_tm, uint32_t tm){
   EVERY_N_MILLISECONDS(40){// prevent clouds from moving too fast!
     cloudNoise();
     fillMask(mask, false);
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
+    maskTime(tm, mask);  
     apply_mask(mask);
   }
   /*
@@ -835,7 +737,7 @@ void fireNoise2(void);
 void Fire_transition(uint32_t last_tm, uint32_t tm){
   // bring fire up!
   fillMask(mask, false);
-  Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(last_tm, mask);
+  maskTime(last_tm, mask);
   for(int mask_to=7; mask_to>=0; mask_to--){
     for(int col=0; col < 16; col++){
       setPixelMask(mask, mask_to, col, true);
@@ -854,7 +756,7 @@ void Fire_transition(uint32_t last_tm, uint32_t tm){
     for(int col=0; col < 16; col++){
       setPixelMask(mask, fill_to, col, false);
     }
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);
+    maskTime(tm, mask);
     for(int ii=0; ii<1; ii++){
       fireNoise2();
       apply_mask(mask);
@@ -873,7 +775,7 @@ void Fire_display_time(uint32_t last_tm, uint32_t tm){
   EVERY_N_MILLISECONDS(40){// prevent moving too fast!
     fireNoise2();
     fillMask(mask, false);
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
+    maskTime(tm, mask);  
     apply_mask(mask);
   }
 }
@@ -895,7 +797,7 @@ void Glitch_display_time(uint32_t last_tm, uint32_t tm){
     rainbow();
     addGlitch(80);
     fillMask(mask, false);
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(tm, mask);  
+    maskTime(tm, mask);  
     apply_mask(mask);
   }
 }
@@ -967,13 +869,6 @@ void brighter(){
   set_brightness(b);
 }
 
-void set_faceplate(uint8_t faceplate_idx){
-  config.faceplate_idx = faceplate_idx % N_FACEPLATE;
-  Serial.print("Changing Faceplate to ");
-  Serial.println(Faceplates[config.faceplate_idx].name);
-  //ChangeFaceplate(&Faceplates[config.faceplate_idx % N_FACEPLATE]);// no action required
-  saveSettings();
-}
 void set_display(uint8_t display_idx){
   config.display_idx = display_idx % N_DISPLAY;
   Serial.print("config.display_idx % N_DISPLAY:");
@@ -1155,8 +1050,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     set_display(String(str_payload).toInt());
   }
   else if(strcmp(subtopic, "faceplate_idx") == 0){
-    Serial.println("Change faceplate_idx.");
-    set_faceplate(String(str_payload).toInt());
+    Serial.println("Change faceplate_idx not supported.");
   }
   else if(strcmp(subtopic, "next_display") == 0){
     Serial.println("Increment display.");
@@ -1181,17 +1075,6 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     Serial.println(config.flip_display);
     force_update = true;
     saveSettings();
-  }
-  else if(strcmp(subtopic, "mqtt_ip") == 0){
-    Serial.println("Update mqtt_ip address.");
-    byte tmp_ip[4];
-    if(ip_from_str(str_payload, tmp_ip)){
-      for(int i=0; i<4; i++){
-	config.mqtt_ip[i] = tmp_ip[i];
-      }
-      saveSettings();
-      mqtt_setup();
-    }
   }
   else if(strcmp(subtopic, "set_rgb") == 0 && length == 6){
     // payload: rrggbb lowercase html color code example "ff0000" is RED
@@ -1236,88 +1119,6 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
   }
 }
 
-void handle_mqtt_msg(char* topic, byte* payload, unsigned int length){
-  handle_msg(topic, payload, length);
-}
-
-bool ip_from_str(char* str, byte* ip){
-  byte my_ip[4];
-  int end_poss[4];
-  int i = 0, j = 0;
-  int dots_found = 0;
-  bool out = false;
-  byte num;
-  String strstr = String(str);
-  
-  Serial.println("ip_from_str");
-  Serial.println(str);
-  while(i < strlen(str) && dots_found < 3){
-    if(str[i] == '.'){
-      end_poss[dots_found] = i;
-      dots_found++;
-    }
-    i++;
-  }
-  if(dots_found == 3){
-    out = true;
-    end_poss[3] = strlen(str);
-    for(i = 0; i < 4; i++){
-      num = String(strstr.substring(j, end_poss[i])).toInt();
-      if(num == 0){
-	out = false;
-      }
-      ip[i] = num;
-      j = end_poss[i] + 1;
-    }
-  }
-  if(out){
-    Serial.print("IP: ");
-    for(i=0; i<4; i++){
-      Serial.print(ip[i]);
-      if(i < 3){
-	Serial.print(".");
-      }
-    }
-    Serial.println();
-  }
-  return out;
-}
-
-void mqtt_subscribe(){
-  mqtt_client.subscribe("clockiot/#");
-}
-
-uint32_t next_mqtt_attempt = 0;
-
-bool mqtt_connect(){
-  String str;
-  String unique_id = String("ClockIOT") + String(WiFi.macAddress());
-
-  if(!mqtt_client.connected() && next_mqtt_attempt < millis()){
-    if(mqtt_client.connect(unique_id.c_str())){
-      Serial.println("mqtt connected");
-      Serial.println(unique_id);
-      // Once connected, publish an announcement...
-      // ... and resubscribe
-      mqtt_subscribe();
-    }
-  }
-  uint32_t n = millis();
-  
-  next_mqtt_attempt = n + 5000;
-  
-  return mqtt_client.connected();
-}
-
-void mqtt_setup(){
-  //uint8_t server[4] = {192, 168, 1, 159};
-  //uint8_t server[4] = {10, 10, 10, 2};
-  mqtt_client.setServer(config.mqtt_ip, 1883);
-  mqtt_client.setCallback(handle_mqtt_msg);
-  mqtt_connect();
-  Serial.println("USE MQTT");
-}
-
 void led_setup(){
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setDither(true);
@@ -1360,14 +1161,7 @@ void hexdump(const void *mem, uint32_t len, uint8_t cols) {
 	Serial.printf("\n");
 }
 String get_faceplate_json(){
-  String faceplate_names = String("{\"faceplates\":[");
-  for(int ii=0; ii < N_FACEPLATE; ii++){
-    faceplate_names = faceplate_names + String("\"") + String(Faceplates[ii].name)  + String("\"");
-    if(ii < N_FACEPLATE - 1){
-      faceplate_names = faceplate_names + String(",");
-    }
-    //Serial.println(faceplate_names);
-  }
+  String faceplate_names = String("{\"faceplates\":[\"english2_v1\"]");
   faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
 
   return faceplate_names;
@@ -1517,28 +1311,22 @@ void test_leds(){
     leds[order[i]] = CRGB::Red;
   }
   FastLED.show();
-  delay(200);
   shuffle(order, NUM_LEDS);
   for(i=0; i < NUM_LEDS; i++){
     leds[order[i]] = CRGB::Green;
     FastLED.show();
-    delay(10);
   }
-  delay(200);
   shuffle(order, NUM_LEDS);
   for(i=0; i < NUM_LEDS; i++){
     leds[order[i]] = CRGB::Blue;
     FastLED.show();
-    delay(10);
   }
-  delay(200);
   shuffle(order, NUM_LEDS);
   for(i=0; i < NUM_LEDS; i++){
     leds[order[i]] = CRGB::White;
     FastLED.show();
-    delay(10);
   }
-  delay(1000);
+  delay(100);
   fill_black();
   FastLED.show();
 }
@@ -1639,7 +1427,7 @@ void button_set_time(){
       fill_green();
     }
     fillMask(mask, OFF);
-    Faceplates[config.faceplate_idx % N_FACEPLATE].maskTime(current_time, mask);
+    maskTime(current_time, mask);
     apply_mask(mask);
     for(int min = 0; min < (current_time % 300)/60; min++){
       setPixel(min, 15, CRGB::Green);
@@ -1706,23 +1494,10 @@ void button_loop(){
 // Button stuff
 /*********************************************************************************/
 
-bool use_mqtt(){
-  bool out = false;
-  for(int i=0; i<4; i++){
-    if(config.mqtt_ip[i] != 255){
-      out = true;
-      break;
-    }
-  }
-  return out;
-}
-
 void setup(){
   last_time = 0;
   
   CurrentDisplay_p = &PlainDisplay;
-  //CurrentDisplay_p = &TheMatrixDisplay;
-  //CurrentDisplay_p = &WordDropDisplay;
   Wire.begin();
   Serial.begin(115200);
   
@@ -1749,24 +1524,7 @@ void setup(){
   //config.use_wifi = false; // Debug
   
   CurrentDisplay_p = &Displays[config.display_idx % N_DISPLAY];
-  Serial.println("{\"faceplates\":");
-  for(int ii = 0; ii < N_FACEPLATE; ii++){
-    Serial.print("    ");
-    Serial.print(ii);
-    Serial.print(" : \"");
-    Serial.print(Faceplates[ii].name);
-    Serial.print("\"");
-    if(ii < N_FACEPLATE - 1){
-      Serial.print(",");
-    }
-    Serial.println();
-    Faceplates[ii].setup(MatrixWidth, MatrixHeight, XY);
-  }
   Serial.println("}");
-  if (config.faceplate_idx >= N_FACEPLATE){
-    set_faceplate(DEFAULT_FACEPLATE_IDX);
-  }
-  Serial.println("faceplates setup()!");
 
   // logo
   if( config.brightness == 0 || config.brightness == 255){
@@ -1786,10 +1544,6 @@ void setup(){
   if(config.use_wifi){
     wifi_setup();
   }
-  if(use_mqtt()){
-    mqtt_setup();
-  }
-  
   wipe_around(ON);
   fillMask(mask, false);
   wipe_around(OFF);
@@ -1865,7 +1619,7 @@ void tochars(const char *frm, char *_to, int len){
 #define SERMAXLEN 100
 char ser_msg[SERMAXLEN + 1];
 uint8_t ser_msg_len = 0;
-void serial_loop(){/// allow same msgs as mqtt
+void serial_loop(){/// allow same msgs as websockets
   String ser_str, topic, payload;
   int start, stop;
   char topic_c_str[101];
@@ -1909,9 +1663,6 @@ void  interact_loop(){
   if(force_timezone_from_ip){
     force_timezone_from_ip = false;
     set_timezone_from_ip();
-  }
-  if (use_mqtt()){
-    mqtt_client.loop();
   }
   if(config.use_wifi){
     webSocket.loop();

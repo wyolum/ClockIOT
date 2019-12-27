@@ -7,11 +7,11 @@ HEIGHT = 8
 ciot = []
 for i in range(8):
     row = np.arange(16)
-    if i % 2 == 0:
+    if i % 2 == 1:
         row = row[::-1]
     ciot.append(row)
 ciot = np.array(ciot) + np.arange(8)[:,np.newaxis] * 16
-chromogram = np.hstack([ciot + 128, ciot])
+chromogram = np.hstack([ciot, ciot + 128])
 print(chromogram)
 
 #pl.pcolormesh(chromogram)
