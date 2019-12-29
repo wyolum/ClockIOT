@@ -17,9 +17,11 @@
 */
 #ifndef NOISE_H
 #define NOISE_H
-#include "MatrixMap.h"
+//#include "MatrixMap.h"
+#include <MatrixMaps.h>
 
 #define MAX_DIMENSION ((MatrixWidth > MatrixHeight) ? MatrixWidth : MatrixHeight)
+
 
 // The 16 bit version of our coordinates
 uint16_t noisex;

@@ -10,9 +10,9 @@ for i in range(8):
     if i % 2 == 1:
         row = row[::-1]
     ciot.append(row)
-ciot = np.array(ciot) + np.arange(8)[:,np.newaxis] * 16
-chromogram = np.hstack([ciot, ciot + 128])
-print(chromogram)
+ciot = np.array(ciot) + np.arange(8)[::-1][:,np.newaxis] * 16
+chromogram = np.hstack([ciot + 128, ciot])
+#print(chromogram)
 
 #pl.pcolormesh(chromogram)
 #pl.show()
@@ -22,7 +22,7 @@ print("""\
 #ifdef MATRIXMAP_H
 #define MatrixWidth 32
 #define MatrixHeight 8
-uint16_t MatrixMap[MatrixHieght][MatrixWidth] = {""")
+uint16_t MatrixMap[MatrixHeight][MatrixWidth] = {""")
 for i in range(8):
     print(" {",end='')
     for j in range(32):

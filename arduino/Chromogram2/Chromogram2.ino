@@ -9,11 +9,13 @@
 #include <WebSocketsServer.h>
 
 //#define ULTIM8x16 // DullesKlok
-//#define CHROMOGRAM
 //#define CLOCKIOT
-#include "MatrixMap.h"
 #include <HTTPClient.h>
 #include <credentials.h>
+
+// #include "MatrixMap.h"
+#define CHROMOGRAM
+#include <MatrixMaps.h>
 
 #include "textures.h"
 #include "logic.h"
@@ -69,6 +71,8 @@ void print_config(){
   Serial.print("    use_ntp_time:"); Serial.println(config.use_ntp_time);
   Serial.print("    wifi_reset:"); Serial.println(config.wifi_reset);
   Serial.print("    faceplate_idx:"); Serial.println(config.faceplate_idx);
+  Serial.print("    MatrixWidth:"); Serial.println(MatrixWidth);
+  Serial.print("    MatrixHeight:"); Serial.println(MatrixHeight);
 }
 bool force_update = false;
 
