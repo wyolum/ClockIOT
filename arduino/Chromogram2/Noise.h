@@ -17,8 +17,8 @@
 */
 #ifndef NOISE_H
 #define NOISE_H
-//#include "MatrixMap.h"
-#include <MatrixMaps.h>
+#include "MatrixMap.h"
+//#include <MatrixMaps.h>
 
 #define MAX_DIMENSION ((MatrixWidth > MatrixHeight) ? MatrixWidth : MatrixHeight)
 

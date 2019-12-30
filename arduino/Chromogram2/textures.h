@@ -2,8 +2,8 @@
 #define TEXTURES_H
 
 #include <FastLED.h>
-//#include "MatrixMap.h"
-#include <MatrixMaps.h>
+#include "MatrixMap.h"
+//#include <MatrixMaps.h>
 
 void rainbow(CRGB *leds, uint16_t current_time, uint16_t (*XY)(uint8_t col, uint8_t row));
 void noop();

@@ -13,9 +13,9 @@
 #include <HTTPClient.h>
 #include <credentials.h>
 
-//#include "MatrixMap.h"
 #define CHROMOGRAM
-#include <MatrixMaps.h>
+#include "MatrixMap.h"
+//#include <MatrixMaps.h>
 
 #include "textures.h"
 #include "logic.h"
@@ -174,7 +174,7 @@ void set_timezone_from_ip(){
     url = String("https://ipapi.co/json/?key=");
     Serial.print("Using backup url:");
     Serial.println(url + "<SECRET KEY>");
-#ifdef USE_APIKEY
+#ifdef USE_IPAPIKEY
     http.begin(url + ipapikey);
 #else
     http.begin(url);
