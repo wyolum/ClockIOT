@@ -111,8 +111,12 @@ static void write_i2c_register(uint8_t addr, uint8_t reg, uint8_t val) {
 // utility code, some of this could be exposed in the DateTime API if needed
 /**************************************************************************/
 
-/** Number of days in each month */
-const uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+/**
+  Number of days in each month, from January to November. December is not
+  needed. Omitting it avoids an incompatibility with Paul Stoffregen's Time
+  library. C.f. https://github.com/adafruit/RTClib/issues/114
+*/
+const uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30 };
 
 /**************************************************************************/
 /*!
@@ -172,7 +176,7 @@ DateTime::DateTime (uint32_t t) {
       break;
     days -= 365 + leap;
   }
-  for (m = 1; ; ++m) {
+  for (m = 1; m < 12; ++m) {
     uint8_t daysPerMonth = pgm_read_byte(daysInMonth + m - 1);
     if (leap && m == 2)
       ++daysPerMonth;
@@ -939,13 +943,15 @@ void RTC_PCF8523::calibrate(Pcf8523OffsetMode mode, int8_t offset) {
 
 /**************************************************************************/
 /*!
-    @brief  Start I2C for the DS3231
-    @return True
+    @brief  Start I2C for the DS3231 and test succesful connection
+    @return True if Wire can find DS3231 or false otherwise.
 */
 /**************************************************************************/
 boolean RTC_DS3231::begin(void) {
   Wire.begin();
-  return true;
+  Wire.beginTransmission (DS3231_ADDRESS);
+  if (Wire.endTransmission() == 0) return true;												
+  return false;
 }
 
 /**************************************************************************/

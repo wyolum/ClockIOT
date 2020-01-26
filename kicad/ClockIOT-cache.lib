@@ -203,26 +203,29 @@ X Pin_3 3 -200 -100 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# ClockIOT_Conn_01x04
+# ClockIOT_Conn_01x04_MountingPin
 #
-DEF ClockIOT_Conn_01x04 J 0 40 Y N 1 F N
+DEF ClockIOT_Conn_01x04_MountingPin J 0 40 Y N 1 F N
 F0 "J" 0 200 50 H V C CNN
-F1 "ClockIOT_Conn_01x04" 0 -300 50 H V C CNN
+F1 "ClockIOT_Conn_01x04_MountingPin" 50 -300 50 H V L CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
- Connector*:*_1x??_*
+ Connector*:*_1x??-1MP*
 $ENDFPLIST
 DRAW
+T 0 0 -265 15 0 1 1 Mounting Normal 0 C C
 S -50 -195 0 -205 1 1 6 N
 S -50 -95 0 -105 1 1 6 N
 S -50 5 0 -5 1 1 6 N
 S -50 105 0 95 1 1 6 N
 S -50 150 50 -250 1 1 10 f
+P 2 1 1 6 -40 -280 40 -280 N
 X Pin_1 1 -200 100 150 R 50 50 1 1 P
 X Pin_2 2 -200 0 150 R 50 50 1 1 P
 X Pin_3 3 -200 -100 150 R 50 50 1 1 P
 X Pin_4 4 -200 -200 150 R 50 50 1 1 P
+X MountPin MP 0 -400 120 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
@@ -419,7 +422,7 @@ ENDDEF
 #
 # ClockIOT_GND
 #
-DEF ~ClockIOT_GND #PWR 0 0 Y Y 1 F P
+DEF ClockIOT_GND #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 0 30 H I C CNN
 F1 "ClockIOT_GND" 0 -75 30 H I C CNN
 F2 "" 0 0 60 H V C CNN
@@ -468,7 +471,7 @@ ENDDEF
 #
 # ClockIOT_KiCad
 #
-DEF ~ClockIOT_KiCad #G 0 40 Y Y 1 F N
+DEF ClockIOT_KiCad #G 0 40 Y Y 1 F N
 F0 "#G" 0 -268 60 H I C CNN
 F1 "ClockIOT_KiCad" 0 268 60 H I C CNN
 F2 "" 0 0 60 H I C CNN
@@ -543,7 +546,7 @@ ENDDEF
 #
 # ClockIOT_LOGO_WL
 #
-DEF ~ClockIOT_LOGO_WL #G 0 40 Y Y 1 F N
+DEF ClockIOT_LOGO_WL #G 0 40 Y Y 1 F N
 F0 "#G" 0 -136 60 H I C CNN
 F1 "ClockIOT_LOGO_WL" 0 136 60 H I C CNN
 F2 "" 0 0 60 H I C CNN
@@ -559,7 +562,7 @@ ENDDEF
 #
 # ClockIOT_Mouse_Bite
 #
-DEF ~ClockIOT_Mouse_Bite P 0 30 N N 1 F N
+DEF ClockIOT_Mouse_Bite P 0 30 N N 1 F N
 F0 "P" 0 -125 40 H V C CNN
 F1 "ClockIOT_Mouse_Bite" 0 125 30 H I C CNN
 F2 "" 0 0 60 H V C CNN
@@ -578,7 +581,7 @@ ENDDEF
 #
 # ClockIOT_OSHW
 #
-DEF ~ClockIOT_OSHW #G 0 0 N N 1 F N
+DEF ClockIOT_OSHW #G 0 0 N N 1 F N
 F0 "#G" 0 -50 40 H I C CNN
 F1 "ClockIOT_OSHW" 0 100 40 H I C CNN
 F2 "" 0 0 60 H V C CNN
@@ -639,7 +642,7 @@ ENDDEF
 #
 # ClockIOT_SCREW
 #
-DEF ~ClockIOT_SCREW SC 0 0 N N 1 F N
+DEF ClockIOT_SCREW SC 0 0 N N 1 F N
 F0 "SC" 0 -100 40 H V C CNN
 F1 "ClockIOT_SCREW" 0 100 40 H I C CNN
 F2 "" 0 0 60 H V C CNN

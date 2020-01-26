@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:ClockIOT-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -842,7 +841,7 @@ U 1 1 5A49F376
 P 8100 4900
 F 0 "BITE1" H 8100 5050 40  0000 C CNN
 F 1 "Mouse_Bite" H 8100 5025 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 8100 4900 60  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 8100 4900 60  0001 C CNN
 F 3 "" H 8100 4900 60  0000 C CNN
 F 4 "mfr_pn" H 8100 4900 50  0001 C CNN "manf#"
 	1    8100 4900
@@ -854,7 +853,7 @@ U 1 1 5A4A147E
 P 8900 4900
 F 0 "BITE2" H 8900 5050 40  0000 C CNN
 F 1 "Mouse_Bite" H 8900 5025 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 8900 4900 60  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 8900 4900 60  0001 C CNN
 F 3 "" H 8900 4900 60  0000 C CNN
 F 4 "mfr_pn" H 8900 4900 50  0001 C CNN "manf#"
 	1    8900 4900
@@ -863,73 +862,61 @@ $EndComp
 $Comp
 L ClockIOT:Mouse_Bite BITE5
 U 1 1 5A4A2BA0
-P 8100 5700
-F 0 "BITE5" H 8100 5850 40  0000 C CNN
-F 1 "Mouse_Bite" H 8100 5825 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 8100 5700 60  0001 C CNN
-F 3 "" H 8100 5700 60  0000 C CNN
-F 4 "mfr_pn" H 8100 5700 50  0001 C CNN "manf#"
-	1    8100 5700
+P 8500 5700
+F 0 "BITE5" H 8500 5850 40  0000 C CNN
+F 1 "Mouse_Bite" H 8500 5825 30  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 8500 5700 60  0001 C CNN
+F 3 "" H 8500 5700 60  0000 C CNN
+F 4 "mfr_pn" H 8500 5700 50  0001 C CNN "manf#"
+	1    8500 5700
 	1    0    0    -1  
 $EndComp
 $Comp
 L ClockIOT:Mouse_Bite BITE6
 U 1 1 5A4A2BA6
-P 8900 5700
-F 0 "BITE6" H 8900 5850 40  0000 C CNN
-F 1 "Mouse_Bite" H 8900 5825 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 8900 5700 60  0001 C CNN
-F 3 "" H 8900 5700 60  0000 C CNN
-F 4 "mfr_pn" H 8900 5700 50  0001 C CNN "manf#"
-	1    8900 5700
+P 9300 5700
+F 0 "BITE6" H 9300 5850 40  0000 C CNN
+F 1 "Mouse_Bite" H 9300 5825 30  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 9300 5700 60  0001 C CNN
+F 3 "" H 9300 5700 60  0000 C CNN
+F 4 "mfr_pn" H 9300 5700 50  0001 C CNN "manf#"
+	1    9300 5700
 	1    0    0    -1  
 $EndComp
 $Comp
 L ClockIOT:Mouse_Bite BITE7
 U 1 1 5A4A2F4F
-P 9700 5700
-F 0 "BITE7" H 9700 5850 40  0000 C CNN
-F 1 "Mouse_Bite" H 9700 5825 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 9700 5700 60  0001 C CNN
-F 3 "" H 9700 5700 60  0000 C CNN
-F 4 "mfr_pn" H 9700 5700 50  0001 C CNN "manf#"
-	1    9700 5700
-	1    0    0    -1  
-$EndComp
-$Comp
-L ClockIOT:Mouse_Bite BITE8
-U 1 1 5A4A2F55
-P 10500 5700
-F 0 "BITE8" H 10500 5850 40  0000 C CNN
-F 1 "Mouse_Bite" H 10500 5825 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 10500 5700 60  0001 C CNN
-F 3 "" H 10500 5700 60  0000 C CNN
-F 4 "mfr_pn" H 10500 5700 50  0001 C CNN "manf#"
-	1    10500 5700
+P 10100 5700
+F 0 "BITE7" H 10100 5850 40  0000 C CNN
+F 1 "Mouse_Bite" H 10100 5825 30  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 10100 5700 60  0001 C CNN
+F 3 "" H 10100 5700 60  0000 C CNN
+F 4 "mfr_pn" H 10100 5700 50  0001 C CNN "manf#"
+	1    10100 5700
 	1    0    0    -1  
 $EndComp
 $Comp
 L ClockIOT:Mouse_Bite BITE3
 U 1 1 5A4A335C
-P 6500 5700
-F 0 "BITE3" H 6500 5850 40  0000 C CNN
-F 1 "Mouse_Bite" H 6500 5825 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 6500 5700 60  0001 C CNN
-F 3 "" H 6500 5700 60  0000 C CNN
-F 4 "mfr_pn" H 6500 5700 50  0001 C CNN "manf#"
-	1    6500 5700
+P 6900 5700
+F 0 "BITE3" H 6900 5850 40  0000 C CNN
+F 1 "Mouse_Bite" H 6900 5825 30  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 6900 5700 60  0001 C CNN
+F 3 "" H 6900 5700 60  0000 C CNN
+F 4 "mfr_pn" H 6900 5700 50  0001 C CNN "manf#"
+	1    6900 5700
 	1    0    0    -1  
 $EndComp
 $Comp
 L ClockIOT:Mouse_Bite BITE4
 U 1 1 5A4A3362
-P 7300 5700
-F 0 "BITE4" H 7300 5850 40  0000 C CNN
-F 1 "Mouse_Bite" H 7300 5825 30  0001 C CNN
-F 2 "ClockIOT_libs:mouse-bite-2.54mm-slot_OSH" H 7300 5700 60  0001 C CNN
-F 3 "" H 7300 5700 60  0000 C CNN
-F 4 "mfr_pn" H 7300 5700 50  0001 C CNN "manf#"
-	1    7300 5700
+P 7700 5700
+F 0 "BITE4" H 7700 5850 40  0000 C CNN
+F 1 "Mouse_Bite" H 7700 5825 30  0001 C CNN
+F 2 "ClockIOT_libs:mouse-bite-0.3in-slot_OSH" H 7700 5700 60  0001 C CNN
+F 3 "" H 7700 5700 60  0000 C CNN
+F 4 "mfr_pn" H 7700 5700 50  0001 C CNN "manf#"
+	1    7700 5700
 	1    0    0    -1  
 $EndComp
 Text Notes 8150 5350 0    50   ~ 10
