@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 12
 Title "ClockIOT"
-Date "2018-11-14"
-Rev "rev 4"
+Date "2020-01-27"
+Rev "rev 5"
 Comp "www.wyolum.com"
 Comment1 "https://github.com/wyolum/ClockIOT"
 Comment2 ""
@@ -1726,7 +1726,7 @@ Wire Notes Line
 Wire Notes Line
 	2175 7000 2175 5500
 Text Notes 2200 5575 0    40   ~ 8
-I2C HEADER
+I2C HEADER (Sparkfun qwiic style)
 $Comp
 L ClockIOT:C_NP C29
 U 1 1 5A8D713D
